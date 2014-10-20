@@ -4,8 +4,8 @@ html(ng-app="bibliolabs-viz" manifest="/cache.manifest" type="text/cache-manifes
     link(rel='stylesheet', href='/css/styles.css') 
     link(rel='stylesheet', href="/bower_components/bootstrap/dist/css/bootstrap.min.css" )
     script(src='/bower_components/angular/angular.min.js')
-    script(src='/bower_components/angular/angular-route.min.js')
-    script(src='/bower_components/angular/angular-animate.min.js')
+    script(src='/bower_components/angular-route/angular-route.min.js')
+    script(src='/bower_components/angular-animate/angular-animate.min.js')
     //script(src="/js/angular-resource.min.js")
     script(src='/js/app.js')
     //script(src='/js/d3.v3.min.js')
@@ -24,11 +24,27 @@ html(ng-app="bibliolabs-viz" manifest="/cache.manifest" type="text/cache-manifes
                 img(src='/images/bibliolabs.png' alt="Bibliolabs")
 
         
-          div.title_bar
-            h1.top INICIATIVAS
-            h1.bottom BIBLIOTECAS
+        div.title_bar
+          h1.top INICIATIVAS
+          h1.bottom BIBLIOTECAS
           
-          div.main_content
-            div(ng-view)
+        div.main_content
+          div(ng-view)
 
-    
+
+        footer
+          div.content
+            div.row
+              div.col-md-12.col-sm-6.col-xs-2
+               div#footer_container
+                div.field hello
+                div.field velo
+                div.field uhuuu
+                div.field buhuuu
+                //img(src="/images/cc-sa4.png" alt="Creative Commons Share-Alike Version 4.0")
+                //img(src="/images/bibliolabs_logo.png" alt="Bibliolabs")
+                //img(src="/images/c3p.png" alt="CasaTresPatios")
+                //img(src="/images/proyecto_sbpm.png" alt="Sistema de Bibliotecas P&uacute;blicas de Medell&iacute;n")
+                //img(src="/images/lectura_viva.png" style="margin-top: 10px" alt="Lectura Viva")
+                //img(src="/images/todos_por_la_vida.png" alt="Medell&iacute;n Todos Por La Vida")
+                //img(src="/images/alcaldia_medellin.png" alt="Alcald&iacute;a de Medell&iacute;n")

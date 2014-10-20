@@ -12,7 +12,7 @@ var app = angular.module('bibliolabs-viz', [
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/vitrina', {
+      when('/index', {
         templateUrl: 'partials/vitrina',
         controller: 'VitrinaCtrl'
       }).
@@ -26,6 +26,8 @@ app.config(['$routeProvider',
 }]);
 
 
+app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http) {
+});
 
 app.controller("MenuCtrl", function MenuCtrl($scope, $http) {
 
