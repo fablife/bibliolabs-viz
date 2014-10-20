@@ -1,0 +1,15 @@
+@import 'colors';
+
+h1 {
+  font-size: 32px;
+}
+
+h1.top {
+  color: $main_blue;
+}
+
+h1.bottom {
+  font-weight: bold;
+  color: $aqua;
+  margin-top: -8px !important;
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "file": "styles.css",
+  "sources": ["..\/..\/sass\/styles.scss","..\/..\/sass\/_reset.scss","..\/..\/sass\/_page.scss","..\/..\/sass\/_colors.scss","..\/..\/sass\/_typography.scss"],
+  "names": [],
+  "mappings": "ACAA,KAAM,GAAI,KAAM,GAAI,GAOjB,OAAQ,aACT,QAAS,GCRX,cACE,MAAO,OACP,OAAQ,QAGV,iBACE,MAAO,MACP,WAAY,MAGd,OACE,OAAQ,OAGV,WACE,WAAY,KACZ,OAAQ,OEdV,GACE,UAAW,MAGb,EAAE,KACA,MDPU,SCUZ,EAAE,QACA,YAAa,KACb,MDXK,QCYL,WAAY,iBJ8Bd,2BAIA,2BAIA,2BAIA,4BAIA"
+}

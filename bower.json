@@ -1,0 +1,25 @@
+{
+  "name": "bibliolabs-viz",
+  "version": "0.1.0",
+  "homepage": "https://github.com/fablife/bibliolabs-viz",
+  "authors": [
+    "Fabio Barone <holistic.computing@gmail.com>"
+  ],
+  "description": "Visualización iniciativas Sistema de Bibliotecas Públicas Medellín",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.0",
+    "bootstrap": "~3.2.0",
+    "angular-route": "~1.3.0",
+    "angular-animate": "~1.3.0",
+    "angular-bootstrap": "~0.11.2"
+  }
+}
