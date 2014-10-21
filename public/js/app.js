@@ -3,7 +3,7 @@ var app = angular.module('bibliolabs-viz', [
         'ngAnimate',
        // 'adminControllers',
        // 'adminServices',
-       // 'ui.bootstrap',
+        'ui.bootstrap',
         'ngRoute']);
 
 //var adminServices = angular.module('adminServices', ['ngResource']);
@@ -29,6 +29,7 @@ app.factory('ItemProvider', function() {
   };
 });
 
+
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -50,6 +51,7 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
   $scope.root = {};
   json = ItemService(ItemProvider);
   $scope.root.iniciativas = json.iniciativas;
+  $scope.slides = json.iniciativas;
 });
 
 app.controller("MenuCtrl", function MenuCtrl($scope, $http) {
