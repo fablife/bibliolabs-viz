@@ -41,24 +41,37 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 @media (min-width: $screen-lg-min) {footer img { }}
 */
 
+.even_layout {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  table-layout: fixed;
+}
+
 #footer_container {
-  text-align: justify;
+  display: table;
+  padding: 20px 0;
+  margin: 0 20px;
+}
+
+#footer_container div.footer_image {
+  display: table-cell;
+  vertical-align: bottom;
 }
 
 #footer_container img {
-  width: 90px;
   display: inline-block;
-  vertical-align: bottom;
+  width: 90px;
 }
 
-#footer_container > div{
-  display: inline-block;
-  vertical-align: bottom;
-}
 #footer_container:after {
-  content: "";
-  width: 100%;
+/*  content: "";
+  width: 100%; */
   display: inline-block;
+}
+
+.thumbnail {
+  border: 4px solid $main_blue !important;
 }
 
 @media (min-width: $screen-xs-min) {

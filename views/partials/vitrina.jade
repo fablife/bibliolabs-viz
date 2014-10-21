@@ -1,5 +1,5 @@
 div.content
   div.row
-    div.col-md-6(ng-repeat="iniciativa in root.iniciativas | filter:root.iniciativas.search")
+    div.col-md-2(ng-repeat="iniciativa in root.iniciativas | filter:root.iniciativas.search")
       div.thumbnail
-        img(src="iniciativa.portada" alt="iniciativa.nombre")
+        img(src="{{iniciativa.portada}}" alt="{{iniciativa.nombre}}")
