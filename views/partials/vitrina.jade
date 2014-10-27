@@ -1,24 +1,27 @@
 div.content
   div.row
     div.col-md-2(ng-repeat="iniciativa in root.iniciativas | filter:root.iniciativas.search")
-      div.thumbnail
-        img(src="{{iniciativa.portada}}" alt="{{iniciativa.nombre}}")
+      div.initiative
+        div.thumbnail
+          img(src="{{iniciativa.portada}}" alt="{{iniciativa.nombre}}")
+        div.actions
+          span.glyphicon.glyphicon-comment.left
+          span.glyphicon.glyphicon-thumbs-up.right
 
 
-
-div(data-ng-controller="myController")
-  carousel(interval="myInterval")
-    slide(data-ng$repeat="slide in slides" active="slide.active")
-      img( data-ng-src="{{slide.Path}}" style="margin:auto;")
-      div.carousel-caption
-      h4 {{slide.Title}}
-      p {{slide.Summary}}
-                                                                                                                                                   div.span6
-    ul
-      li(data-ng-repeat="slide in slides")
-        button.btn.btn-mini(data-ng-class="{'btn-info': !slide.active, 'btn-success': slide.active}" data-ng-disabled="slide.active" data-ng-click="slide.active = true")select
-        {{slide.Title}}
-  div.span6 Interval, in milliseconds:
-    input(type="number" data-ng-model="myInterval")
-    br
-    p Enter a negative number to stop the interval.
+  //-div(data-ng-controller="myController")
+  //-carousel(interval="myInterval")
+   //- slide(data-ng$repeat="slide in slides" active="slide.active")
+    //-  img( data-ng-src="{{slide.Path}}" style="margin:auto;")
+    //-  div.carousel-caption
+    //-  h4 {{slide.Title}}
+    //-  p {{slide.Summary}}
+                                                                                                                                          //-div.span6
+      //-ul
+        //-li(data-ng-repeat="slide in slides")
+          //-button.btn.btn-mini(data-ng-class="{'btn-info': !slide.active, 'btn-success': slide.active}" data-ng-disabled="slide.active" data-ng-click="slide.active = true") select
+        //-{{slide.Title}}
+  //-div.span6 Interval, in milliseconds:
+  //-  input(type="number" data-ng-model="myInterval")
+  //-  br
+  //-  p Enter a negative number to stop the interval.
