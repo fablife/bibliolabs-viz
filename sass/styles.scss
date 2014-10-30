@@ -86,6 +86,7 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 
 .thumbnail {
   margin-bottom: 0px !important;
+  cursor: pointer !important;
 }
 
 .initiative {
@@ -101,3 +102,25 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 .right {
   float: right;
 }
+
+.carousel-inner > .item > img {
+  height: 200px !important;
+}
+
+.carousel {
+  height: 300px;
+}
+
+.carousel-caption {
+  color: $main_blue !important;
+  bottom: 0 !important;
+}
+
+.carousel-inner .active {
+  height: 320px;
+}
+
+.detail {
+ display: none;
+}
+
