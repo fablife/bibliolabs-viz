@@ -1,5 +1,4 @@
 div.content
-
   div( ng-controller="CarouselIniciativasCtrl")
     div
       carousel( interval="myInterval")
@@ -8,14 +7,6 @@ div.content
           div.carousel-caption
             h4 {{iniciativa.nombre}}
             p {{iniciativa.descripcion}}
-    //-div class="row">
-    //-  div class="col-md-6">
-    //    button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
-    //-div class="col-md-6">
-    //    Interval, in milliseconds: <input type="number" class="form-control" ng-model="myInterval">
-    //    <br />Enter a negative number to stop the interval.
-
-
 
   div.row
     div.col-md-2(ng-repeat="iniciativa in root.iniciativas | filter:root.iniciativas.search")
@@ -25,15 +16,4 @@ div.content
         div.actions
           span.glyphicon.glyphicon-comment.left
           span.glyphicon.glyphicon-thumbs-up.right
-
-//div.detail(ng-controller="ModalDemoCtrl")
-div.detail
-    script(type="text/ng-template" id="iniciativa_dialog")
-        div.modal-header
-            h3.modal-title I'm a modal!
-        div.modal-body
-          h1 Mi iniciativa!
-        div.modal-footer
-            button.btn.btn-primary( ng-click="ok()">OK)
-            button.btn.btn-warning( ng-click="cancel()")
 

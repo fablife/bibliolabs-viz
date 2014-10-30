@@ -1,2 +1,34 @@
-div.iniciativa
-  h1 {{iniciativa.nombre}} 
+div.modal-header
+  h3.modal-title Detalle de la iniciativa {{iniciativa.nombre}} 
+div.modal-body
+  div.iniciativa
+   div.i-col-left
+    div.i-title
+      h1 {{iniciativa.nombre}} 
+    div.i-subtitle
+      h2 {{iniciativa.descripcion}}
+    div.i-midia
+      img(src="{{iniciativa.diapositiva}}")
+   div.i-col-right
+    div.i-info
+      h3 Ficha de la iniciativa
+        {{iniciativa.descripcion-larga}}
+      div.i-responsable
+        {{iniciativa.responsable}}
+      div.i-lugar
+        {{iniciativa.lugar}}
+      div.i-doc-detalle
+        {{iniciativa.documentacion-detalle}}
+      div.i-categoria
+        {{iniciativa.categoria}}
+      div.i-etiquetas
+        {{iniciativa.etiquetas}}
+      div.i-larga
+        {{iniciativa.descripcion-larga}}
+      div.i-objetivo
+        {{iniciativa.objetivo}}
+      div.i-footer
+
+div.modal-footer
+  button.btn.btn-primary(ng-click="ok()") Cerrar 
+  //button.btn.btn-warning(ng-click="cancel()")
