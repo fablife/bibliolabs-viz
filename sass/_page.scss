@@ -1,21 +1,27 @@
 .page_wrapper {
-  width: 1280px;
   margin: 0 auto;
 }
 
 .content_wrapper {
-  width: 858px;
   margin-top: 24px;
 }
 
 header {
-  height: 120px;
+  margin-bottom: 10px;
 }
 
 .title_bar {
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 footer {
   background: url('/images/footer_background.jpg');
+}
+
+.carousel-control.left {
+  background-image: linear-gradient(to right, #03BBC1 0px, #FFF 100%) !important;
+}
+
+.carousel-control.right {
+  background-image: linear-gradient(to right, #FFF 0px, #03BBC1 100%) !important;
 }

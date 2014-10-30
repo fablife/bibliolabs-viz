@@ -1,18 +1,19 @@
-div.modal-header
-  h3.modal-title Detalle de la iniciativa {{iniciativa.nombre}} 
-div.modal-body
-  div.iniciativa
-   div.i-col-left
-    div.i-title
-      h1 {{iniciativa.nombre}} 
+div.modal-header.i-header
+  //-h3.modal-title Detalle de la iniciativa {{iniciativa.nombre}} 
+  h3.modal-title Detalle de la iniciativa
+div.modal-body.i-body
+  div.iniciativa.row
+   div.col-md-12.col-xs-12.i-title
+     h1 {{iniciativa.nombre}} 
+   div.col-md-8.col-xs-12.i-col-left
     div.i-subtitle
-      h2 {{iniciativa.descripcion}}
+      h3 {{iniciativa.descripcion}}
     div.i-midia
       img(src="{{iniciativa.diapositiva}}")
-   div.i-col-right
+   div.col-md-4.col-xs-12.i-col-right
     div.i-info
-      h3 Ficha de la iniciativa
-        {{iniciativa.descripcion-larga}}
+      div.i-subtitle
+        h3 Ficha de la iniciativa
       div.i-responsable
         {{iniciativa.responsable}}
       div.i-lugar

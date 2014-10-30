@@ -1,17 +1,39 @@
+@import 'colors';
+
 .iniciativa {
-  width: 100%;
+  margin-top: 10px;
 }
 
 .i-col-left, .i-col-right {
-  height: 100%;
-  float: left;
-  width: 50%;
 }
 
 .i-col-left .i-midia img {
-  width: 45%;
+  width: 100%;
+}
+
+.i-header {
+  background-color: $aqua !important;
+  /*background-color: #333; */
+  border-radius: 6px 6px 0 0 !important;
+  color: white !important;
+}
+
+.i-title {
+  color: $main_blue;
+  font-size: 18px !important;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.i-subtitle {
+  color: $main_blue;;
+  font-size: 14px !important;
 }
 
 .i-footer {
+  /*background-color: #333; */
   clear: both;
+}
+
+.i-body {
+  /*background-color: #333; */
 }
