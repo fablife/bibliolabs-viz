@@ -113,7 +113,7 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 
 .carousel-caption {
   color: $main_blue !important;
-  bottom: 0 !important;
+  top: 180px !important;
 }
 
 .carousel-inner .active {
