@@ -7,7 +7,6 @@ html(ng-app="bibliolabs-viz" manifest="/cache.manifest" type="text/cache-manifes
     script(src='/bower_components/angular-route/angular-route.min.js')
     script(src='/bower_components/angular-animate/angular-animate.min.js')
     script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js')
-    //script(src="/js/angular-resource.min.js")
     script(src='/js/app.js')
     //script(src='/js/d3.v3.min.js')
 
@@ -24,9 +23,9 @@ html(ng-app="bibliolabs-viz" manifest="/cache.manifest" type="text/cache-manifes
                 img(src='/images/bibliolabs.png' alt="Bibliolabs")
 
         
-        div.title_bar
-          h1.top INICIATIVAS
-          h1.bottom BIBLIOTECAS
+        //-div.title_bar
+        //-  h1.top INICIATIVAS
+        //-  h1.bottom BIBLIOTECAS
           
         div.main_content
           div(ng-view)

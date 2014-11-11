@@ -1,3 +1,5 @@
+@import 'colors';
+
 .page_wrapper {
   margin: 0 auto;
 }
@@ -11,11 +13,16 @@ header {
 }
 
 .title_bar {
-  margin-bottom: 40px;
+  margin-top:20px;
+  margin-bottom: 20px;
 }
 
 footer {
   background: url('/images/footer_background.jpg');
+}
+
+.carousel_title {
+  margin-top: 15px;
 }
 
 .carousel-control.left {
@@ -24,4 +31,18 @@ footer {
 
 .carousel-control.right {
   background-image: linear-gradient(to right, #FFF 0px, #03BBC1 100%) !important;
+}
+
+.area_filtros {
+  margin: 20px 0;
+  border: 1px solid $main_blue;
+}
+
+.filtros {
+  margin: 0 auto;
+  width: 75%;
+}
+
+#lista_iniciativas {
+  overflow: auto;
 }
