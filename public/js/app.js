@@ -8,18 +8,31 @@ var app = angular.module('bibliolabs-viz', [
 
 //var adminServices = angular.module('adminServices', ['ngResource']);
 //var scrollService = angular.module('endless_scroll', []).directive('whenScrolled', function() {
-var scrollService = app.directive('whenScrolled', function($document) {
+var scrollService = app.directive('whenScrolled', function($document, $window) {
     return function(scope, elm, attr) {
         var raw = elm[0];
         
         //elm.bind( 'scroll', function() {
         $document.bind( 'scroll', function() {
+          if( ($window.innerHeight + $window.scrollY) > getDocHeight() - 100) {
+                scope.$apply(attr.whenScrolled);
+          } /*
             if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
                 scope.$apply(attr.whenScrolled);
             }
+            */
         });
     };
 });
+
+
+function getDocHeight() {
+    return Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+    );
+}
 
 
 app.config(['$routeProvider',
