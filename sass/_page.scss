@@ -43,6 +43,21 @@ footer {
   width: 75%;
 }
 
+.filter-label {
+  width: 75%;
+  color: white;
+  padding: 0.2em 0.6em 0.3em;
+  font-size: 75%;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 0.25em;
+  margin-top: 5px;
+}
+ 
+.inline {
+  display: inline-block;
+}
+
 #lista_iniciativas {
   overflow: auto;
 }

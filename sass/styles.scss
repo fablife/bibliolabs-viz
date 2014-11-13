@@ -165,4 +165,6 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
   text-align: center;
 }
 
-
+.back_content {
+  cursor: pointer !important;
+}

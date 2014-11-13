@@ -9,3 +9,11 @@ ol {
   padding: 0;
 }
 
+a {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+a:hover{
+  text-decoration: none !important;
+}

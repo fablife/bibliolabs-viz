@@ -102,11 +102,15 @@ app.factory('ItemProvider', function() {
 
 app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
-  $scope.root.desc_visible = false;
+  $scope.root.filter_active = [] ;
+  $scope.root.filter_items = {};
+  $scope.root.no_results = false;
 
-  ItemService(function(iniciativas) {
-    //console.log(iniciativas);
-    $scope.root.todas_iniciativas = iniciativas;
+
+  /******************************
+    load initial list of initiatives 
+  ******************************/
+  $scope.load_initial = function(iniciativas) {
     $scope.root.bibliotecas = [];
     $scope.root.publicos    = [];
     $scope.root.categorias  = [];
@@ -130,12 +134,16 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
           por_bibs[bib] = iniciativa; 
         }
       }
+      if ( (iniciativa.hasOwnProperty('Publicos')) && ( $scope.root.publicos.indexOf(iniciativa['Publicos'].contenido) == -1) ) {
+        pub = iniciativa['Publicos'].contenido;
+        $scope.root.publicos.push(pub);
+      }
     }
     $scope.root.iniciativas = por_bibs;
 
     for (var a=0; a<6; a++) {
       var index = Math.floor(Math.random()*obj_array.length)
-      while  (index in indexes) {
+      while  (indexes.indexOf(index) > -1) {
         index = Math.floor(Math.random()*obj_array.length)
       }
       indexes.push(index);
@@ -144,12 +152,97 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
       destacados.push(obj_array[indexes[b]]);  
     }
     $scope.root.destacados = destacados;
+
+  }
+
+  /******************************
+    callback from ItemService
+  ******************************/
+  ItemService(function(iniciativas) {
+    //console.log(iniciativas);
+    $scope.root.todas_iniciativas = iniciativas;
+    $scope.load_initial(iniciativas);
   }, ItemProvider);
-  //$scope.root.iniciativas = json.iniciativas;
 
 
+  /******************************
+    reset all filters 
+  ******************************/
+  $scope.reset_filters = function() {
+    console.log("reset fileters"); 
+    $scope.root.no_results = false;
+    $scope.root.filter_active = [];
+    $scope.root.filter_items = {};
+    $scope.load_initial($scope.root.todas_iniciativas);
+  }
+
+  /******************************
+    reset specific filter 
+  ******************************/
+  $scope.reset_filter = function(filter) {
+    delete $scope.root.filter_items[filter];  
+
+    for (var i=0; i<$scope.root.filter_active.length; i++) {
+      var item = $scope.root.filter_active[i];
+      if (item == filter) {
+        $scope.root.filter_active.splice(i, 1);
+        break;
+      } 
+    }
+    
+    if ($scope.root.filter_active.length == 0) {
+      $scope.load_initial($scope.root.todas_iniciativas);
+    } else {
+      for (var i=0; i<$scope.root.filter_active.length; i++) {
+        var item = $scope.root.filter_active[i];
+        $scope.filter(item, $scope.root.filter_items[item]);
+      }
+    }
+  }
+
+  /******************************
+    do filter
+  ******************************/
+  $scope.filter = function(filter, item) {
+    var filtered = [];
+    var iniciativas = $scope.root.todas_iniciativas;
+    
+    if ((! $scope.root.no_results) && ($scope.root.filter_active.length > 0) && ( $scope.root.filter_active.indexOf(filter) == -1 )  ) {
+      console.log("filtering on existing");
+      iniciativas = $scope.root.iniciativas;
+    } else {
+      console.log("filtering all");
+    }
+
+    for (o in iniciativas) { 
+      if (iniciativas[o][filter] && iniciativas[o][filter].contenido == item) {
+        filtered.push(iniciativas[o]);
+        continue;
+      }
+      if (iniciativas[o][filter] && ( iniciativas[o][filter].contenido.indexOf(item) > -1) ) {
+        filtered.push(iniciativas[o]);
+        continue;
+      }
+    }
+
+    $scope.root.iniciativas = filtered;
+    if (Object.keys(filtered).length == 0) {
+      $scope.root.no_results = true;
+      //console.log("no results");
+    } 
+    if ($scope.root.filter_active.indexOf(filter) == -1) {
+      $scope.root.filter_active.push(filter);
+    }
+    $scope.root.filter_items[filter] = item;
+    console.log($scope.root.filter_items);
+  }
+
+  /******************************
+    load more (scroll at end of 
+    page) 
+  ******************************/
   $scope.loadMore = function() {
-    console.log("load more");
+    //console.log("load more");
     var counter = 0;
     for (ini in $scope.root.todas_iniciativas) {
       if (ini in $scope.root.iniciativas) {
@@ -165,27 +258,18 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
        
   };
 
-  $scope.show_desc = function(iniciativa) {
-  /***
-    if ($scope.root.desc_visible) {
-      $scope.root.desc_visible = false;
-    } else {
-      $scope.root.desc_visible = true;
-   } 
-  */
-      $scope.root.desc_visible = true;
-  }
 
-  $scope.hide_desc = function(iniciativa) {
-      $scope.root.desc_visible = false;
-
-  }
-
+  /******************************
+    show detail of an initiative
+  ******************************/
   $scope.show_detail = function(iniciativa) {
     $scope.root.selected_iniciativa = iniciativa;
     $scope.open('lg'); 
   }
 
+  /******************************
+    do filter
+  ******************************/
   $scope.open = function (size) {
 
     var modalInstance = $modal.open({
