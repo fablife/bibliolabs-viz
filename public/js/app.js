@@ -140,16 +140,18 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
       }
     }
     $scope.root.iniciativas = por_bibs;
-
-    for (var a=0; a<6; a++) {
-      var index = Math.floor(Math.random()*obj_array.length)
-      while  (indexes.indexOf(index) > -1) {
-        index = Math.floor(Math.random()*obj_array.length)
+  
+    if (obj_array.length > 0) {
+      for (var a=0; a<6; a++) {
+        var index = Math.floor(Math.random()*obj_array.length)
+        while  (indexes.indexOf(index) > -1) {
+          index = Math.floor(Math.random()*obj_array.length)
+        }
+        indexes.push(index);
       }
-      indexes.push(index);
-    }
-    for (var b=0; b<indexes.length; b++) {
-      destacados.push(obj_array[indexes[b]]);  
+      for (var b=0; b<indexes.length; b++) {
+        destacados.push(obj_array[indexes[b]]);  
+      }
     }
     $scope.root.destacados = destacados;
 
