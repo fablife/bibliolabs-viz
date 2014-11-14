@@ -16,11 +16,16 @@ html(ng-app="bibliolabs-viz" manifest="/cache.manifest" type="text/cache-manifes
     div.page_wrapper.container
       div.content_wrapper.content
         header
-            div.row
-              div.col-md-10
+            div.row(ng-controller="VisualizationCtrl")
+              div.col-md-2
                 img(src='/images/sbpm.png' alt="Sistema de Bibliotecas P&uacute;blicas de Medell&iacute;n")
+              div.col-md-8
+                div.visualization_links
+                  a(ng-click="show_agenda()", ng-show="active_visualization=='initiatives'") Visualizar agenda
+                  a(ng-click="show_iniciatives()", ng-show="active_visualization=='agenda'") Visualizar iniciativas
               div.col-md-2
                 img.right(src='/images/bibliolabs.png' alt="Bibliolabs")
+
 
         
         //-div.title_bar

@@ -42,6 +42,10 @@ app.config(['$routeProvider',
         templateUrl: 'partials/vitrina',
         controller: 'VitrinaCtrl'
       }).
+      when('/agenda', {
+        templateUrl: 'partials/agenda',
+        controller: 'AgendaCtrl'
+      }).
       when('/informes', {
         templateUrl: 'admin/partials/informes',
         controller: 'AdminCtrl'
@@ -59,6 +63,7 @@ app.factory('ItemService', ['ItemProvider', function(itemProvider) {
   itemSrv = function(callback) {
     itemProvider.get_data()
       .success(function(data) {
+        console.log(data);
         for (var i=0; i<data.length; i++) {
           obj = data[i];
           if (! (obj.identificador in obj_by_id)) {
@@ -99,6 +104,33 @@ app.factory('ItemProvider', function() {
   };
 });
 */
+
+app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
+
+
+  var milfs_url = "http://localhost:7888/api.php/json?";
+  //the form id for the "Agenda" form
+  var form_id = "id=6";
+  var data_url = milfs_url + form_id;
+
+  $http.get(data_url)
+    .success(function(data) {
+      console.log(data);
+      $scope.load_initial(data);
+    })
+    .error(function(data) {
+        console.log("Error getting agenda data from milfs");
+    });
+  
+
+  /******************************
+    load initial list of agenda items 
+  ******************************/
+  $scope.load_initial = function(items) {
+
+  }
+});
+
 
 app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
@@ -330,4 +362,18 @@ app.controller("MenuCtrl", function MenuCtrl($scope, $http) {
 
 app.controller('CarouselIniciativasCtrl', function ($scope) {
   $scope.myInterval = 5000;
+});
+
+app.controller('VisualizationCtrl', function ($scope) {
+  $scope.active_visualization = "initiatives";
+
+  $scope.show_agenda = function() {
+    window.location.href = '#/agenda';
+    $scope.active_visualization = "agenda";
+  }
+
+  $scope.show_initiatives = function() {
+    window.location.href = '#/index';
+    $scope.active_visualization = "initiatives";
+  }
 });
