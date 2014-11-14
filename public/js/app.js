@@ -91,7 +91,7 @@ app.factory('ItemService', ['ItemProvider', function(itemProvider) {
 }]);
 
 app.factory('ItemProvider', function($http) {
-  var milfs_url = "http://localhost:7888/api.php/json?";
+  var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
   //the form id for the "Iniciativas Bibliotecas" form
   var form_id = "id=2";
   var data_url = milfs_url + form_id;
@@ -116,7 +116,7 @@ app.factory('ItemProvider', function() {
 app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
 
-  var milfs_url = "http://bibliolabs.cc/milfs/api.php/json?";
+  var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
   //the form id for the "Agenda" form
   var form_id = "id=6";
   var data_url = milfs_url + form_id;
