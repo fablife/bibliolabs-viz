@@ -45,25 +45,28 @@ div.content
 
   div#lista_iniciativas.row(when-scrolled="loadMore()")
     div.col-md-12.col-xs-12(ng-show="root.no_results") 
-      div.alert.alert-warning.centered(role="alert") No hay iniciativas que corresponden a tu selección de filtros!
+      div.alert.alert-warning.centered(role="alert") No hay actividad que corresponden a tu selección de filtros!
 
-    div.col-md-3.col-xs-12(ng-repeat="iniciativa in root.iniciativas | filter:root.iniciativas.search")
-      div.flip-container(ontouchstart="this.classList.toggle('hover');")
-        div.flipper
-          div.front_content
-           div.initiative
-            div.item_title {{iniciativa['Titulo iniciativa'].contenido }}
-            //-div.thumbnail(ng-click="show_detail(iniciativa)")
-            //-  img(src="{{iniciativa.portada}}" alt="{{iniciativa.nombre}}")
-            div.actions
-              div.biblioteca
-                span.left {{iniciativa['Biblioteca'].contenido }}
-              div.publico
-                span.left {{iniciativa['Publicos'].contenido }}
-                //span.right {{iniciativa['Categoria'].contenido }}
-              //-span.glyphicon.glyphicon-comment.left
-              //-span.glyphicon.glyphicon-thumbs-up.right
-          div.back_content(ng-click="show_detail(iniciativa)")
-              p helloopooooooooooooooooooo
-              //{{iniciativa['Descripcion larga'].contenido }}
+    div.col-md-3.col-xs-12(ng-repeat="day_items in root.items | filter: isNotUndefined")
+      div.date_label
+        {{ day_items.day }} / {{get_day_of_month(day_items.fecha) }} 
+      div(ng-repeat="item in day_items")
+        div.flip-container(ontouchstart="this.classList.toggle('hover');")
+          div.flipper
+            div.front_content
+             div.initiative
+              div.item_title {{item['Actividad'].contenido }}
+              //-div.thumbnail(ng-click="show_detail(iniciativa)")
+              //-  img(src="{{iniciativa.portada}}" alt="{{iniciativa.nombre}}")
+              div.actions
+                div.biblioteca
+                  span.left {{item['Biblioteca'].contenido }}
+                div.publico
+                  span.left {{item['Horario'].contenido }}
+                  span.right {{iniciativa['Espacios de la biblioteca'].contenido }}
+                //-span.glyphicon.glyphicon-comment.left
+                //-span.glyphicon.glyphicon-thumbs-up.right
+            div.back_content(ng-click="show_detail(iniciativa)")
+                p helloopooooooooooooooooooo
+                //{{iniciativa['Descripcion larga'].contenido }}
 

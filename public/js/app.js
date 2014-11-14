@@ -1,3 +1,6 @@
+var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+var dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+
 var app = angular.module('bibliolabs-viz', [
        // 'ui.mask',
        'ngAnimate',
@@ -55,23 +58,28 @@ app.config(['$routeProvider',
       });
 }]);
 
+function sort_by_id(data) {
+  var obj_by_id = {};
+
+  for (var i=0; i<data.length; i++) {
+    obj = data[i];
+    if (! (obj.identificador in obj_by_id)) {
+      obj_by_id[obj.identificador] = {};
+    }
+    obj_by_id[obj.identificador][obj.campo_nombre] = obj;
+  }
+
+  return obj_by_id;
+}
 
 app.factory('ItemService', ['ItemProvider', function(itemProvider) {
   var itemSrv;
-  var obj_by_id = {};
 
   itemSrv = function(callback) {
     itemProvider.get_data()
       .success(function(data) {
-        console.log(data);
-        for (var i=0; i<data.length; i++) {
-          obj = data[i];
-          if (! (obj.identificador in obj_by_id)) {
-            obj_by_id[obj.identificador] = {};
-          }
-          obj_by_id[obj.identificador][obj.campo_nombre] = obj;
-        }
-        callback(obj_by_id);
+        //console.log(data);
+        callback(sort_by_id(data));
       })
       .error(function(data) {
         console.log("Error getting data from milfs");
@@ -106,28 +114,68 @@ app.factory('ItemProvider', function() {
 */
 
 app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
+  $scope.root = {};
 
-
-  var milfs_url = "http://localhost:7888/api.php/json?";
+  var milfs_url = "http://bibliolabs.cc/milfs/api.php/json?";
   //the form id for the "Agenda" form
   var form_id = "id=6";
   var data_url = milfs_url + form_id;
 
+  var today = new Date();
+  $scope.year    = today.getFullYear();
+  $scope.wmonth  = meses[today.getMonth()];
+  $scope.month   = today.getMonth();
+  $scope.day     = today.getDate();
+  $scope.weekday = dias[today.getDay() +1 ];
+
+  $scope.root.no_results = false;
+
   $http.get(data_url)
     .success(function(data) {
-      console.log(data);
-      $scope.load_initial(data);
+      //console.log(data);
+      $scope.load_initial(sort_by_id(data));
     })
     .error(function(data) {
         console.log("Error getting agenda data from milfs");
     });
   
+  $scope.isNotUndefined = function(item) {
+    return item !== undefined;
+  }
 
+  $scope.get_day_of_month = function(fecha) {
+    return dias[fecha.getDay()];
+  }
   /******************************
     load initial list of agenda items 
   ******************************/
   $scope.load_initial = function(items) {
+    var this_month = new Array(31);;
+    re = /^\d{4}-\d{1,2}-\d{1,2}$/;
 
+    for (o in items) {
+      var it = items[o];
+      if (! it.hasOwnProperty('Actividad'))  {
+        delete items[o];
+      } 
+      if (it.hasOwnProperty('Fecha') && (it['Fecha'].contenido.match(re))) {
+        var fecha = new Date(it['Fecha'].contenido);
+        var day = fecha.getDate();
+        var month = fecha.getMonth();
+        if (month != $scope.month) {
+          continue;
+        }
+        if (this_month[day] === undefined) {
+          this_month[day] = [];
+        }
+        this_month[day].push(it); 
+        this_month[day].day = day;
+        this_month[day].fecha = fecha;
+      }
+    }
+  
+    $scope.root.items = this_month;
+    console.log(this_month);
   }
 });
 
