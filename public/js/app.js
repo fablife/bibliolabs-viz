@@ -251,7 +251,7 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     reset all filters 
   ******************************/
   $scope.reset_filters = function() {
-    console.log("reset fileters"); 
+    //console.log("reset filters"); 
     $scope.root.no_results = false;
     $scope.root.filter_active = [];
     $scope.root.filter_items = {};
@@ -290,10 +290,10 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     var iniciativas = $scope.root.todas_iniciativas;
     
     if ((! $scope.root.no_results) && ($scope.root.filter_active.length > 0) && ( $scope.root.filter_active.indexOf(filter) == -1 )  ) {
-      console.log("filtering on existing");
+      //console.log("filtering on existing");
       iniciativas = $scope.root.iniciativas;
     } else {
-      console.log("filtering all");
+      //console.log("filtering all");
     }
 
     for (o in iniciativas) { 
@@ -412,9 +412,13 @@ app.controller('CarouselIniciativasCtrl', function ($scope) {
   $scope.myInterval = 5000;
 });
 
-app.controller('VisualizationCtrl', function ($scope) {
+app.controller('VisualizationCtrl', function ($scope, $location) {
+  
   $scope.active_visualization = "initiatives";
-
+  if ($location.path().indexOf('agenda') > -1 ) {
+    $scope.active_visualization = "agenda";
+  }
+    
   $scope.show_agenda = function() {
     window.location.href = '#/agenda';
     $scope.active_visualization = "agenda";
