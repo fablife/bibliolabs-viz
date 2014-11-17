@@ -144,14 +144,14 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
   }
 
   $scope.get_day_of_month = function(fecha) {
-    return dias[fecha.getDay()];
+    return dias[fecha.getDay() +1];
   }
   /******************************
     load initial list of agenda items 
   ******************************/
   $scope.load_initial = function(items) {
     var this_month = new Array(31);;
-    re = /^\d{4}-\d{1,2}-\d{1,2}$/;
+    re = /^\d{4}.\d{1,2}.\d{1,2}$/;
 
     for (o in items) {
       var it = items[o];
@@ -169,7 +169,7 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
           this_month[day] = [];
         }
         this_month[day].push(it); 
-        this_month[day].day = day;
+        this_month[day].day = day +1;
         this_month[day].fecha = fecha;
       }
     }
