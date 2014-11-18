@@ -22,8 +22,11 @@ div.content
           ul.dropdown-menu(role="menu")
            li(ng-repeat="bib in root.bibliotecas") 
             a(ng-click="filter('Biblioteca', bib)") {{bib}}
-        div.filter-label.label-success(ng-show="root.filter_items['Biblioteca']")
-           {{root.filter_items['Biblioteca']}}
+        div.filter-label.label-success(ng-show="root.filter_items['Biblioteca']") {{root.filter_items['Biblioteca']}}
+          button.close(ng-click="reset_filter('Biblioteca')", type="button", data-dismiss="alert")
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+
       div.col-md-3
         div.btn-group(dropdown)
           button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Por Público 
@@ -35,13 +38,18 @@ div.content
           button.close(ng-click="reset_filter('Publicos')", type="button", data-dismiss="alert")
             span(aria-hidden="true") &times;
             span.sr-only Close
+
       div.col-md-3
         div.btn-group(dropdown)
           button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Por Categoría 
             span.caret
           ul.dropdown-menu(role="menu")
-            li
-              a(href="#")
+            li(ng-repeat="cat in root.categorias") 
+              a(ng-click="filter('Categoría iniciativas', cat)") {{cat}}
+        div.filter-label.label-success(ng-show="root.filter_items['Categoría iniciativas']") {{root.filter_items['Categoría iniciativas']}}
+          button.close(ng-click="reset_filter('Categoría iniciativas')", type="button", data-dismiss="alert")
+            span(aria-hidden="true") &times;
+            span.sr-only Close
 
   div#lista_iniciativas.row(when-scrolled="loadMore()")
     div.col-md-12.col-xs-12(ng-show="root.no_results") 
@@ -60,10 +68,12 @@ div.content
                 span.left {{iniciativa['Biblioteca'].contenido }}
               div.publico
                 span.left {{iniciativa['Publicos'].contenido }}
+              div.categoria
+                span.left {{iniciativa['Categoría iniciativas'].contenido }}
                 //span.right {{iniciativa['Categoria'].contenido }}
               //-span.glyphicon.glyphicon-comment.left
               //-span.glyphicon.glyphicon-thumbs-up.right
           div.back_content(ng-click="show_detail(iniciativa)")
-              p helloopooooooooooooooooooo
-              //{{iniciativa['Descripcion larga'].contenido }}
+              //p helloopooooooooooooooooooo
+              p {{iniciativa['Descripción breve'].contenido }}
 

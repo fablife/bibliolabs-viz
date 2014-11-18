@@ -97,7 +97,7 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 3px 3px 4px 4px #ccc;
-  height: 335px;
+  height: 350px;
   background-color: #f2f2f2;
 }
 
@@ -126,11 +126,11 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
   font-size: 10px;
 }
 
-.biblioteca, .publico {
+.biblioteca, .publico, .categoria {
   padding: 5px 0;
 }
 
-.biblioteca {
+.biblioteca, .publico {
   border-bottom: 1px solid #fff;
   min-height: 3em;
 }
@@ -163,6 +163,7 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 .item_title {
   min-height: 3em;
   text-align: center;
+  font-weight: bold;
 }
 
 .back_content {

@@ -1,5 +1,6 @@
 var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
 
 var app = angular.module('bibliolabs-viz', [
        // 'ui.mask',
@@ -91,7 +92,6 @@ app.factory('ItemService', ['ItemProvider', function(itemProvider) {
 }]);
 
 app.factory('ItemProvider', function($http) {
-  var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
   //the form id for the "Iniciativas Bibliotecas" form
   var form_id = "id=2";
   var data_url = milfs_url + form_id;
@@ -101,22 +101,11 @@ app.factory('ItemProvider', function($http) {
     }
   };
 });
-/*
-app.factory('ItemProvider', function() {
-  return {
-    get_data: function() {
-      //create json here
-      json = {"iniciativas":[{"nombre":"Viajeros del Agua","diapositiva":"http://4.bp.blogspot.com/-aFmDEU7P2c4/UBK_CVb06kI/AAAAAAAAABA/j2pG-AuaTp8/s640/598852_175085729288447_716591627_n.jpg","portada":"http://3.bp.blogspot.com/-QSzBelKhV78/U_td1brks1I/AAAAAAAAA-w/uf6avHYstv0/s1600/Iniciativa.jpg","descripcion":"Saberes y creaciones entorno a la quebrada La Quintana y otros cuerpos de água","descripcion_larga":""},{"nombre":"Huertas Y Járdines","diapositiva":"http://2.bp.blogspot.com/-UN1kvNsJUs8/U_tSj68H4gI/AAAAAAAAA-g/udYYWF3VtP4/s1600/Jardines%2By%2BHuertas.png","portada":"http://2.bp.blogspot.com/-J2Pn4dPqiOU/U_NK7b8Dy0I/AAAAAAAAA9I/u82MV60RqEo/s1600/Optical_illusion_disc_with_man_pumping_water.gif","descripcion":"Prácticas tradicionales para la siembra de huertas y jardines urbanos en el territorio","descripcion_larga":""}]};
-      return json;
-    }
-  };
-});
-*/
 
 app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
 
-  var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
+  //var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
   //the form id for the "Agenda" form
   var form_id = "id=6";
   var data_url = milfs_url + form_id;
@@ -218,7 +207,11 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
         pub = iniciativa['Publicos'].contenido;
         $scope.root.publicos.push(pub);
       }
+      if ( (iniciativa.hasOwnProperty('Categoría iniciativas')) && ( $scope.root.categorias.indexOf(iniciativa['Categoría iniciativas'].contenido) == -1) ) {
+        $scope.root.categorias.push(iniciativa['Categoría iniciativas'].contenido);
+      }
     }
+  
     $scope.root.iniciativas = por_bibs;
   
     if (obj_array.length > 0) {
@@ -273,6 +266,7 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     }
     
     if ($scope.root.filter_active.length == 0) {
+      $scope.root.no_results = false;
       $scope.load_initial($scope.root.todas_iniciativas);
     } else {
       for (var i=0; i<$scope.root.filter_active.length; i++) {
