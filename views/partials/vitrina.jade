@@ -62,7 +62,7 @@ div.content
            div.initiative
             div.item_title {{iniciativa['Titulo iniciativa'].contenido }}
             div.thumbnail(ng-click="show_detail(iniciativa)")
-              img(src="{{iniciativa.portada}}" alt="{{iniciativa.nombre}}")
+              img(src="{{iniciativa['Portada'].contenido}}" alt="{{iniciativa.nombre}}")
             div.actions
               div.biblioteca
                 span.left {{iniciativa['Biblioteca'].contenido }}

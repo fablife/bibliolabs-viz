@@ -4,31 +4,37 @@ div.modal-header.i-header
 div.modal-body.i-body
   div.iniciativa.row
    div.col-md-12.col-xs-12.i-title
-     h1 {{iniciativa.nombre}} 
+     h1 {{iniciativa['Titulo iniciativa'].contenido}} 
    div.col-md-8.col-xs-12.i-col-left
     div.i-subtitle
-      h3 {{iniciativa.descripcion}}
+      h3 {{iniciativa['Descripción breve'].contenido}}
     div.i-midia
-      img(src="{{iniciativa.diapositiva}}")
+      img(src="{{iniciativa['Medio principal'].contenido}}")
    div.col-md-4.col-xs-12.i-col-right
-    div.i-info
+    div.i-info(style="word-wrap: break-word")
       div.i-subtitle
         h3 Ficha de la iniciativa
-      div.i-responsable.
-        {{iniciativa.responsable}}
-      div.i-lugar.
-        {{iniciativa.lugar}}
-      div.i-doc-detalle.
-        {{iniciativa.documentacion-detalle}}
-      div.i-categoria.
-        {{iniciativa.categoria}}
-      div.i-etiquetas.
-        {{iniciativa.etiquetas}}
-      div.i-larga.
-        {{iniciativa.descripcion-larga}}
-      div.i-objetivo.
-        {{iniciativa.objetivo}}
-      div.i-footer
+      div.i-lugar
+        label Espacios de la biblioteca 
+        p {{iniciativa['Espacios de la biblioteca'].contenido}}
+      div.i-categoria
+        label Categoría 
+        p {{iniciativa['Categoría iniciativas'].contenido}}
+      div.i-larga
+        label Descripción 
+        p {{iniciativa['Descripción larga'].contenido}}
+      div.i-doc-detalle
+        label Documentación 
+        a(style="display: block", href="{{iniciativa['Documentacion'].contenido}}") Enlace externo
+      div.i-etiquetas
+        label Etiquetas 
+        p {{iniciativa['Etiquetas'].contenido}}
+      div.i-responsable
+        label Responsable 
+        p {{iniciativa['Responsable'].contenido}}
+      //div.i-objetivo
+      //  {{iniciativa.objetivo}}
+      //div.i-footer
 
 div.modal-footer
   button.btn.btn-primary(ng-click="ok()") Cerrar 
