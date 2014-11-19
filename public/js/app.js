@@ -172,8 +172,9 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
 app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
   $scope.root.filter_active = [] ;
-  $scope.root.filter_items = {};
-  $scope.root.no_results = false;
+  $scope.root.destacados    = [];
+  $scope.root.filter_items  = {};
+  $scope.root.no_results    = false;
 
 
   /******************************
@@ -185,13 +186,10 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     $scope.root.categorias  = [];
 
     var indexes     = [];
-    var destacados  = [];
-    var obj_array   = [];
     var por_bibs    = {};
 
     for (o in iniciativas) {
       var iniciativa = iniciativas[o];
-      obj_array.push(iniciativa);
       if ((! iniciativa.hasOwnProperty('Titulo iniciativa')) || iniciativa['Titulo iniciativa'].contenido.length < 1) {
         delete iniciativas[o];
         continue;
@@ -210,10 +208,16 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
       if ( (iniciativa.hasOwnProperty('Categoría iniciativas')) && ( $scope.root.categorias.indexOf(iniciativa['Categoría iniciativas'].contenido) == -1) ) {
         $scope.root.categorias.push(iniciativa['Categoría iniciativas'].contenido);
       }
+      
+      if ( (iniciativa.hasOwnProperty('Destacado') ) && (iniciativa['Destacado'].contenido == "Si") ) {
+        $scope.root.destacados.push(iniciativa);
+      }
     }
+    //console.log($scope.root.destacados);
   
     $scope.root.iniciativas = por_bibs;
   
+/*
     if (obj_array.length > 0) {
       for (var a=0; a<6; a++) {
         var index = Math.floor(Math.random()*obj_array.length)
@@ -227,6 +231,7 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
       }
     }
     $scope.root.destacados = destacados;
+*/
 
   }
 

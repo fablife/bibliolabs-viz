@@ -5,10 +5,10 @@ div.content
         div.carousel_title
           h1.top.centered Descubre las iniciativas de nuestras bibliotecas!
         slide(ng-repeat="iniciativa in root.destacados" active="iniciativa.active")
-          img(ng-src="{{iniciativa.diapositiva}}" style="margin:auto;")
+          img(ng-src="{{iniciativa['Medio principal'].contenido}}" style="margin:auto;")
           div.carousel-caption
-            h4 {{iniciativa.nombre}}
-            p {{iniciativa.descripcion}}
+            h4 {{iniciativa['Titulo iniciativa'].contenido}}
+            //p  {{iniciativa['Descripción breve'].contenido}}
 
   div.area_filtros.panel.panel-info
     div.panel-body
