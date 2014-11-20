@@ -1,6 +1,7 @@
 var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
+var milfs_url = "http://localhost:7888/api.php/json?";
+//var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
 
 var app = angular.module('bibliolabs-viz', [
        // 'ui.mask',
@@ -79,7 +80,6 @@ app.factory('ItemService', ['ItemProvider', function(itemProvider) {
   itemSrv = function(callback) {
     itemProvider.get_data()
       .success(function(data) {
-        //console.log(data);
         callback(sort_by_id(data));
       })
       .error(function(data) {
@@ -133,14 +133,22 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
   }
 
   $scope.get_day_of_month = function(fecha) {
-    return dias[fecha.getDay() +1];
+    if (fecha) {
+      return dias[fecha.getDay() +1];
+    }
   }
   /******************************
     load initial list of agenda items 
   ******************************/
   $scope.load_initial = function(items) {
-    var this_month = new Array(31);;
+    $scope.root.bibliotecas = [];
+    $scope.root.zonas = [];
+    $scope.root.cat   = [];
+    var this_month = new Array(31);
     re = /^\d{4}.\d{1,2}.\d{1,2}$/;
+
+    //var tmp = false;
+    var total_items = 0;
 
     for (o in items) {
       var it = items[o];
@@ -157,22 +165,175 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
         if (this_month[day] === undefined) {
           this_month[day] = [];
         }
+        //tmp = it;
         this_month[day].push(it); 
         this_month[day].day = day +1;
         this_month[day].fecha = fecha;
+        total_items += 1;
+      }
+      if ( (it.hasOwnProperty('Biblioteca')) && ( $scope.root.bibliotecas.indexOf(it['Biblioteca'].contenido) == -1) ) {
+        bib = it['Biblioteca'].contenido;
+        $scope.root.bibliotecas.push(bib);
+      }
+      if ( (it.hasOwnProperty('Zona de la ciudad')) && ( $scope.root.zonas.indexOf(it['Zona de la ciudad'].contenido) == -1) ) {
+        zona = it['Zona de la ciudad'].contenido;
+        $scope.root.zonas.push(zona);
+      }
+      if ( (it.hasOwnProperty('Categoría en la agenda')) && ( $scope.root.cat.indexOf(it['Categoría en la agenda'].contenido) == -1) ) {
+        cat = it['Categoría en la agenda'].contenido;
+        $scope.root.cat.push(cat);
       }
     }
-  
-    $scope.root.items = this_month;
-    console.log(this_month);
+/*
+    for (var i=15; i<30; i++) {
+      if (this_month[i] === undefined) {
+        this_month[i] = [];
+      }
+      this_month[i].push(tmp);
+      total_items += 1;
+      var rest = i%4;
+      for (var y=0; y<=rest; y++) {
+        var obj = {};
+        for (p in tmp){
+          obj[p] = tmp[p];
+          if (p == "Actividad") {
+            obj[p].contenido = "" + total_items;
+          }
+        }
+        this_month[i].push(obj);
+        total_items += 1;
+      }
+        
+      this_month[i].day = i;
+      this_month[i].fecha = new Date();
+    } 
+*/
+    $scope.calc_cols(total_items, this_month); 
   }
+
+  $scope.calc_cols = function(items, monthly) {
+    console.log(monthly);
+    var min_per_cols = items / 4;
+    var rest = items % 4;
+    var index = 0;
+    //var count = 0;
+    var current_col = 0;
+    $scope.root.items_per_col = [];
+    //console.log("#######" + items);
+
+    for (var i=0; i<31; i++) {
+      var day = monthly[i];
+      if (day) {
+        //console.log(day);
+        for (var y=0; y<day.length; y++, index++) {
+          if (y == 0) {
+            day[y].dia = i + 1;
+            day[y].fecha = day.fecha;
+          }
+          if ($scope.root.items_per_col[current_col] === undefined) {
+            $scope.root.items_per_col[current_col] = new Array();
+          }
+          //console.log("*****" + index);
+          if (index < (min_per_cols -1)  ) {  
+            if ($scope.root.items_per_col[current_col][index] === undefined) {
+              $scope.root.items_per_col[current_col][index] = new Array();
+            }
+            //console.log("[current_col][index]: ["+current_col+"]["+index+"]" );
+            $scope.root.items_per_col[current_col][index] = day[y];
+            //count += 1;
+            //console.log("=============" + count)
+          } else {
+            if (rest) {
+              if ($scope.root.items_per_col[current_col][index] === undefined) {
+                //console.log("ADDING ANOTHER ONE!!!! THERE'S REST!!!");
+                $scope.root.items_per_col[current_col][index] = new Array();
+                $scope.root.items_per_col[current_col][index] = day[y];
+                //console.log("[current_col][index]: ["+current_col+"]["+index+"]" );
+                //count += 1;
+                //console.log("=============" + count)
+                current_col += 1;
+                index = -1;
+              }
+              rest -= 1;
+              //console.log("rest: " + rest);
+            } else {
+              current_col += 1;
+              if ($scope.root.items_per_col[current_col] === undefined) {
+                $scope.root.items_per_col[current_col] = new Array();
+              }
+              index = 0;
+              $scope.root.items_per_col[current_col][index] = day[y];
+              //console.log("[current_col][index]: ["+current_col+"]["+index+"]" );
+              //count += 1;
+              //console.log("=============" + count)
+            }
+          }
+        }          
+      }
+    }
+    //$scope.root.items = this_month;
+  }
+/*
+  $scope.calc_cols = function(items, monthly) {
+    var min_per_cols = items / 4;
+    var rest = items % 4;
+    var index = 0;
+    //var count = 0;
+    var current_col = 0;
+    $scope.root.items_per_col = [];
+    //console.log("#######" + items);
+
+    for (var i=0; i<31; i++) {
+      var day = monthly[i];
+      if (day) {
+        for (var y=0; y<day.length; y++, index++) {
+          //console.log("*****" + index);
+          if (index < (min_per_cols -1)  ) {  
+            if ($scope.root.items_per_col[index] === undefined) {
+              $scope.root.items_per_col[index] = new Array(4);
+            }
+            if ($scope.root.items_per_col[index][current_col] === undefined) {
+              $scope.root.items_per_col[index][current_col] = new Array();
+            }
+            //console.log("[index][current_col]: ["+index+"]["+current_col+"]" );
+            $scope.root.items_per_col[index][current_col] = day[y];
+            //count += 1;
+            //console.log("=============" + count)
+          } else {
+            if (rest) {
+              if ($scope.root.items_per_col[index] === undefined) {
+                //console.log("ADDING ANOTHER ONE!!!! THERE'S REST!!!");
+                $scope.root.items_per_col[index] = new Array(4);
+                $scope.root.items_per_col[index][current_col] = day[y];
+                //console.log("[index][current_col]: ["+index+"]["+current_col+"]" );
+                //count += 1;
+                //console.log("=============" + count)
+                current_col += 1;
+                index = -1;
+              }
+              rest -= 1;
+              //console.log("rest: " + rest);
+            } else {
+              current_col += 1;
+              index = 0;
+              $scope.root.items_per_col[index][current_col] = day[y];
+              //console.log("[index][current_col]: ["+index+"]["+current_col+"]" );
+              //count += 1;
+              //console.log("=============" + count)
+            }
+          }
+        }          
+      }
+    }
+    //$scope.root.items = this_month;
+  }
+*/
 });
 
 
 app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
   $scope.root.filter_active = [] ;
-  $scope.root.destacados    = [];
   $scope.root.filter_items  = {};
   $scope.root.no_results    = false;
 
@@ -181,12 +342,14 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     load initial list of initiatives 
   ******************************/
   $scope.load_initial = function(iniciativas) {
+    $scope.root.destacados    = [];
     $scope.root.bibliotecas = [];
     $scope.root.publicos    = [];
     $scope.root.categorias  = [];
+    $scope.root.visible_ids = [];
 
     var indexes     = [];
-    var por_bibs    = {};
+    var por_bibs    = [];
 
     for (o in iniciativas) {
       var iniciativa = iniciativas[o];
@@ -198,7 +361,8 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
         bib = iniciativa['Biblioteca'].contenido;
         $scope.root.bibliotecas.push(bib);
         if (!(bib in por_bibs)) {
-          por_bibs[bib] = iniciativa; 
+          por_bibs.push(iniciativa); 
+          $scope.root.visible_ids.push(o);
         }
       }
       if ( (iniciativa.hasOwnProperty('Publicos')) && ( $scope.root.publicos.indexOf(iniciativa['Publicos'].contenido) == -1) ) {
@@ -213,26 +377,8 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
         $scope.root.destacados.push(iniciativa);
       }
     }
-    //console.log($scope.root.destacados);
   
     $scope.root.iniciativas = por_bibs;
-  
-/*
-    if (obj_array.length > 0) {
-      for (var a=0; a<6; a++) {
-        var index = Math.floor(Math.random()*obj_array.length)
-        while  (indexes.indexOf(index) > -1) {
-          index = Math.floor(Math.random()*obj_array.length)
-        }
-        indexes.push(index);
-      }
-      for (var b=0; b<indexes.length; b++) {
-        destacados.push(obj_array[indexes[b]]);  
-      }
-    }
-    $scope.root.destacados = destacados;
-*/
-
   }
 
   /******************************
@@ -271,51 +417,62 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     }
     
     if ($scope.root.filter_active.length == 0) {
-      $scope.root.no_results = false;
+      $scope.root.no_results    = false;
       $scope.load_initial($scope.root.todas_iniciativas);
     } else {
+      $scope.root.iniciativas = $scope.root.todas_iniciativas; 
       for (var i=0; i<$scope.root.filter_active.length; i++) {
         var item = $scope.root.filter_active[i];
-        $scope.filter(item, $scope.root.filter_items[item]);
+        $scope.do_filter(item, $scope.root.filter_items[item],$scope.root.iniciativas);
       }
     }
   }
 
   /******************************
-    do filter
+    do_filter
   ******************************/
-  $scope.filter = function(filter, item) {
+  $scope.do_filter = function(filter, filter_item, items) {
     var filtered = [];
-    var iniciativas = $scope.root.todas_iniciativas;
-    
-    if ((! $scope.root.no_results) && ($scope.root.filter_active.length > 0) && ( $scope.root.filter_active.indexOf(filter) == -1 )  ) {
-      //console.log("filtering on existing");
-      iniciativas = $scope.root.iniciativas;
-    } else {
-      //console.log("filtering all");
-    }
 
-    for (o in iniciativas) { 
-      if (iniciativas[o][filter] && iniciativas[o][filter].contenido == item) {
-        filtered.push(iniciativas[o]);
-        continue;
-      }
-      if (iniciativas[o][filter] && ( iniciativas[o][filter].contenido.indexOf(item) > -1) ) {
-        filtered.push(iniciativas[o]);
-        continue;
+    for (o in items) { 
+      if (items[o][filter]) {
+        if (items[o][filter].contenido == filter_item) {
+          filtered.push(items[o]);
+          continue;
+        }
+        if ( items[o][filter].contenido.indexOf(filter_item) > -1 )  {
+          filtered.push(items[o]);
+          continue;
+        }
       }
     }
 
     $scope.root.iniciativas = filtered;
+
     if (Object.keys(filtered).length == 0) {
       $scope.root.no_results = true;
-      //console.log("no results");
-    } 
+    } else { 
+      $scope.root.no_results = false;
+    }
+    $scope.root.filter_items[filter] = filter_item;
+  }
+
+  /******************************
+    filter
+  ******************************/
+  $scope.filter = function(filter, item) {
+
     if ($scope.root.filter_active.indexOf(filter) == -1) {
       $scope.root.filter_active.push(filter);
     }
-    $scope.root.filter_items[filter] = item;
-    console.log($scope.root.filter_items);
+
+    var items = $scope.root.iniciativas;
+
+    if ($scope.root.filter_active.length == 1) {
+      items = $scope.root.todas_iniciativas;
+    }
+
+    $scope.do_filter(filter, item, items);
   }
 
   /******************************
@@ -326,17 +483,15 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     //console.log("load more");
     var counter = 0;
     for (ini in $scope.root.todas_iniciativas) {
-      if (ini in $scope.root.iniciativas) {
-        continue;
-      } else {
-        $scope.root.iniciativas[ini] = $scope.root.todas_iniciativas[ini];
+      if ($scope.root.visible_ids.indexOf(ini) == -1) {
+        $scope.root.iniciativas.push($scope.root.todas_iniciativas[ini]);
+        $scope.root.visible_ids.push(ini);
         counter += 1;
         if (counter == 8) {
-          break;
+          return;
         }
       }
     }
-       
   };
 
 
