@@ -1,7 +1,7 @@
 var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-var milfs_url = "http://localhost:7888/api.php/json?";
-//var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
+//var milfs_url = "http://localhost:7888/api.php/json?";
+var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
 
 var app = angular.module('bibliolabs-viz', [
        // 'ui.mask',
@@ -383,10 +383,16 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
 
     for (o in iniciativas) {
       var iniciativa = iniciativas[o];
+      if ( (iniciativa.hasOwnProperty('Estado')) && ( iniciativa['Estado'].contenido == "Inactivo") ) {
+        delete iniciativas[o];
+        continue;
+      }
+
       if ((! iniciativa.hasOwnProperty('Titulo iniciativa')) || iniciativa['Titulo iniciativa'].contenido.length < 1) {
         delete iniciativas[o];
         continue;
       }
+
       if ( (iniciativa.hasOwnProperty('Biblioteca')) && ( $scope.root.bibliotecas.indexOf(iniciativa['Biblioteca'].contenido) == -1) ) {
         bib = iniciativa['Biblioteca'].contenido;
         $scope.root.bibliotecas.push(bib);
@@ -395,10 +401,12 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
           $scope.root.visible_ids.push(o);
         }
       }
+
       if ( (iniciativa.hasOwnProperty('Publicos')) && ( $scope.root.publicos.indexOf(iniciativa['Publicos'].contenido) == -1) ) {
         pub = iniciativa['Publicos'].contenido;
         $scope.root.publicos.push(pub);
       }
+
       if ( (iniciativa.hasOwnProperty('Categoría iniciativas')) && ( $scope.root.categorias.indexOf(iniciativa['Categoría iniciativas'].contenido) == -1) ) {
         $scope.root.categorias.push(iniciativa['Categoría iniciativas'].contenido);
       }
@@ -406,8 +414,8 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
       if ( (iniciativa.hasOwnProperty('Destacado') ) && (iniciativa['Destacado'].contenido == "Si") ) {
         $scope.root.destacados.push(iniciativa);
       }
+
     }
-  
     $scope.root.iniciativas = por_bibs;
   }
 
