@@ -34,7 +34,7 @@ div.content
             span.caret
           ul.dropdown-menu(role="menu")
             li(ng-repeat="zona in root.zonas") 
-              a(ng-click="filter('Zona', zona)") {{zona}}
+              a(ng-click="filter('Zona de la ciudad', zona)") {{zona}}
         div.filter-label.label-success(ng-show="root.filter_items['Zona de la ciudad']") 
           div.filter-text {{root.filter_items['Zona de la ciudad']}}
           button.close(ng-click="reset_filter('Zona de la ciudad')", type="button", data-dismiss="alert")

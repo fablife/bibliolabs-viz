@@ -104,6 +104,9 @@ app.factory('ItemProvider', function($http) {
 
 app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
+  $scope.root.filter_active = [] ;
+  $scope.root.filter_items  = {};
+  $scope.root.no_results    = false;
 
   //var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
   //the form id for the "Agenda" form
@@ -122,7 +125,8 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
   $http.get(data_url)
     .success(function(data) {
       //console.log(data);
-      $scope.load_initial(sort_by_id(data));
+      $scope.root.all_agenda = sort_by_id(data);
+      $scope.load_initial($scope.root.all_agenda);
     })
     .error(function(data) {
         console.log("Error getting agenda data from milfs");
@@ -137,6 +141,105 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
       return dias[fecha.getDay() +1];
     }
   }
+
+  /******************************
+    reset all filters 
+  ******************************/
+  $scope.reset_filters = function() {
+    //console.log("reset filters"); 
+    $scope.root.no_results = false;
+    $scope.root.filter_active = [];
+    $scope.root.filter_items = {};
+    $scope.load_initial($scope.root.all_agenda);
+  }
+
+  /******************************
+    reset specific filter 
+  ******************************/
+  $scope.reset_filter = function(filter) {
+    delete $scope.root.filter_items[filter];  
+
+    for (var i=0; i<$scope.root.filter_active.length; i++) {
+      var item = $scope.root.filter_active[i];
+      if (item == filter) {
+        $scope.root.filter_active.splice(i, 1);
+        break;
+      } 
+    }
+    
+    if ($scope.root.filter_active.length == 0) {
+      $scope.root.no_results    = false;
+      $scope.load_initial($scope.root.all_agenda);
+    } else {
+      $scope.root.current_items = $scope.root.this_month; 
+      for (var i=0; i<$scope.root.filter_active.length; i++) {
+        var item = $scope.root.filter_active[i];
+        $scope.do_filter(item, $scope.root.filter_items[item],$scope.root.current_items);
+      }
+    }
+  }
+
+  /******************************
+    do_filter
+  ******************************/
+  $scope.do_filter = function(filter, filter_item, items) {
+    var filtered = new Array(31); 
+    var filter_counter = 0;
+
+    for (var i=0; i<31; i++) {
+      var day = items[i];
+      if (day) {
+        for (var y=0; y<day.length; y++) {
+          var item = day[y];
+          if (filtered[i] === undefined) {
+            filtered[i]       = new Array();
+            filtered[i].day   = items[i].day;
+            filtered[i].fecha = items[i].fecha;
+          }
+          if (item[filter]) {
+            if (item[filter].contenido == filter_item) {
+              filtered[i].push(item);
+              filter_counter += 1;
+              continue;
+            }
+            if (item[filter].contenido.indexOf(filter_item) > -1 )  {
+              filtered[i].push(item);
+              filter_counter += 1;
+              continue;
+            }
+          }
+        }
+      }
+    }
+    
+    if (filter_counter == 0) {
+      $scope.root.no_results = true;
+    } else { 
+      $scope.root.no_results = false;
+      $scope.root.current_items = filtered;
+      $scope.calc_cols(filter_counter, $scope.root.current_items);
+    }
+    $scope.root.filter_items[filter] = filter_item;
+  }
+
+  /******************************
+    filter
+  ******************************/
+  $scope.filter = function(filter, item) {
+
+    if ($scope.root.filter_active.indexOf(filter) == -1) {
+      $scope.root.filter_active.push(filter);
+    }
+    
+    var items = $scope.root.current_items;
+
+    if ($scope.root.filter_active.length == 1) {
+      items = $scope.root.this_month;
+    }
+
+    $scope.do_filter(filter, item, items);
+  }
+
   /******************************
     load initial list of agenda items 
   ******************************/
@@ -184,35 +287,17 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
         $scope.root.cat.push(cat);
       }
     }
-/*
-    for (var i=15; i<30; i++) {
-      if (this_month[i] === undefined) {
-        this_month[i] = [];
-      }
-      this_month[i].push(tmp);
-      total_items += 1;
-      var rest = i%4;
-      for (var y=0; y<=rest; y++) {
-        var obj = {};
-        for (p in tmp){
-          obj[p] = tmp[p];
-          if (p == "Actividad") {
-            obj[p].contenido = "" + total_items;
-          }
-        }
-        this_month[i].push(obj);
-        total_items += 1;
-      }
-        
-      this_month[i].day = i;
-      this_month[i].fecha = new Date();
-    } 
-*/
-    $scope.calc_cols(total_items, this_month); 
+
+    $scope.root.this_month = this_month;
+    $scope.root.current_items = $scope.root.this_month;
+    $scope.calc_cols(total_items, $scope.root.current_items); 
   }
 
+  /******************************
+    Evaluate how to build the agenda columns!
+  ******************************/
   $scope.calc_cols = function(items, monthly) {
-    console.log(monthly);
+    //console.log(monthly);
     var min_per_cols = items / 4;
     var rest = items % 4;
     var index = 0;
@@ -273,61 +358,6 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
     }
     //$scope.root.items = this_month;
   }
-/*
-  $scope.calc_cols = function(items, monthly) {
-    var min_per_cols = items / 4;
-    var rest = items % 4;
-    var index = 0;
-    //var count = 0;
-    var current_col = 0;
-    $scope.root.items_per_col = [];
-    //console.log("#######" + items);
-
-    for (var i=0; i<31; i++) {
-      var day = monthly[i];
-      if (day) {
-        for (var y=0; y<day.length; y++, index++) {
-          //console.log("*****" + index);
-          if (index < (min_per_cols -1)  ) {  
-            if ($scope.root.items_per_col[index] === undefined) {
-              $scope.root.items_per_col[index] = new Array(4);
-            }
-            if ($scope.root.items_per_col[index][current_col] === undefined) {
-              $scope.root.items_per_col[index][current_col] = new Array();
-            }
-            //console.log("[index][current_col]: ["+index+"]["+current_col+"]" );
-            $scope.root.items_per_col[index][current_col] = day[y];
-            //count += 1;
-            //console.log("=============" + count)
-          } else {
-            if (rest) {
-              if ($scope.root.items_per_col[index] === undefined) {
-                //console.log("ADDING ANOTHER ONE!!!! THERE'S REST!!!");
-                $scope.root.items_per_col[index] = new Array(4);
-                $scope.root.items_per_col[index][current_col] = day[y];
-                //console.log("[index][current_col]: ["+index+"]["+current_col+"]" );
-                //count += 1;
-                //console.log("=============" + count)
-                current_col += 1;
-                index = -1;
-              }
-              rest -= 1;
-              //console.log("rest: " + rest);
-            } else {
-              current_col += 1;
-              index = 0;
-              $scope.root.items_per_col[index][current_col] = day[y];
-              //console.log("[index][current_col]: ["+index+"]["+current_col+"]" );
-              //count += 1;
-              //console.log("=============" + count)
-            }
-          }
-        }          
-      }
-    }
-    //$scope.root.items = this_month;
-  }
-*/
 });
 
 
