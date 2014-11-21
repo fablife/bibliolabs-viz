@@ -62,7 +62,7 @@ div.content
       div.flip-container(ontouchstart="this.classList.toggle('hover');")
         div.flipper
           div.front_content
-           div.initiative
+           div.initiative(ng-class="{nueva: iniciativa.nueva}")
             div.item_title {{iniciativa['Titulo iniciativa'].contenido }}
             div.thumbnail(ng-click="show_detail(iniciativa)")
               img(src="{{iniciativa['Portada'].contenido}}" alt="{{iniciativa.nombre}}")

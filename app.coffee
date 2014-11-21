@@ -11,6 +11,7 @@ errorhandler = require('errorhandler')
 mongoose  = require('mongoose')
 config    = require('./config')
 routes    = require('./routes')
+bodyParser = require('body-parser')
 
 #admin     = require('./admin')
 
@@ -103,6 +104,7 @@ app.use session(
 app.use(express.static(__dirname + '/public'))
 app.use('/bower_components',  express.static(__dirname + '/bower_components'))
 app.use(flash())
+app.use(bodyParser())
 #  app.use(passport.initialize())
 #  app.use(passport.session())
 
@@ -131,7 +133,8 @@ app.use(flash())
 ################################################################
 #urls      = require('./urls')
 app.get('/', routes.index)
-app.get('/dashboard', routes.dashboard)
+#app.get('/dashboard', routes.dashboard)
+app.post('/check_latest', routes.check_latest)
 
 ###
 app.post '/login', (req, res, next) ->
