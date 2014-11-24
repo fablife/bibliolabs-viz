@@ -387,6 +387,7 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
 
     var indexes     = [];
     var por_bibs    = [];
+    var por_bibs_o  = {};
 
     $scope.id_campo = id_campo;
 
@@ -406,9 +407,16 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
       if ( (iniciativa.hasOwnProperty($scope.id_campo.biblioteca)) && ($scope.root.bibliotecas.indexOf(iniciativa[$scope.id_campo.biblioteca].contenido) == -1 ) )  {
         bib = iniciativa[$scope.id_campo.biblioteca].contenido;
         $scope.root.bibliotecas.push(bib);
-        if (!(bib in por_bibs)) {
-          por_bibs.push(iniciativa); 
+        if (!(bib in por_bibs_o)) {
+          por_bibs_o[bib] = iniciativa;
           $scope.root.visible_ids.push(o);
+        } else {
+            var ini = por_bibs_o[bib];
+            if (ini['Biblioteca'].contenido == bib) {
+              if (ini['Biblioteca']['timestamp'] < iniciativa['Biblioteca']['timestamp']) {
+                por_bibs_o[bib] = ini;
+              }
+            }
         }
       }
 
@@ -426,9 +434,47 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
       }
 
     }
+
+    for (b in por_bibs_o) {
+      var o = por_bibs_o[b];
+      por_bibs.push(o);
+      $scope.root.visible_ids.push(o);
+    }
+
     $scope.root.iniciativas = por_bibs;
   }
 
+  
+  /******************************
+   After cards are loaded, check with server on new ones 
+  ******************************/
+  $scope.check_new_items = function() {
+    for (var i=0; i<$scope.root.iniciativas.length; i++) {
+      var ini = $scope.root.iniciativas[i];
+      $http.post('/check_latest',{id: ini['Biblioteca'].identificador, timestamp: ini['Biblioteca'].timestamp})
+        .success(function(data,stat,headers,conf) {
+          //check if this is a new iniciative for this library
+          //200 yes is new, 304 Not Modified
+          if (stat == 200) {
+            for (var k=0; k<$scope.root.iniciativas.length; k++) {
+              var nueva = $scope.root.iniciativas[k];
+              if (nueva['Biblioteca'].identificador == data) {
+                nueva.nueva = true;
+                return;
+              }
+            }
+          }
+        })
+        .error(function(data,stat,headers,conf) {
+          if (stat == 304) {
+            //console.log("not modified");
+          } else {
+            console.log("Error evaluando check_latest!");
+          }
+        });
+    }
+  }
+  
   /******************************
     callback from ItemService
   ******************************/
@@ -436,6 +482,7 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     //console.log(iniciativas);
     $scope.root.todas_iniciativas = iniciativas;
     $scope.load_initial(iniciativas);
+    $scope.check_new_items();
   }, ItemProvider);
 
 

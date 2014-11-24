@@ -101,6 +101,10 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
   background-color: #f2f2f2;
 }
 
+.nueva {
+  background-color: red;
+}
+
 .initiative_fade {
   opacity: 1;
   transition: opacity .25s ease-in-out;
