@@ -4,28 +4,18 @@ var dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'
 var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
 
 var app = angular.module('bibliolabs-viz', [
-       // 'ui.mask',
        'ngAnimate',
-       // 'adminControllers',
-       // 'adminServices',
        'ui.bootstrap',
        'ngRoute']);
 
-//var adminServices = angular.module('adminServices', ['ngResource']);
-//var scrollService = angular.module('endless_scroll', []).directive('whenScrolled', function() {
 var scrollService = app.directive('whenScrolled', function($document, $window) {
     return function(scope, elm, attr) {
         var raw = elm[0];
         
-        //elm.bind( 'scroll', function() {
         $document.bind( 'scroll', function() {
           if( ($window.innerHeight + $window.scrollY) > getDocHeight() - 100) {
                 scope.$apply(attr.whenScrolled);
-          } /*
-            if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
-                scope.$apply(attr.whenScrolled);
-            }
-            */
+          } 
         });
     };
 });
@@ -46,7 +36,7 @@ app.config(['$routeProvider',
       when('/index', {
         templateUrl: 'partials/vitrina',
         controller: 'VitrinaCtrl'
-      }).
+      })./*
       when('/agenda', {
         templateUrl: 'partials/agenda',
         controller: 'AgendaCtrl'
@@ -54,7 +44,7 @@ app.config(['$routeProvider',
       when('/informes', {
         templateUrl: 'admin/partials/informes',
         controller: 'AdminCtrl'
-      }).
+      }).*/
       otherwise({
         redirectTo: '/index'
       });
@@ -68,7 +58,7 @@ function sort_by_id(data) {
     if (! (obj.identificador in obj_by_id)) {
       obj_by_id[obj.identificador] = {};
     }
-    obj_by_id[obj.identificador][obj.campo_nombre] = obj;
+    obj_by_id[obj.identificador][obj.id_campo] = obj;
   }
 
   return obj_by_id;
@@ -360,6 +350,22 @@ app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, It
   }
 });
 
+var id_campo = {};
+id_campo.estado     = 24;
+id_campo.titulo     = 19;
+id_campo.publicos   = 27;
+id_campo.biblioteca = 20;
+id_campo.categoria  = 25;
+id_campo.destacado  = 55;
+id_campo.documentacion = 30;
+id_campo.etiquetas  = 26;
+id_campo.portada    = 32;
+id_campo.correo     = 15;
+id_campo.telefono   = 6;
+id_campo.espacios_biblioteca = 46;
+id_campo.medio_principal = 31;
+id_campo.desc_breve = 21;
+id_campo.desc_larga = 22;
 
 app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
@@ -367,12 +373,13 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
   $scope.root.filter_items  = {};
   $scope.root.no_results    = false;
 
+  $scope.id_campo = {};
 
   /******************************
     load initial list of initiatives 
   ******************************/
   $scope.load_initial = function(iniciativas) {
-    $scope.root.destacados    = [];
+    $scope.root.destacados  = [];
     $scope.root.bibliotecas = [];
     $scope.root.publicos    = [];
     $scope.root.categorias  = [];
@@ -381,20 +388,23 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     var indexes     = [];
     var por_bibs    = [];
 
+    $scope.id_campo = id_campo;
+
     for (o in iniciativas) {
       var iniciativa = iniciativas[o];
-      if ( (iniciativa.hasOwnProperty('Estado')) && ( iniciativa['Estado'].contenido == "Inactivo") ) {
+
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.estado)) && (iniciativa[$scope.id_campo.estado].contenido == "Inactivo") ) {
         delete iniciativas[o];
         continue;
       }
 
-      if ((! iniciativa.hasOwnProperty('Titulo iniciativa')) || iniciativa['Titulo iniciativa'].contenido.length < 1) {
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.titulo)) && (iniciativa[$scope.id_campo.titulo].contenido.length  < 1) ) {
         delete iniciativas[o];
         continue;
       }
 
-      if ( (iniciativa.hasOwnProperty('Biblioteca')) && ( $scope.root.bibliotecas.indexOf(iniciativa['Biblioteca'].contenido) == -1) ) {
-        bib = iniciativa['Biblioteca'].contenido;
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.biblioteca)) && ($scope.root.bibliotecas.indexOf(iniciativa[$scope.id_campo.biblioteca].contenido) == -1 ) )  {
+        bib = iniciativa[$scope.id_campo.biblioteca].contenido;
         $scope.root.bibliotecas.push(bib);
         if (!(bib in por_bibs)) {
           por_bibs.push(iniciativa); 
@@ -402,16 +412,16 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
         }
       }
 
-      if ( (iniciativa.hasOwnProperty('Publicos')) && ( $scope.root.publicos.indexOf(iniciativa['Publicos'].contenido) == -1) ) {
-        pub = iniciativa['Publicos'].contenido;
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.publicos)) && ($scope.root.publicos.indexOf(iniciativa[$scope.id_campo.publicos].contenido) == -1 ) ) {
+        pub = iniciativa[$scope.id_campo.publicos].contenido;
         $scope.root.publicos.push(pub);
       }
 
-      if ( (iniciativa.hasOwnProperty('Categoría iniciativas')) && ( $scope.root.categorias.indexOf(iniciativa['Categoría iniciativas'].contenido) == -1) ) {
-        $scope.root.categorias.push(iniciativa['Categoría iniciativas'].contenido);
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.categoria)) && ($scope.root.categorias.indexOf(iniciativa[$scope.id_campo.categoria].contenido) == -1 ) ) {
+        $scope.root.categorias.push(iniciativa[$scope.id_campo.categoria].contenido);
       }
       
-      if ( (iniciativa.hasOwnProperty('Destacado') ) && (iniciativa['Destacado'].contenido == "Si") ) {
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.destacado)) && (iniciativa[$scope.id_campo.destacado].contenido == "Si" ) ) {
         $scope.root.destacados.push(iniciativa);
       }
 
@@ -570,9 +580,12 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
 app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
   $scope.iniciativa = items;
+  $scope.id_campo   = id_campo;
+
   $scope.selected = {
   //  item: $scope.items[0]
   };
+
 
   $scope.ok = function () {
     $modalInstance.close($scope.selected.item);

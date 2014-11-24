@@ -4,37 +4,37 @@ div.modal-header.i-header
 div.modal-body.i-body
   div.iniciativa.row
    div.col-md-12.col-xs-12.i-title
-     h1 {{iniciativa['Titulo iniciativa'].contenido}} 
+     h1 {{iniciativa[id_campo.titulo].contenido}} 
    div.col-md-8.col-xs-12.i-col-left
     div.i-subtitle
-      h3 {{iniciativa['Descripción breve'].contenido}}
+      h3 {{iniciativa[id_campo.desc_breve].contenido}}
     div.i-midia
-      img(src="{{iniciativa['Medio principal'].contenido}}")
+      img(src="{{iniciativa[id_campo.medio_principal].contenido}}")
    div.col-md-4.col-xs-12.i-col-right
     div.i-info(style="word-wrap: break-word")
-      div.i-subtitle
+      div.i-subtitle.i-info
         h3 Ficha de la iniciativa
-      div.i-lugar
+      div.i-lugar.i-info(ng-show="iniciativa[id_campo.espacios].contenido")
         label Espacios de la biblioteca 
-        p {{iniciativa['Espacios de la biblioteca'].contenido}}
-      div.i-categoria
+        p {{iniciativa[id_campo.espacios].contenido}}
+      div.i-categoria.i-info(ng-show="iniciativa[id_campo.categoria].contenido")
         label Categoría 
-        p {{iniciativa['Categoría iniciativas'].contenido}}
-      div.i-larga
+        p {{iniciativa[id_campo.categoria].contenido}}
+      div.i-larga.i-info(ng-show="iniciativa[id_campo.desc_larga].contenido")
         label Descripción 
-        p {{iniciativa['Descripción larga'].contenido}}
-      div.i-doc-detalle
+        p {{iniciativa[id_campo.desc_larga].contenido}}
+      div.i-doc-detalle.i-info(ng-show="iniciativa[id_campo.documentacion].contenido")
         label Documentación 
-        a(style="display: block", href="{{iniciativa['Documentacion'].contenido}}") Enlace externo
-      div.i-etiquetas
+        a(style="display: block", href="{{iniciativa[id_campo.documentacion].contenido}}") Enlace externo
+      div.i-etiquetas.i-info(ng-show="iniciativa[id_campo.etiquetas].contenido")
         label Etiquetas 
-        p {{iniciativa['Etiquetas'].contenido}}
-      div.i-responsable
-        label Responsable 
-        p {{iniciativa['Responsable'].contenido}}
-      //div.i-objetivo
-      //  {{iniciativa.objetivo}}
-      //div.i-footer
+        p {{iniciativa[id_campo.etiquetas].contenido}}
+      div.i-responsable.i-info(ng-show="iniciativa[id_campo.correo].contenido")
+        label Correo electrónico 
+        p {{iniciativa[id_campo.correo].contenido}}
+      div.i-responsable.i-info(ng-show="iniciativa[id_campo.telefono].contenido")
+        label Teléfono 
+        p {{iniciativa[id_campo.telefono].contenido}}
 
 div.modal-footer
   button.btn.btn-primary(ng-click="ok()") Cerrar 
