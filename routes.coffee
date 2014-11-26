@@ -2,6 +2,7 @@
 # Routing
 #####################################################
 Latest = require('./models/Latest').Latest
+http = require('http')
 
 handle_error = require("./utils").handle_error
 multiparty = require('multiparty')
@@ -13,10 +14,34 @@ exports.index = (req,res) ->
 exports.logout = (req, res) ->
   req.logout()
   res.redirect('/')
-###
 
 exports.dashboard = (req,res) ->
   res.render('dashboard')
+###
+
+
+wiki_options = {
+  host: 'wiki.bibliolabs.cc',
+  path: '/feed.php?type=atom2&num=5'
+}
+
+exports.get_wiki_data = (req, res) ->
+  console.log("Get RSS from wiki...")
+
+  callback = (response) ->
+    str = ''
+
+    #another chunk of data has been recieved, so append it to `str`
+    response.on('data', (chunk) ->
+      str += chunk
+    )
+
+    #the whole response has been recieved, so we just print it out here
+    response.on('end', () ->
+      console.log("RSS feed succeeded.")
+      res.status(200).send(str)
+   )
+  http.request(wiki_options, callback).end()
 
 exports.check_latest = (req,res) ->
   if (req.method != "POST") && (! req.xhr)

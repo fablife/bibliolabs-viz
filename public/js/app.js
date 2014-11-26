@@ -40,11 +40,11 @@ app.config(['$routeProvider',
       when('/agenda', {
         templateUrl: 'partials/agenda',
         controller: 'AgendaCtrl'
-      }).
-      when('/informes', {
-        templateUrl: 'admin/partials/informes',
-        controller: 'AdminCtrl'
       }).*/
+      when('/dashboard', {
+        templateUrl: 'partials/dashboard',
+        controller: 'DashboardCtrl'
+      }).
       otherwise({
         redirectTo: '/index'
       });
@@ -92,7 +92,37 @@ app.factory('ItemProvider', function($http) {
   };
 });
 
-app.controller("AgendaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
+/*************************************
+  Dashboard Controller
+************************************/
+app.controller("DashboardCtrl", function DashboardCtrl($scope, $http, ItemService, ItemProvider, $modal) {
+  $scope.root = {};
+
+  //var wiki_url = "http://wiki.bibliolabs.cc/feed.php?type=atom2&num=5";
+  var wiki_url ="/get_wiki_data";
+
+  $http.get(wiki_url).success(function(data) {
+    var x2js = new X2JS();
+    json_data = x2js.xml_str2json(data);
+    $scope.root.wiki = json_data.rss.channel;
+    console.log($scope.root.wiki);
+  }).error(function(data) {
+    console.log("Could not get RSS from wiki!");
+  });
+
+  $scope.set_item_content_visible = function(item) {
+    item['content_visible'] = true;
+    console.log(item);
+  }
+
+  $scope.show = function(item) {
+    alert(item.content_visible);
+  }
+});
+  
+
+
+app.controller("AgendaCtrl", function AgendaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
   $scope.root.filter_active = [] ;
   $scope.root.filter_items  = {};

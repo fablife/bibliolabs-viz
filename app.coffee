@@ -135,6 +135,7 @@ app.use(bodyParser())
 app.get('/', routes.index)
 #app.get('/dashboard', routes.dashboard)
 app.post('/check_latest', routes.check_latest)
+app.get('/get_wiki_data', routes.get_wiki_data)
 
 ###
 app.post '/login', (req, res, next) ->

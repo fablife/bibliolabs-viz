@@ -1,0 +1,24 @@
+div.content
+  div.row
+    div.col-md-6.dashboard-content
+      h2 Últimas actualizaciones del wiki:
+      div.item(ng-repeat="item in root.wiki.item")
+        div.item-title(ng-click="set_item_content_visible(item)")
+          label Título
+          br
+          {{item.title}} 
+        div.item-content(ng-show="item.content_visible")
+          div.item-date
+            label Fecha publicación
+            {{item.pubDate}}
+          div.item-author
+            label Autor
+            {{item.author}}
+          div.item-link
+            a(href="{{item.link}}") Enlace
+          div.item-description
+            label Descripción
+            {{item.description}}
+          div.item-category
+            label Categoría
+            {{item.category}}
