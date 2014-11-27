@@ -429,22 +429,23 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
         continue;
       }
 
-      if ( (iniciativa.hasOwnProperty($scope.id_campo.titulo)) && (iniciativa[$scope.id_campo.titulo].contenido.length  < 1) ) {
+      if ( (! iniciativa.hasOwnProperty($scope.id_campo.titulo)) || (iniciativa[$scope.id_campo.titulo].contenido.length  < 1) ) {
         delete iniciativas[o];
         continue;
       }
 
-      if ( (iniciativa.hasOwnProperty($scope.id_campo.biblioteca)) && ($scope.root.bibliotecas.indexOf(iniciativa[$scope.id_campo.biblioteca].contenido) == -1 ) )  {
+      if ( iniciativa.hasOwnProperty($scope.id_campo.biblioteca)  )  {
         bib = iniciativa[$scope.id_campo.biblioteca].contenido;
-        $scope.root.bibliotecas.push(bib);
+        if ( $scope.root.bibliotecas.indexOf(iniciativa[$scope.id_campo.biblioteca].contenido) == -1 ) {
+          $scope.root.bibliotecas.push(bib);
+        }
         if (!(bib in por_bibs_o)) {
           por_bibs_o[bib] = iniciativa;
-          $scope.root.visible_ids.push(o);
         } else {
             var ini = por_bibs_o[bib];
-            if (ini['Biblioteca'].contenido == bib) {
-              if (ini['Biblioteca']['timestamp'] < iniciativa['Biblioteca']['timestamp']) {
-                por_bibs_o[bib] = ini;
+            if (ini[$scope.id_campo.biblioteca].contenido == bib) {
+              if (ini[$scope.id_campo.biblioteca]['timestamp'] < iniciativa[$scope.id_campo.biblioteca]['timestamp']) {
+                por_bibs_o[bib] = iniciativa;
               }
             }
         }
@@ -468,7 +469,7 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     for (b in por_bibs_o) {
       var o = por_bibs_o[b];
       por_bibs.push(o);
-      $scope.root.visible_ids.push(o);
+      $scope.root.visible_ids.push(o[$scope.id_campo.biblioteca].identificador);
     }
 
     $scope.root.iniciativas = por_bibs;
@@ -481,14 +482,14 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
   $scope.check_new_items = function() {
     for (var i=0; i<$scope.root.iniciativas.length; i++) {
       var ini = $scope.root.iniciativas[i];
-      $http.post('/check_latest',{id: ini['Biblioteca'].identificador, timestamp: ini['Biblioteca'].timestamp})
+      $http.post('/check_latest',{id: ini[$scope.id_campo.biblioteca].identificador, timestamp: ini[$scope.id_campo.biblioteca].timestamp})
         .success(function(data,stat,headers,conf) {
           //check if this is a new iniciative for this library
           //200 yes is new, 304 Not Modified
           if (stat == 200) {
             for (var k=0; k<$scope.root.iniciativas.length; k++) {
               var nueva = $scope.root.iniciativas[k];
-              if (nueva['Biblioteca'].identificador == data) {
+              if (nueva[$scope.id_campo.biblioteca].identificador == data) {
                 nueva.nueva = true;
                 return;
               }

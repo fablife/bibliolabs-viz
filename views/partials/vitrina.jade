@@ -58,7 +58,7 @@ div.content
     div.col-md-12.col-xs-12(ng-show="root.no_results") 
       div.alert.alert-warning.centered(role="alert") No hay iniciativas que corresponden a tu selección de filtros!
 
-    div.col-md-3.col-xs-12(ng-repeat="iniciativa in root.iniciativas | filter:root.iniciativas.search")
+    div.col-md-3.col-xs-12(ng-repeat="iniciativa in root.iniciativas")
       div.flip-container(ontouchstart="this.classList.toggle('hover');")
         div.flipper
           div.front_content
@@ -78,5 +78,5 @@ div.content
               //-span.glyphicon.glyphicon-thumbs-up.right
           div.back_content(ng-click="show_detail(iniciativa)")
               //p helloopooooooooooooooooooo
-              p {{iniciativa[id_desc_breve].contenido }}
+              p {{iniciativa[id_campo.desc_breve].contenido }}
 
