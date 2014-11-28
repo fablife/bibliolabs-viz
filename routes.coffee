@@ -30,6 +30,53 @@ mg_options = {
   path: '/atom/'
 }
 
+airtime_options = {
+  host: 'radio.bibliolabs.cc',
+  path: '/api/live-info?type=endofday'
+}
+
+sympa_options = {
+  host: 'listas.bibliolabs.cc',
+  path: '/wws/rss/latest_arc/bibliolabs?for=3&count=6'
+}
+
+exports.get_sympa_data = (req, res) ->
+  console.log("Get RSS from Sympa...")
+
+  callback = (response) ->
+    str = ''
+
+    #another chunk of data has been recieved, so append it to `str`
+    response.on('data', (chunk) ->
+      str += chunk
+    )
+
+    #the whole response has been recieved, so we just print it out here
+    response.on('end', () ->
+      console.log("RSS feed succeeded.")
+      res.status(200).send(str)
+   )
+  http.request(sympa_options, callback).end()
+
+exports.get_airtime_data = (req, res) ->
+  console.log("Get latest from Airtime...")
+
+  callback = (response) ->
+    str = ''
+
+    #another chunk of data has been recieved, so append it to `str`
+    response.on('data', (chunk) ->
+      str += chunk
+    )
+
+    #the whole response has been recieved, so we just print it out here
+    response.on('end', () ->
+      console.log("RSS feed succeeded.")
+      res.status(200).send(str)
+   )
+  http.request(airtime_options, callback).end()
+
+
 exports.get_wiki_data = (req, res) ->
   console.log("Get RSS from wiki...")
 

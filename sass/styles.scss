@@ -251,3 +251,21 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 .appear.ng-hide {
   opacity:0;
 }
+
+.latest-panel {
+  position: absolute;
+  right: 0;
+  float: right;
+  top: 0;
+  width: 400px;
+  color: $main_blue;
+}
+
+.streaming-radio {
+  padding: 0 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 380px;
+  color: $main_blue;
+}
