@@ -181,19 +181,24 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 
 .navigation {
   margin: 0 auto;
-  width: 700px;
+  width: 600px;
   height: 400px;
+  overflow: hidden;
+}
+
+a.anim_title {
+  font-size: 16px !important;
 }
 
 .viz-item {
-  height: 240px;
+  height: 80px;
 }
 
 .second_middle {
   text-align: center;
   padding: 40px 0;
   border-radius: 50%;
-  border: 3px solid $main_blue;
+  border: 1px solid $main_blue;
   background-color: $aqua; 
 }
 
@@ -240,7 +245,7 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
   padding: 20px;
   vertical-align: middle;
   text-align: center;
-  border: 3px solid $aqua;
+  border: 1px solid $aqua;
 }
 
 .appear.ng-hide-add,
@@ -257,8 +262,9 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
   right: 0;
   float: right;
   top: 0;
-  width: 400px;
+  width: 20%;
   color: $main_blue;
+  font-size: 0.8em;
 }
 
 .streaming-radio {
@@ -266,6 +272,7 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
   position: absolute;
   left: 0;
   top: 0;
-  width: 380px;
+  width: 20%;
   color: $main_blue;
+  font-size: 0.8em;
 }

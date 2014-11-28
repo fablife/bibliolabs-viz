@@ -1,6 +1,3 @@
-div.root_content
-  &nbsp;
-div.navigation
   div.row
     div.viz-item.first_top.col-xs-4.col-sm-4.col-md-4
       div.appear(ng-show="show_viz_items")
@@ -20,54 +17,34 @@ div.navigation
         a.anim_title(href="#/tools") ecosistema software libre bibliolabs 
     div.viz-item.third_bottom.col-xs-4.col-sm-4.col-md-4&nbsp;
       //a.anim_title.appear(ng-show="show_viz_items", href="#") ecosistema software libre bibliolabs 
-div.streaming-radio
-  h2.top bibliolabs correos
-  div.dashboard-wrapper
-        div.dashboard-content
-          h4.top.inline
-            a Últimos correos de la lista
-          div.item(ng-repeat="item in root.sympa.item") 
-            div.item-title
-              div.item-title-content{{item.title}} 
-            div.item-date
-              label.item-label Fecha publicación
-              {{item.pubDate}}
-            div.item-link
-              a(href="{{item.link}}") Leer correo 
 
-  h4.top Radio bibliolabs en vivo:
-  audio(controls, autoplay="autoplay")
-    source(src="http://radio.bibliolabs.cc:8000/emisora.mp3", type="audio/mp3") 
-  div(ng-bind="airtime")
-  div(ng-show="no_show")
-    p La radio no está transmitiendo al momento.
-
-div.latest-panel
-  h2.top bibliolabs feed
-  div.dashboard-wrapper
-        div.dashboard-content
-          h4.top.inline
-            a(href="http://wiki.bibliolabs.cc", style="margin-left: 5px") Wiki 
-          div.item(ng-repeat="item in root.wiki.item", ng-click="set_item_content_visible(item)") 
-            div.item-title
-              div.item-title-content{{item.title}} 
-              div.glyphaction.glyphicon.glyphicon-eye-open(aria-hidden="true")
-            div.item-date
-              label.item-label Fecha publicación
-              {{item.pubDate}}
-            div.item-content(ng-show="item.content_visible")
-              div.item-author
-                label.item-label Autor
-                {{item.author}}
-              div.item-link
-                label.item-label Enlace 
-                a(href="{{item.link}}") Abrir 
-              div.item-description
-                label.item-label Descripción
-                {{item.description}}
-              div.item-category
-                label.item-label Categoría
-                {{item.category}}
+//
+  div.latest-panel
+    h2.top bibliolabs feed
+    div.dashboard-wrapper
+          div.dashboard-content
+            h4.top.inline
+              a(href="http://wiki.bibliolabs.cc", style="margin-left: 5px") Wiki 
+            div.item(ng-repeat="item in root.wiki.item", ng-click="set_item_content_visible(item)") 
+              div.item-title
+                div.item-title-content{{item.title}} 
+                div.glyphaction.glyphicon.glyphicon-eye-open(aria-hidden="true")
+              div.item-date
+                label.item-label Fecha publicación
+                {{item.pubDate}}
+              div.item-content(ng-show="item.content_visible")
+                div.item-author
+                  label.item-label Autor
+                  {{item.author}}
+                div.item-link
+                  label.item-label Enlace 
+                  a(href="{{item.link}}") Abrir 
+                div.item-description
+                  label.item-label Descripción
+                  {{item.description}}
+                div.item-category
+                  label.item-label Categoría
+                  {{item.category}}
 
   div.dashboard-wrapper
       div.dashboard-content
