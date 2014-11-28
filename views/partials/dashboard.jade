@@ -1,6 +1,14 @@
 div.content
   h1.top.centered Actividad reciente en bibliolabs
   div.row
+    div.col-xs-6
+      h2.top Radio bibliolabs en vivo:
+      audio(controls, autoplay="autoplay")
+        source(src="http://radio.bibliolabs.cc:8000/emisora.mp3", type="audio/mp3") 
+      div(ng-bind="airtime")
+      div(ng-show="no_show")
+        //p La radio no está transmitiendo al momento.
+
     div.col-md-6
       div.dashboard-wrapper
         div.dashboard-content
@@ -27,6 +35,23 @@ div.content
                 label.item-label Categoría
                 {{item.category}}
 
+
+  div.row
+    div.col-xs-6
+      h2.top bibliolabs correos
+      div.dashboard-wrapper
+        div.dashboard-content
+          h4.top.inline
+            //a Últimos correos de la lista
+          div.item(ng-repeat="item in root.sympa.item") 
+            div.item-title
+              div.item-title-content{{item.title}} 
+            div.item-date
+              label.item-label Fecha publicación
+              {{item.pubDate}}
+            div.item-link
+              a(href="{{item.link}}") Leer correo 
+
     div.col-md-6.dashboard-wrapper
       div.dashboard-content
         h2.top.inline
@@ -45,25 +70,3 @@ div.content
             div.item-link
               label.item-label Enlace 
               a(href="{{item.link._href}}") Abrir 
-
-div.streaming-radio
-  h2.top bibliolabs correos
-  div.dashboard-wrapper
-        div.dashboard-content
-          h4.top.inline
-            a Últimos correos de la lista
-          div.item(ng-repeat="item in root.sympa.item") 
-            div.item-title
-              div.item-title-content{{item.title}} 
-            div.item-date
-              label.item-label Fecha publicación
-              {{item.pubDate}}
-            div.item-link
-              a(href="{{item.link}}") Leer correo 
-
-  h4.top Radio bibliolabs en vivo:
-  audio(controls, autoplay="autoplay")
-    source(src="http://radio.bibliolabs.cc:8000/emisora.mp3", type="audio/mp3") 
-  div(ng-bind="airtime")
-  div(ng-show="no_show")
-    p La radio no está transmitiendo al momento.

@@ -220,55 +220,6 @@ app.controller("InicioCtrl", function InicioCtrl($scope, $http ) {
       $scope.show_viz_items = true;
     }
   }
-  var wiki_url ="/get_wiki_data";
-  var mg_url ="/get_mg_data";
-
-  $http.get(wiki_url).success(function(data) {
-    var x2js = new X2JS();
-    json_data = x2js.xml_str2json(data);
-    $scope.root.wiki = json_data.rss.channel;
-  }).error(function(data) {
-    console.log("Could not get RSS from wiki!");
-  });
-
-  $http.get(mg_url).success(function(data) {
-    var x2js = new X2JS();
-    json_data = x2js.xml_str2json(data);
-    $scope.root.mg = json_data.feed;
-  }).error(function(data) {
-    console.log("Could not get RSS from Mediagoblin!");
-  });
-
-  $http.get("/get_sympa_data").success(function(data) {
-    var x2js = new X2JS();
-    json_data = x2js.xml_str2json(data);
-    $scope.root.sympa = json_data.rss.channel;
-  }).error(function(data) {
-    console.log("Could not get RSS from Sympa!");
-  });
-
-  $scope.set_item_content_visible = function(item) {
-    if (item['content_visible'] == false) {
-      item['content_visible'] = true;
-    } else {
-      item['content_visible'] = false;
-    } 
-  }
-
-  $scope.get_fecha = function(rawdate) {
-    return new Date(rawdate).toLocaleString();
-  }
-
-  $http.get("/get_airtime_data").
-    success(function(data) {
-    if (data.currentShow.length > 0 || data.nextShow.length > 0) {
-      $scope.airtime = data;
-    } else {
-      $scope.no_show = true;
-    }
-  }).error(function(data) {
-    console.log("Error getting show data from airtime");
-  })
 });
 
 /*************************************
@@ -304,6 +255,37 @@ app.controller("DashboardCtrl", function DashboardCtrl($scope, $http ) {
       item['content_visible'] = false;
     } 
   }
+
+  $http.get("/get_sympa_data").success(function(data) {
+    var x2js = new X2JS();
+    json_data = x2js.xml_str2json(data);
+    $scope.root.sympa = json_data.rss.channel;
+  }).error(function(data) {
+    console.log("Could not get RSS from Sympa!");
+  });
+
+  $scope.set_item_content_visible = function(item) {
+    if (item['content_visible'] == false) {
+      item['content_visible'] = true;
+    } else {
+      item['content_visible'] = false;
+    } 
+  }
+
+  $scope.get_fecha = function(rawdate) {
+    return new Date(rawdate).toLocaleString();
+  }
+
+  $http.get("/get_airtime_data").
+    success(function(data) {
+    if (data.currentShow.length > 0 || data.nextShow.length > 0) {
+      $scope.airtime = data;
+    } else {
+      $scope.no_show = true;
+    }
+  }).error(function(data) {
+    console.log("Error getting show data from airtime");
+  })
 
   $scope.show = function(item) {
 //    alert(item.content_visible);
