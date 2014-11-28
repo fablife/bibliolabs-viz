@@ -1,21 +1,29 @@
 div.content
   div( ng-controller="CarouselIniciativasCtrl")
     div
-      carousel.content( interval="myInterval")
-        div.carousel_title
-          h1.top.centered Descubre las iniciativas de nuestras bibliotecas!
-        slide(ng-repeat="iniciativa in root.destacados" active="iniciativa.active")
-          img(ng-src="{{iniciativa[$scope.id_campo.medio_principal].contenido}}" style="margin:auto;")
-          div.carousel-caption
-            h4 {{iniciativa['Titulo iniciativa'].contenido}}
-            //p  {{iniciativa['Descripción breve'].contenido}}
+      //
+        carousel.content( interval="myInterval")
+          div.carousel_title
+            h1.top.centered Descubre las iniciativas de nuestras bibliotecas!
+          slide(ng-repeat="iniciativa in root.destacados" active="iniciativa.active")
+            img(ng-src="{{iniciativa[$scope.id_campo.medio_principal].contenido}}" style="margin:auto;")
+            div.carousel-caption
+              h4 {{iniciativa['Titulo iniciativa'].contenido}}
+              //p  {{iniciativa['Descripción breve'].contenido}}
+      div.panel.panel-success
+        div.panel-heading
+          h1.panel-title.centered ¡Descubre las iniciativas de nuestras bibliotecas!
+        div.panel-body
+          div.viz-intro
+            p.centered Esta es una visualización de las iniciativas de las bibliotecas del Sistema de Bibliotecas Públicas de Medellín SBPM.
+            p.centered Cada biblioteca tiene sus propias iniciativas. Esta visualización permite navegar por todas las iniciativas. Se puede filtrar por biblioteca, público y/o categoría.
 
   div.area_filtros.panel.panel-info
     div.panel-body
       div.col-md-3
         h4.right.inline Filtrar 
           a.inline.small_text(ng-show="root.filter_active" ng-click="reset_filters()") Limpiar filtros 
-      div.col-md-3
+      div.col-md-3.col-xs-3
         div.filter-button-group.btn-group(dropdown)
           button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Por Biblioteca 
             span.caret
@@ -28,7 +36,7 @@ div.content
             span(aria-hidden="true") &times;
             span.sr-only Close
 
-      div.col-md-3
+      div.col-md-3.col-xs-3
         div.filter-button-group.btn-group(dropdown)
           button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Por Público 
             span.caret
@@ -41,7 +49,7 @@ div.content
             span(aria-hidden="true") &times;
             span.sr-only Close
 
-      div.col-md-3
+      div.col-md-3.col-xs-3
         div.filter-button-group.btn-group(dropdown)
           button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Por Categoría 
             span.caret
@@ -58,13 +66,13 @@ div.content
     div.col-md-12.col-xs-12(ng-show="root.no_results") 
       div.alert.alert-warning.centered(role="alert") No hay iniciativas que corresponden a tu selección de filtros!
 
-    div.col-md-3.col-xs-12(ng-repeat="iniciativa in root.iniciativas")
+    div.col-md-3.col-xs-6(ng-repeat="iniciativa in root.iniciativas")
       div.flip-container(ontouchstart="this.classList.toggle('hover');")
         div.flipper
           div.front_content
            div.initiative(ng-class="{nueva: iniciativa.nueva}")
             div.item_title {{iniciativa[id_campo.titulo].contenido }}
-            div.thumbnail(ng-click="show_detail(iniciativa)")
+            div.thumbnail
               img(src="{{iniciativa[id_campo.portada].contenido}}" title="{{iniciativa[id_campo.titulo].contenido}}")
             div.actions
               div.biblioteca
@@ -76,7 +84,8 @@ div.content
                 //span.right {{iniciativa['Categoria'].contenido }}
               //-span.glyphicon.glyphicon-comment.left
               //-span.glyphicon.glyphicon-thumbs-up.right
-          div.back_content(ng-click="show_detail(iniciativa)")
-              //p helloopooooooooooooooooooo
+          div.back_content
+            div.back-panel
               p {{iniciativa[id_campo.desc_breve].contenido }}
+              a(ng-click="show_detail(iniciativa)") Ver detalles
 

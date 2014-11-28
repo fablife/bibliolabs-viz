@@ -33,7 +33,15 @@ function getDocHeight() {
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/index', {
+      when('/inicio', {
+        templateUrl: 'partials/inicio',
+        controller: 'InicioCtrl'
+      }).
+      when('/tools', {
+        templateUrl: 'partials/tools',
+        controller: 'ToolsCtrl'
+      }).
+      when('/vitrina', {
         templateUrl: 'partials/vitrina',
         controller: 'VitrinaCtrl'
       })./*
@@ -46,7 +54,7 @@ app.config(['$routeProvider',
         controller: 'DashboardCtrl'
       }).
       otherwise({
-        redirectTo: '/index'
+        redirectTo: '/inicio'
       });
 }]);
 
@@ -93,30 +101,162 @@ app.factory('ItemProvider', function($http) {
 });
 
 /*************************************
+  Tools Controller
+************************************/
+app.controller("ToolsCtrl", function Tools($scope, $http ) {
+
+  $scope.root = {};
+  mg = {
+    title: "Gestor de contenidos mediáticos mediagoblin",
+    desc: "Sirve para gestionar audio, video, photos. Es un híbrido entre un flickr y un youtube - pero con software libre.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:infraestructura:manuales:mediagoblin",
+    link: "http://media.bibliolabs.cc",
+    thumb: "/images/mediagoblin.png",
+    vendor_link: "http://mediagoblin.org"
+  };
+  sympa = {
+    title: "Lista de correo sympa",
+    desc: "Sirve para la interacción por correo electrónico entre los participantes. Cada participante puede escribir un correo a la lista, cada participante recibe todos los correos de la lista",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:infraestructura:manuales:sympa",
+    link: "http://listas.bibliolabs.cc",
+    thumb: "/images/sympa.png",
+    vendor_link: "http://www.sympa.org"
+  };
+  limesurvey = {
+    title: "Herramienta de encuestas LimeSurvey",
+    desc: "Herramienta para encuestas. La usamos para recopilar la retroalimentación (evaluación) de los talleres por los participantes. Contiene herramientas de estadísticas y visualización de los resultados.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:infraestructura:manuales:limesurvey",
+    thumb: "/images/limesurvey.png",
+    link: "http://www.bibliolabs.cc/encuestas/",
+    vendor_link: "http://www.limesurvey.org/"
+  };
+  hotglue = {
+    title: "Constructor de páginas web hotglue",
+    desc: "Hotglue es un entorno para la creación rápida de páginas web sin necesidad de conocimiento de programación.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:instructivos:hotglue",
+    //link: "http://hotglue.bibliolabs.cc/",
+    link: "http://wiki.bibliolabs.cc/tdcayc:talleres:resultados:hotglue",
+    thumb: "/images/hotglue.png",
+    vendor_link: "http://hotglue.me/"
+  };
+  wiki = {
+    title: "Wiki (Dokuwiki)",
+    desc: "La wiki es la herramienta principal de gestión de conocimiento para el proyecto. Wikipedia está construida sobre un wiki. En bibliolabs usamos dokuwiki, pero comunicando los mismos conceptos básicos de uso y edición de un wiki.",
+    manual: "http://www.dokuwiki.org/",
+    link: "http://wiki.bibliolabs.cc",
+    thumb: "/images/dokuwiki.png",
+    vendor_link: "http://www.dokuwiki.org"
+  };
+  etherpad = {
+    title: "Edición colaborativa de texto en tiempo real Etherpad",
+    desc: "Etherpad s una herramienta de edición colaborativa en tiempo real de texto, con elemento de chat adicional. Es muy valiosa esta herramienta por permitir la creación de texto por múltiples personas al mismo tiempo de forma colaborativa.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:instructivos:pad",
+    link: "http://pad.bibliolabs.cc",
+    thumb: "/images/etherpad.png",
+    vendor_link: "http://etherpad.org/"
+  };
+  ethercalc = {
+    title: "Edición colaborativa de hoja de cálculo Ethercalc ",
+    desc: "Ethercalc es una herramienta para crear tablas de manera colaborativa: permite varios usuarios conectados, ediciones simultaneas o exportar el documento a diferentes formatos. Es muy interesante para el trabajo en grupo.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:instructivos:ethercalc",
+    link: "http://calc.bibliolabs.cc",
+    thumb: "/images/ethercalc.png",
+    vendor_link: "https://ethercalc.org"
+  };
+  icecast = {
+    title: "Streaming Icecast",
+    desc: "Icecast es una plataforma que sirve para hacer 'Streaming' (transmisión) de Audio y Video en tiempo real.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:infraestructura:manuales:icecast",
+    link: "http://radio.bibliolabs.cc:8000",
+    thumb: "/images/icecast.jpg",
+    vendor_link: "http://icecast.org/"
+  };
+  owncloud = {
+    title: "Gestión de documentos owncloud",
+    desc: "Permite gestionar archivos de todo tipo y sincronizarlos con diferentes dispositivos. Puede entenderse como una nube privada para almacenar datos y puede ser útil para el manejo de archivos compartidos entre las bibliotecas.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:infraestructura:manuales:owncloud",
+    link: "https://nube.bibliolabs.cc/",
+    thumb: "/images/owncloud.png",
+    vendor_link: "https://owncloud.org"
+  };
+  airtime = {
+    title: "Control de emisión de radio Airtime",
+    desc: "Airtime es un sistema de control para emisoras virutales, permite dejar listas de reproduccion programadas y hacer programas en vivo. Se puede conectar con nuestro propio icecast o con otro servidor.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:infraestructura:manuales:airtime",
+    link: "https://radio.bibliolabs.cc",
+    thumb: "/images/airtime.png",
+    vendor_link: "https://www.sourcefabric.org/en/airtime/"
+  };
+  meet = {
+    title: "Videoconferencia MEET (JITSI) ",
+    desc: "MEET (JITSI) es una plataforma para realizar video conferencias sin requerir un registro. Por ahora esta en modo experimental y solo funciona en google chrome. https://meet.bibliolabs.cc (Guia de Uso)",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:infraestructura:manuales:airtime",
+    link: "https://meet.bibliolabs.cc",
+    thumb: "/images/jitsi.png",
+    vendor_link: "https://jitsi.org/Projects/JitsiMeet"
+  };
+  milfs = {
+    title: "Gestor de información MILFS",
+    desc: "MILFS es una aplicación para la captura de datos de forma ágil. A priori es un sistema de gestión de formularios personalizados. pero también procesa la información por su semántica, prermitiendo una posterior interpretación.",
+    manual: "http://wiki.bibliolabs.cc/tdcayc:infraestructura:manuales:milfs",
+    link: "http://www.bibliolabs.cc/milfs",
+    thumb: "/images/milfs.png",
+    vendor_link: "https://github.com/humano/milfs"
+  };
+
+  $scope.root.tools = [wiki,mg,icecast,etherpad,ethercalc,airtime,limesurvey,hotglue,owncloud,sympa,meet,milfs];
+  
+});
+/*************************************
+  Inicio Controller
+************************************/
+app.controller("InicioCtrl", function InicioCtrl($scope, $http ) {
+  $scope.root = {};
+  $scope.show_viz_items = false;
+
+  $scope.show_items = function() {
+    if ($scope.show_viz_items == false) {
+      $scope.show_viz_items = true;
+    }
+  }
+});
+
+/*************************************
   Dashboard Controller
 ************************************/
-app.controller("DashboardCtrl", function DashboardCtrl($scope, $http, ItemService, ItemProvider, $modal) {
+app.controller("DashboardCtrl", function DashboardCtrl($scope, $http ) {
   $scope.root = {};
 
   //var wiki_url = "http://wiki.bibliolabs.cc/feed.php?type=atom2&num=5";
   var wiki_url ="/get_wiki_data";
+  var mg_url ="/get_mg_data";
 
   $http.get(wiki_url).success(function(data) {
     var x2js = new X2JS();
     json_data = x2js.xml_str2json(data);
     $scope.root.wiki = json_data.rss.channel;
-    console.log($scope.root.wiki);
   }).error(function(data) {
     console.log("Could not get RSS from wiki!");
   });
 
+  $http.get(mg_url).success(function(data) {
+    var x2js = new X2JS();
+    json_data = x2js.xml_str2json(data);
+    $scope.root.mg = json_data.feed;
+  }).error(function(data) {
+    console.log("Could not get RSS from Mediagoblin!");
+  });
+
   $scope.set_item_content_visible = function(item) {
-    item['content_visible'] = true;
-    console.log(item);
+    if (item['content_visible'] == false) {
+      item['content_visible'] = true;
+    } else {
+      item['content_visible'] = false;
+    } 
   }
 
   $scope.show = function(item) {
-    alert(item.content_visible);
+//    alert(item.content_visible);
   }
 });
   

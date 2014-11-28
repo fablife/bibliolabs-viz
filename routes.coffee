@@ -25,6 +25,11 @@ wiki_options = {
   path: '/feed.php?type=atom2&num=5'
 }
 
+mg_options = {
+  host: 'media.bibliolabs.cc',
+  path: '/atom/'
+}
+
 exports.get_wiki_data = (req, res) ->
   console.log("Get RSS from wiki...")
 
@@ -42,6 +47,24 @@ exports.get_wiki_data = (req, res) ->
       res.status(200).send(str)
    )
   http.request(wiki_options, callback).end()
+
+exports.get_mg_data = (req, res) ->
+  console.log("Get RSS from mediagoblin...")
+
+  callback = (response) ->
+    str = ''
+
+    #another chunk of data has been recieved, so append it to `str`
+    response.on('data', (chunk) ->
+      str += chunk
+    )
+
+    #the whole response has been recieved, so we just print it out here
+    response.on('end', () ->
+      console.log("RSS feed succeeded.")
+      res.status(200).send(str)
+   )
+  http.request(mg_options, callback).end()
 
 exports.check_latest = (req,res) ->
   if (req.method != "POST") && (! req.xhr)

@@ -1,0 +1,34 @@
+div.content
+  div.panel.panel-success
+    div.panel-heading
+      h1.top.centered Listado de herramientas bibliolabs
+    div.panel-body 
+      div.viz-intro
+        p.centered.inline En bibliolabs hemos apuntado al &nbsp;
+        h3.inline software libre &nbsp;
+        p.inline para la gestión de los contenidos y del conocimiento del Sistema de Bibliotecas Públicas de Medellin &nbsp;
+        a.inline(href="http://www.reddebibliotecas.org.co") SBPM &nbsp;
+        p.centered Esta página alista todas las herramientas que hemos implementado y describe para qué se están usando
+    
+  div.tool-list.row
+    div.col-md-3.col-xs-12(ng-repeat="tool in root.tools")
+      div.tool-container(ontouchstart="this.classList.toggle('hover');")
+        div.tool-flipper
+          div.tool-front_content
+            div.tool
+              div.tool-title {{tool.title}} 
+              div.thumbnail
+               img(src="{{tool.thumb}}" title="{{tool.title}}")
+          div.tool-back_content
+            div.tool-panel
+              div.description {{tool.desc}} 
+
+              div.tool-links
+                div.link.tool-link
+                  a(href="{{ tool.link }}", target="_blank") Enlace a la aplicación 
+
+                div.manual.tool-link
+                  a(href="{{tool.manual}}", target="_blank") Guía de uso 
+              
+                div.vendor-link.tool-link
+                  a(href="{{ tool.vendor_link}}", target="_blank") Sitio de la herramienta

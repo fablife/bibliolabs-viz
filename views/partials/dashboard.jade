@@ -1,24 +1,47 @@
 div.content
+  h1.top.centered Actividad reciente en bibliolabs
   div.row
-    div.col-md-6.dashboard-content
-      h2 Últimas actualizaciones del wiki:
-      div.item(ng-repeat="item in root.wiki.item")
-        div.item-title(ng-click="set_item_content_visible(item)")
-          label Título
-          br
-          {{item.title}} 
-        div.item-content(ng-show="item.content_visible")
+    div.col-md-6
+      div.dashboard-wrapper
+        div.dashboard-content
+          h2.top.inline
+            a(href="http://wiki.bibliolabs.cc", style="margin-left: 5px") Wiki 
+          div.item(ng-repeat="item in root.wiki.item")
+            div.item-title(ng-click="set_item_content_visible(item)") 
+              div.item-title-content{{item.title}} 
+              div.glyphaction.glyphicon.glyphicon-eye-open(aria-hidden="true")
+            div.item-date
+              label.item-label Fecha publicación
+              {{item.pubDate}}
+            div.item-content(ng-show="item.content_visible")
+              div.item-author
+                label.item-label Autor
+                {{item.author}}
+              div.item-link
+                label.item-label Enlace 
+                a(href="{{item.link}}") Abrir 
+              div.item-description
+                label.item-label Descripción
+                {{item.description}}
+              div.item-category
+                label.item-label Categoría
+                {{item.category}}
+
+    div.col-md-6.dashboard-wrapper
+      div.dashboard-content
+        h2.top.inline
+          a(href="http://wiki.bibliolabs.cc", style="margin-left: 5px") Mediagoblin 
+        div.item(ng-repeat="item in root.mg.entry")
+          div.item-title(ng-click="set_item_content_visible(item)") 
+            div.item-title-content{{item.title.__text}} 
+            div.glyphaction.glyphicon.glyphicon-eye-open(aria-hidden="true")
           div.item-date
-            label Fecha publicación
-            {{item.pubDate}}
-          div.item-author
-            label Autor
-            {{item.author}}
-          div.item-link
-            a(href="{{item.link}}") Enlace
-          div.item-description
-            label Descripción
-            {{item.description}}
-          div.item-category
-            label Categoría
-            {{item.category}}
+            label.item-label Fecha publicación
+            {{item.updated}}
+          div.item-content(ng-show="item.content_visible")
+            div.item-author
+              label.item-label Autor
+              {{item.author.name}}
+            div.item-link
+              label.item-label Enlace 
+              a(href="{{item.link._href}}") Abrir 

@@ -1,0 +1,24 @@
+div.root_content
+  &nbsp;
+div.navigation
+  div.row
+    div.viz-item.first_top.col-xs-4.col-sm-4.col-md-4
+      div.appear(ng-show="show_viz_items")
+        a.anim_title(href="#/vitrina") Visualización iniciativas bibliotecas
+    div.viz-item.second_top.col-xs-4.col-sm-4.col-md-4 &nbsp;
+    div.viz-item.third_top.col-xs-4.col-sm-4.col-md-4
+      a.anim_title.appear(ng-show="show_viz_items", href="#") Visualización mapas
+  div.row
+    div.viz-item.first_middle.col-xs-4.col-sm-4.col-md-4&nbsp;
+    div.second_middle.col-xs-4.col-sm-4.col-md-4(ng-class="show_viz_items? '' : 'pulse' ")
+      img(src='/images/bibliolabs.png', title="Bibliolabs", ng-mouseenter="show_items()")
+    div.viz-item.third_middle.col-xs-4.col-sm-4.col-md-4&nbsp;
+  div.row
+    div.viz-item.first_bottom.col-xs-4.col-sm-4.col-md-4&nbsp;
+      div.appear(ng-show="show_viz_items")
+        a.anim_title(href="#/tools") ecosistema software libre bibliolabs 
+    div.viz-item.second_bottom.col-xs-4.col-sm-4.col-md-4&nbsp;
+    div.viz-item.third_bottom.col-xs-4.col-sm-4.col-md-4&nbsp;
+      //a.anim_title.appear(ng-show="show_viz_items", href="#") ecosistema software libre bibliolabs 
+
+    
