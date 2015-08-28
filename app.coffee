@@ -105,6 +105,14 @@ app.use(express.static(__dirname + '/public'))
 app.use('/bower_components',  express.static(__dirname + '/bower_components'))
 app.use(flash())
 app.use(bodyParser())
+
+###
+app.use((req, res, next) ->
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next()
+)
+###
 #  app.use(passport.initialize())
 #  app.use(passport.session())
 
@@ -139,6 +147,9 @@ app.get('/get_wiki_data', routes.get_wiki_data)
 app.get('/get_mg_data', routes.get_mg_data)
 app.get('/get_airtime_data', routes.get_airtime_data)
 app.get('/get_sympa_data', routes.get_sympa_data)
+#app.get('/get_api_data', routes.get_api_data)
+app.get('/pdt', routes.pdt)
+app.get('/activities/:id', routes.get_activity)
 
 ###
 app.post '/login', (req, res, next) ->

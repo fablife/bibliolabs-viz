@@ -7,6 +7,7 @@
 @import 'colors';
 @import 'typography';
 @import 'iniciativa';
+@import 'actividad';
 @import 'flipper';
 @import 'dashboard';
 @import 'tools';
@@ -138,6 +139,10 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 
 .right {
   float: right;
+}
+
+.left {
+  float: left;
 }
 
 .carousel-inner {

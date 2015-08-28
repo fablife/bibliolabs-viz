@@ -1,0 +1,151 @@
+div.modal-header.i-header
+  //-h3.modal-title Detalle de la iniciativa {{iniciativa.nombre}} 
+  h3.modal-title Detalle de la actividad 
+div.modal-body.i-body
+  div.iniciativa.row
+   div.col-md-12.col-xs-12.i-title
+     h1 {{iniciativa[id_campo.actividad].contenido}} 
+   div.col-md-8.col-xs-12.i-col-left
+    div.i-subtitle
+      h3 {{iniciativa[id_campo.biblioteca].contenido}}
+    div.i-midia
+      img(src="{{iniciativa[id_campo.imagen].contenido}}")
+    div.i-biblioteca
+      p {{iniciativa[id_campo.descripcion].contenido}} 
+    div.objectivos
+      label Objetivos específicos 
+      p {{iniciativa[id_campo.objetivos].contenido}} 
+    div.justificacion
+      label Justificación
+      p {{iniciativa[id_campo.justificacion].contenido}} 
+    div.antiguedad
+      label Antigüedad de la actividad
+      p {{iniciativa[id_campo.antiguedad].contenido}} 
+    div.origen
+      label Origen de la actividad
+      p {{iniciativa[id_campo.origen].contenido}} 
+    div.iniciativa
+      label Iniciativa a la que pertenece
+      p {{iniciativa[id_campo.iniciativa].contenido}} 
+    hr
+    div.aporte
+      label Aporte a acceso a formación para el desarrollo humano integral 
+      p {{iniciativa[id_campo.aporte_acceso].contenido}} 
+    div.i-categoria.i-info
+        label En que categoría de formación? 
+        p {{iniciativa[id_campo.categoria].contenido}}
+    div.aporte
+      label Aporte a acceso a información pertinente con el territorio  
+      p {{iniciativa[id_campo.aporte_info].contenido}} 
+    div.aporte
+      label Aporte a espacios de encuentro acogedores e incluyentes 
+      p {{iniciativa[id_campo.aporte_espacios].contenido}} 
+    div.aporte
+      label En que categoría de espacios acogedores? 
+      p {{iniciativa[id_campo.cat_espacios].contenido}} 
+    div.aporte
+      label Aporte a fomento a la innovación colaborativa 
+      p {{iniciativa[id_campo.aporte_fomento].contenido}} 
+    div.aporte
+      label Aporte a incidencia e intercambio en el conocimiento
+      p {{iniciativa[id_campo.aporte_incidencia].contenido}} 
+    div.aporte
+      label En que nivel de incidencia e intercambio en el conocimiento?  
+      p {{iniciativa[id_campo.nivel_incidencia].contenido}} 
+
+   div.col-md-4.col-xs-12.i-col-right
+    div.i-info(style="word-wrap: break-word")
+      div.i-subtitle.i-info
+        h3 Ficha de la iniciativa
+      div.i-lugar.i-info
+        label Áreas o canales 
+        p {{iniciativa[id_campo.canales].contenido}}
+      div.i-lugar.i-info
+        label Como aporta cada canal o área seleccionada? 
+        p {{iniciativa[id_campo.aporte_canal].contenido}}
+      div.i-lugar.i-info
+        label Planeación de la actividad 
+        p {{iniciativa[id_campo.planeacion].contenido}}
+      div.i-lugar.i-info
+        label Públicos
+        p {{iniciativa[id_campo.publicos].contenido}}
+      div.i-lugar.i-info
+        label Públicos por tipo
+        p {{iniciativa[id_campo.publicos_tipo].contenido}}
+      div.i-lugar.i-info
+        label Que otros públicos? 
+        p {{iniciativa[id_campo.otros_publicos].contenido}}
+      div.i-lugar.i-info
+        label Barrios de influencia 
+        p {{iniciativa[id_campo.barrios].contenido}}
+      div.i-lugar.i-info
+        label Comuna de influencia 
+        p {{iniciativa[id_campo.comuna].contenido}}
+      div.i-lugar.i-info
+        label Detalle barrios de influencia 
+        p {{iniciativa[id_campo.detalle_barrios].contenido}}
+      //-div.i-lugar.i-info(ng-show="iniciativa[id_campo.fecha2015].contenido")
+      div.i-lugar.i-info
+        label Fecha de inicio en 2015 
+        p {{iniciativa[id_campo.fecha2015].contenido}}
+      div.i-lugar.i-info
+        label Duración 
+        p {{iniciativa[id_campo.duracion].contenido}}
+      div.i-lugar.i-info
+        label Días de ejecución
+        p {{iniciativa[id_campo.dias_ejecucion].contenido}}
+      div.i-lugar.i-info
+        label Frecuencia de la actividad 
+        p {{iniciativa[id_campo.frecuencia].contenido}}
+      div.i-lugar.i-info
+        label Horario 
+        p {{iniciativa[id_campo.horario].contenido}}
+      div.i-doc-detalle.i-info
+        label Documentación 
+        a(style="display: block", href="{{iniciativa[id_campo.documentacion].contenido}}") Enlace externo
+      div.i-doc-detalle.i-info
+        label Meta actividades 
+        p {{iniciativa[id_campo.meta_actividades].contenido}}
+      div.i-doc-detalle.i-info
+        label Meta beneficiarios únicos 
+        p {{iniciativa[id_campo.meta_beneficiarios].contenido}}
+      div.i-doc-detalle.i-info
+        label Meta productos 
+        p {{iniciativa[id_campo.meta_productos].contenido}}
+      div.i-doc-detalle.i-info
+        label Ejecución conjunta? 
+        p {{iniciativa[id_campo.conjunta].contenido}}
+      div.i-doc-detalle.i-info
+        label Con quien(es) se ejecuta 
+        p {{iniciativa[id_campo.con_quien].contenido}}
+      div.i-doc-detalle.i-info
+        label Categoría estadística 
+        p {{iniciativa[id_campo.categoria_stats].contenido}}
+      div.i-doc-detalle.i-info
+        label Como se evaluará la actividad
+        p {{iniciativa[id_campo.evaluacion].contenido}}
+      div.i-doc-detalle.i-info
+        label Frecuencia de evaluación 
+        p {{iniciativa[id_campo.freq_evaluacion].contenido}}
+      div.i-etiquetas.i-info(ng-show="iniciativa[id_campo.etiquetas].contenido")
+        label Etiquetas 
+        p {{iniciativa[id_campo.etiquetas].contenido}}
+      div.i-responsable.i-info(ng-show="iniciativa[id_campo.responsable].contenido")
+        label Nombre del responsable(s) 
+        p {{iniciativa[id_campo.responsable].contenido}}
+      div.i-responsable.i-info(ng-show="iniciativa[id_campo.rol_responsable].contenido")
+        label Rol del responsable(s) 
+        p {{iniciativa[id_campo.rol_responsable].contenido}}
+      div.i-responsable.i-info(ng-show="iniciativa[id_campo.correo].contenido")
+        label Correo electrónico 
+        p {{iniciativa[id_campo.correo].contenido}}
+      div.i-responsable.i-info(ng-show="iniciativa[id_campo.telefono].contenido")
+        label Teléfono 
+        p {{iniciativa[id_campo.telefono].contenido}}
+      div.i-responsable.i-info(ng-show="iniciativa[id_campo.telefono].contenido")
+        label Estado 
+        p {{iniciativa[id_campo.estado].contenido}}
+
+div.modal-footer
+  button.btn.btn-primary(ng-click="ok()") Cerrar 
+  //button.btn.btn-warning(ng-click="cancel()")

@@ -1,12 +1,19 @@
 var meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 var dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 //var milfs_url = "http://localhost:7888/api.php/json?";
-var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
+//var milfs_url = "http://www.bibliolabs.cc/milfs/api.php/json?";
+var milfs_url = "http://localhost/api.php/json?";
+var plan_de_trabajo_2015_form_id = "id=2"; 
 
 var app = angular.module('bibliolabs-viz', [
        'ngAnimate',
        'ui.bootstrap',
        'ngRoute']);
+
+app.config(['$httpProvider', function($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+}]);
 
 var scrollService = app.directive('whenScrolled', function($document, $window) {
     return function(scope, elm, attr) {
@@ -40,7 +47,11 @@ app.config(['$routeProvider',
       when('/tools', {
         templateUrl: 'partials/tools',
         controller: 'ToolsCtrl'
-      }).
+      })./*
+      when('/pdt', {
+        templateUrl: 'partials/plan_de_trabajo',
+        controller: 'PdtCtrl'
+      }).*/
       when('/vitrina', {
         templateUrl: 'partials/vitrina',
         controller: 'VitrinaCtrl'
@@ -68,7 +79,6 @@ function sort_by_id(data) {
     }
     obj_by_id[obj.identificador][obj.id_campo] = obj;
   }
-
   return obj_by_id;
 }
 
@@ -81,6 +91,7 @@ app.factory('ItemService', ['ItemProvider', function(itemProvider) {
         callback(sort_by_id(data));
       })
       .error(function(data) {
+        console.log(data);
         console.log("Error getting data from milfs");
       });
 
@@ -91,8 +102,9 @@ app.factory('ItemService', ['ItemProvider', function(itemProvider) {
 
 app.factory('ItemProvider', function($http) {
   //the form id for the "Iniciativas Bibliotecas" form
-  var form_id = "id=2";
-  var data_url = milfs_url + form_id;
+  //var form_id = plan_de_trabajo_2015_form_id;
+  //var data_url = milfs_url + form_id;
+  var data_url = "/get_api_data";
   return {
     get_data: function() {
       return $http.get(data_url);
@@ -553,21 +565,352 @@ app.controller("AgendaCtrl", function AgendaCtrl($scope, $http, ItemService, Ite
 });
 
 var id_campo = {};
-id_campo.estado     = 24;
-id_campo.titulo     = 19;
-id_campo.publicos   = 27;
-id_campo.biblioteca = 20;
-id_campo.categoria  = 25;
-id_campo.destacado  = 55;
-id_campo.documentacion = 30;
-id_campo.etiquetas  = 26;
-id_campo.portada    = 32;
-id_campo.correo     = 15;
-id_campo.telefono   = 6;
-id_campo.espacios_biblioteca = 46;
-id_campo.medio_principal = 31;
-id_campo.desc_breve = 21;
-id_campo.desc_larga = 22;
+id_campo.imagen         = 107;
+id_campo.estado         = 24;
+//id_campo.titulo     = 19;
+id_campo.actividad      = 8;
+id_campo.descripcion    = 22;
+id_campo.biblioteca     = 20;
+id_campo.objetivos      = 89;
+id_campo.justificacion  = 48;
+id_campo.antiguedad     = 59;
+id_campo.origen         = 62;
+id_campo.iniciativa     = 58;
+id_campo.fecha2015      = 63;
+id_campo.duracion       = 45;
+id_campo.dias_ejecucion = 64;
+id_campo.frecuencia     = 106;
+id_campo.horario        = 29;
+id_campo.responsable    = 23;
+id_campo.rol_responsable= 85;
+id_campo.aporte_acceso  = 67;
+id_campo.categoria      = 90;
+id_campo.aporte_info    = 66;
+id_campo.aporte_espacios= 65;
+id_campo.cat_espacios   = 91;
+id_campo.aporte_fomento = 68;
+id_campo.aporte_incidencia= 69;
+id_campo.nivel_incidencia= 92;
+id_campo.areas          = 43;
+id_campo.aporte_canal   = 93;
+id_campo.planeacion     = 70;
+id_campo.publicos       = 27;
+id_campo.publicos_tipo  = 96;
+id_campo.otros_publicos = 103;
+id_campo.barrios        = 38;
+id_campo.comuna         = 40;
+id_campo.detalle_barrios= 105;
+id_campo.documentacion  = 30;
+id_campo.meta_actividades = 83;
+id_campo.meta_beneficiarios = 84;
+id_campo.meta_productos = 148;
+id_campo.conjunta       = 71;
+id_campo.con_quien      = 72;
+id_campo.categoria_stats= 25;
+id_campo.evaluacion     = 86;
+id_campo.freq_evaluacion= 104;
+id_campo.telefono       = 6;
+id_campo.correo         = 15;
+id_campo.etiquetas      = 26;
+
+app.controller("PdtCtrl", function PdtCtrl($window,$scope, $http, ItemService, ItemProvider, $modal) {
+  $scope.root = {};
+  $scope.root.filter_active = [] ;
+  $scope.root.filter_items  = {};
+  $scope.root.no_results    = false;
+
+  $scope.id_campo = {};
+
+  $scope.show_detail = function(actividad) {
+    actividad = $http.get("/activities/" + actividad).
+      success(function(data) {
+        $scope.root.selected_iniciativa = data;
+        $scope.open('lg'); 
+      
+      }).
+      error(function(data) {
+        console.log("Could not get activity!");
+      });
+  }
+
+  $scope.stats = function() {
+   $window.location.href = "https://drive.google.com/folderview?id=0B6EAxcjcdDYbflRQSGpHR1MxOWIwYmdqeWJFUnlrZXlNV0g1R3ljQ0RiXy1fZ01YRGxJTms&usp=sharing";
+  }
+
+  $scope.novelty = function(actividad) {
+  }
+
+  $scope.plan = function(actividad) {
+   $window.location.href = "https://drive.google.com/a/bibliotecapiloto.gov.co/folderview?id=0B6EAxcjcdDYbflRWVDJwQVpkdmMzbU9lVGFDUVoydGlEYzNfYWw3eUZkck5FTkZjc2ZjQ0U&usp=sharing";
+  }
+
+  $scope.docs = function(actividad) {
+  }
+
+  $scope.evaluate = function(actividad) {
+   $window.location.href = "https://docs.google.com/spreadsheets/d/13AArhdA6wHZkh1zVNBIw10D3U-NPjUVRGxnchgwNKNo/edit?usp=sharing";
+  }
+
+
+  /******************************
+    load initial list of initiatives 
+  ******************************/
+  /*
+  $scope.load_initial = function(iniciativas) {
+    $scope.root.bibliotecas = [];
+    $scope.root.publicos    = [];
+    $scope.root.categorias  = [];
+    $scope.root.visible_ids = [];
+
+    var indexes     = [];
+    var por_bibs    = [];
+    var por_bibs_o  = {};
+
+    $scope.id_campo = id_campo;
+
+    for (o in iniciativas) {
+      var iniciativa = iniciativas[o];
+
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.estado)) && (iniciativa[$scope.id_campo.estado].contenido == "Inactivo") ) {
+        delete iniciativas[o];
+        continue;
+      }
+
+      if ( (! iniciativa.hasOwnProperty($scope.id_campo.actividad)) || (iniciativa[$scope.id_campo.actividad].contenido.length  < 1) ) {
+        delete iniciativas[o];
+        continue;
+      }
+
+      if ( iniciativa.hasOwnProperty($scope.id_campo.biblioteca)  )  {
+        bib = iniciativa[$scope.id_campo.biblioteca].contenido;
+        if ( $scope.root.bibliotecas.indexOf(iniciativa[$scope.id_campo.biblioteca].contenido) == -1 ) {
+          $scope.root.bibliotecas.push(bib);
+        }
+        if (!(bib in por_bibs_o)) {
+          por_bibs_o[bib] = iniciativa;
+        } else {
+            var ini = por_bibs_o[bib];
+            if (ini[$scope.id_campo.biblioteca].contenido == bib) {
+              if (ini[$scope.id_campo.biblioteca]['timestamp'] < iniciativa[$scope.id_campo.biblioteca]['timestamp']) {
+                por_bibs_o[bib] = iniciativa;
+              }
+            }
+        }
+      }
+      
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.publicos)) && ($scope.root.publicos.indexOf(iniciativa[$scope.id_campo.publicos].contenido) == -1 ) ) {
+        pub = iniciativa[$scope.id_campo.publicos].contenido;
+        $scope.root.publicos.push(pub);
+      }
+
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.categoria)) && ($scope.root.categorias.indexOf(iniciativa[$scope.id_campo.categoria].contenido) == -1 ) ) {
+        $scope.root.categorias.push(iniciativa[$scope.id_campo.categoria].contenido);
+      }
+      
+      if ( (iniciativa.hasOwnProperty($scope.id_campo.destacado)) && (iniciativa[$scope.id_campo.destacado].contenido == "Si" ) ) {
+        $scope.root.destacados.push(iniciativa);
+      }
+
+    }
+
+    for (b in por_bibs_o) {
+      var o = por_bibs_o[b];
+      por_bibs.push(o);
+      $scope.root.visible_ids.push(o[$scope.id_campo.biblioteca].identificador);
+    }
+
+    $scope.root.iniciativas = por_bibs;
+
+  }
+
+  */
+  /******************************
+   After cards are loaded, check with server on new ones 
+  ******************************/
+  /*
+  $scope.check_new_items = function() {
+    for (var i=0; i<$scope.root.iniciativas.length; i++) {
+      var ini = $scope.root.iniciativas[i];
+      $http.post('/check_latest',{id: ini[$scope.id_campo.biblioteca].identificador, timestamp: ini[$scope.id_campo.biblioteca].timestamp})
+        .success(function(data,stat,headers,conf) {
+          //check if this is a new iniciative for this library
+          //200 yes is new, 304 Not Modified
+          if (stat == 200) {
+            for (var k=0; k<$scope.root.iniciativas.length; k++) {
+              var nueva = $scope.root.iniciativas[k];
+              if (nueva[$scope.id_campo.biblioteca].identificador == data) {
+                nueva.nueva = true;
+                return;
+              }
+            }
+          }
+        })
+        .error(function(data,stat,headers,conf) {
+          if (stat == 304) {
+            //console.log("not modified");
+          } else {
+            console.log("Error evaluando check_latest!");
+          }
+        });
+    }
+  }
+  */
+  /******************************
+    callback from ItemService
+  ******************************/
+  /*
+  ItemService(function(iniciativas) {
+    //console.log(iniciativas);
+    $scope.root.todas_iniciativas = iniciativas;
+    $scope.load_initial(iniciativas);
+    //disabled for Pdt iteration, FB 2015-08-26
+    //$scope.check_new_items();
+  }, ItemProvider);
+
+  */
+  /******************************
+    reset all filters 
+  ******************************/
+  /*
+  $scope.reset_filters = function() {
+    //console.log("reset filters"); 
+    $scope.root.no_results = false;
+    $scope.root.filter_active = [];
+    $scope.root.filter_items = {};
+    $scope.load_initial($scope.root.todas_iniciativas);
+  }
+  */
+  /******************************
+    reset specific filter 
+  ******************************/
+  /*
+  $scope.reset_filter = function(filter) {
+    delete $scope.root.filter_items[filter];  
+
+    for (var i=0; i<$scope.root.filter_active.length; i++) {
+      var item = $scope.root.filter_active[i];
+      if (item == filter) {
+        $scope.root.filter_active.splice(i, 1);
+        break;
+      } 
+    }
+    
+    if ($scope.root.filter_active.length == 0) {
+      $scope.root.no_results    = false;
+      $scope.load_initial($scope.root.todas_iniciativas);
+    } else {
+      $scope.root.iniciativas = $scope.root.todas_iniciativas; 
+      for (var i=0; i<$scope.root.filter_active.length; i++) {
+        var item = $scope.root.filter_active[i];
+        $scope.do_filter(item, $scope.root.filter_items[item],$scope.root.iniciativas);
+      }
+    }
+  }
+  */
+  /******************************
+    do_filter
+  ******************************/
+  /*
+  $scope.do_filter = function(filter, filter_item, items) {
+    var filtered = [];
+
+    for (o in items) { 
+      if (items[o][filter]) {
+        if (items[o][filter].contenido == filter_item) {
+          filtered.push(items[o]);
+          continue;
+        }
+        if ( items[o][filter].contenido.indexOf(filter_item) > -1 )  {
+          filtered.push(items[o]);
+          continue;
+        }
+      }
+    }
+
+    $scope.root.iniciativas = filtered;
+
+    if (Object.keys(filtered).length == 0) {
+      $scope.root.no_results = true;
+    } else { 
+      $scope.root.no_results = false;
+    }
+    $scope.root.filter_items[filter] = filter_item;
+  }
+  */
+  /******************************
+    filter
+  ******************************/
+  /*
+  $scope.filter = function(filter, item) {
+
+    if ($scope.root.filter_active.indexOf(filter) == -1) {
+      $scope.root.filter_active.push(filter);
+    }
+
+    var items = $scope.root.iniciativas;
+
+    if ($scope.root.filter_active.length == 1) {
+      items = $scope.root.todas_iniciativas;
+    }
+
+    $scope.do_filter(filter, item, items);
+  }
+  */
+  /******************************
+    load more (scroll at end of 
+    page) 
+  ******************************/
+  /*
+  $scope.loadMore = function() {
+    //console.log("load more");
+    var counter = 0;
+    for (ini in $scope.root.todas_iniciativas) {
+      if ($scope.root.visible_ids.indexOf(ini) == -1) {
+        $scope.root.iniciativas.push($scope.root.todas_iniciativas[ini]);
+        $scope.root.visible_ids.push(ini);
+        counter += 1;
+        if (counter == 8) {
+          return;
+        }
+      }
+    }
+  };
+
+  */
+  /******************************
+    show detail of an initiative
+  ******************************/
+  /*
+  $scope.show_detail = function(iniciativa) {
+    $scope.root.selected_iniciativa = iniciativa;
+    $scope.open('lg'); 
+  } */
+
+  /******************************
+    do filter
+  ******************************/
+  $scope.open = function (size) {
+
+    var modalInstance = $modal.open({
+      //templateUrl: 'partials/iniciativa',
+      templateUrl: 'partials/actividad',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {
+        items: function () {
+          return $scope.root.selected_iniciativa;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      //$log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+});
 
 app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, ItemProvider, $modal) {
   $scope.root = {};
@@ -593,6 +936,7 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
 
     $scope.id_campo = id_campo;
 
+
     for (o in iniciativas) {
       var iniciativa = iniciativas[o];
 
@@ -601,13 +945,14 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
         continue;
       }
 
-      if ( (! iniciativa.hasOwnProperty($scope.id_campo.titulo)) || (iniciativa[$scope.id_campo.titulo].contenido.length  < 1) ) {
+      if ( (! iniciativa.hasOwnProperty($scope.id_campo.actividad)) || (iniciativa[$scope.id_campo.actividad].contenido.length  < 1) ) {
         delete iniciativas[o];
         continue;
       }
 
       if ( iniciativa.hasOwnProperty($scope.id_campo.biblioteca)  )  {
         bib = iniciativa[$scope.id_campo.biblioteca].contenido;
+        //console.log(iniciativa[$scope.id_campo.biblioteca]);
         if ( $scope.root.bibliotecas.indexOf(iniciativa[$scope.id_campo.biblioteca].contenido) == -1 ) {
           $scope.root.bibliotecas.push(bib);
         }
@@ -622,6 +967,8 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
             }
         }
       }
+      
+
 
       if ( (iniciativa.hasOwnProperty($scope.id_campo.publicos)) && ($scope.root.publicos.indexOf(iniciativa[$scope.id_campo.publicos].contenido) == -1 ) ) {
         pub = iniciativa[$scope.id_campo.publicos].contenido;
@@ -645,6 +992,8 @@ app.controller("VitrinaCtrl", function VitrinaCtrl($scope, $http, ItemService, I
     }
 
     $scope.root.iniciativas = por_bibs;
+
+    //console.log(por_bibs);
   }
 
   
