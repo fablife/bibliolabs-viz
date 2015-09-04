@@ -10,6 +10,9 @@ multiparty = require('multiparty')
 exports.index = (req,res) ->
   res.render('index', {message: req.flash('loginerror')})
 
+exports.hilos = (req,res) ->
+  res.render('hilos')
+
 ###
 exports.logout = (req, res) ->
   req.logout()
