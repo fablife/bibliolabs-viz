@@ -57,8 +57,101 @@
   margin-bottom: 50px;
 }
 
-
-footer {
-  clear: both;
+.childhood {
+  color: #77a749;
 }
+
+.youth{
+  color: #3197a1;
+}
+
+.adulthood{
+  color: #576bc2;
+}
+
+.senior{
+  color: #252f5a;
+}
+
+#contacto {
+  padding-bottom: 100px;
+}
+
+.contact{
+  color: #5b6ec3;
+  font-weight: bold;
+  margin-bottom: 40px !important;
+}
+
+.hilos_contact,
+.hilos_contact a {
+  color: #746e6e;
+  font-size: 28px;
+}
+
+.circular {
+  width: 300px;
+  height: 300px;
+  border-radius: 150px;
+  -webkit-border-radius: 150px;
+  -moz-border-radius: 150px;
+}
+
+.circular img {
+  /*opacity: 0;
+  filter: alpha(opacity=0);
+  */
+}
+
+.right_aligned {
+  text-align: right;
+}
+
+.project {
+  height: 400px;
+}
+
+.thread {
+  height: 400px;
+}
+
+.childhood_thread {
+  background-image: url('/images/thread_childhood.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 400px;
+}
+
+.youth_thread {
+  background-image: url('/images/thread_youth.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 400px;
+}
+
+.adulthood_thread {
+  background-image: url('/images/thread_adulthood.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 400px;
+}
+
+/*
+ *Scrolling
+ */
+
+a[ id= "inicio" ]:target ~ header {
+    -webkit-transform: translateY( 0px);
+    transform: translateY( 0px );
+}
+
+a[ id= "proyectos" ]:target ~ .main_content section#proyectos  {
+    -webkit-transform: translateY( -500px );
+    transform: translateY( -500px );
+}
+a[ id= "contacto" ]:target ~ .main_content section#contacto{
+    -webkit-transform: translateY( -1000px );
+    transform: translateY( -1000px );
+}
+
 

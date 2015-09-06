@@ -1,18 +1,23 @@
 doctype html
+//html(ng-app="hilosApp")
 html(ng-app="hilosApp")
   head
     link(rel='stylesheet', href='/css/styles.css') 
     link(rel='stylesheet', href='/css/hilos_styles.css') 
     link(rel='stylesheet', href="/bower_components/bootstrap/dist/css/bootstrap.min.css" )
-    script(src='/bower_components/angular/angular.min.js')
-    script(src='/bower_components/angular-route/angular-route.min.js')
-    script(src='/bower_components/angular-animate/angular-animate.min.js')
-    script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js')
+    //script(src='/bower_components/angular/angular.min.js')
+    //script(src='/bower_components/angular-route/angular-route.min.js')
+    //script(src='/bower_components/angular-animate/angular-animate.min.js')
+    //script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js')
     //script(src='/js/app.js')
 
     title Hilos - Sistema de Bibliotecas de Medell&iacute;n
 
   body
+    
+    //-a#inicio
+    //-a#proyectos
+    //-a#contacto
     div.page_wrapper.container
       div.content_wrapper.content.hilos_content
         header.hilos_header
@@ -21,9 +26,9 @@ html(ng-app="hilosApp")
                 img(src='/images/sbpm.png' alt="Sistema de Bibliotecas P&uacute;blicas de Medell&iacute;n")
               div.col-md-5.centered
                 div.visualization_links
-                  a.left_align.active(ng-click="") INICIO
-                  a.centered(ng-click="") PROYECTOS
-                  a.right_align(ng-click="") CONTACTO
+                  a.left_align.active INICIO
+                  a.centered(href='#proyectos') PROYECTOS
+                  a.right_align(href='#contacto') CONTACTO
               div.col-md-4
                 img(src='/images/alcaldia.png' style="margin-left: -15px" alt="Sistema de Bibliotecas P&uacute;blicas de Medell&iacute;n")
 
@@ -38,24 +43,63 @@ html(ng-app="hilosApp")
               div.col-md-6
                 p.subtitle_p.inline La ciudad y sus puntos de vista, tema o personajes comunes en distintas historias. Historias y memorias como la vida de cada persona contribuye a la historia y la memoria de una sociedad y una ciudad.
           .arrow-down 
+
+          section#proyectos
+            .row.project
+              .col-xs-4.right_aligned
+                h5.hilos_subtitle.childhood LOS HILOS DE LA
+                h1.hilos_title.childhood INFANCIA
+              .col-xs-4
+                .circular
+                  img(width="300px" src="/images/childhood.png" alt="Infancia")
+              .col-xs-4
+                p.hilos_proyect_name Nombre del proyecto
+                p.hilos_proyect_desc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium dapibus gravida. Morbi blandit mattis tincidunt. Nulla faucibus vitae mi eleifend cursus. Quisque sodales risus vel tellus gravida, et interdum nibh efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+            .row.thread
+              .col-xs-4
+              .col-xs-4.childhood_thread
+              .col-xs-4
+            
+
+            .row.project
+              .col-xs-4.right_aligned
+                h5.hilos_subtitle.youth LOS HILOS DE LA
+                h1.hilos_title.youth JUVENTUD 
+              .col-xs-4
+                .circular
+                  img(width="300px" src="/images/youth.png" alt="Juventud")
+              .col-xs-4
+                p.hilos_proyect_name Nombre del proyecto
+                p.hilos_proyect_desc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium dapibus gravida. Morbi blandit mattis tincidunt. Nulla faucibus vitae mi eleifend cursus. Quisque sodales risus vel tellus gravida, et interdum nibh efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+            .row.thread.youth_thread
+            
+            .row.project
+              .col-xs-4.right_aligned
+                h5.hilos_subtitle.adulthood LOS HILOS DE LA
+                h1.hilos_title.adulthood ADULTEZ
+              .col-xs-4
+                .circular
+                  img(width="300px" src="/images/adulthood.png" alt="Adultez")
+              .col-xs-4
+                p.hilos_proyect_name Nombre del proyecto
+                p.hilos_proyect_desc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium dapibus gravida. Morbi blandit mattis tincidunt. Nulla faucibus vitae mi eleifend cursus. Quisque sodales risus vel tellus gravida, et interdum nibh efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+            .row.thread.adulthood_thread
+            
+            .row.project
+              .col-xs-4.right_aligned
+                h5.hilos_subtitle.senior LOS HILOS DE LA
+                h1.hilos_title.senior MADUREZ
+              .col-xs-4
+                .circular
+                  img(width="300px" src="/images/senior.png" alt="Madurez")
+              .col-xs-4
+                p.hilos_proyect_name Nombre del proyecto
+                p.hilos_proyect_desc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium dapibus gravida. Morbi blandit mattis tincidunt. Nulla faucibus vitae mi eleifend cursus. Quisque sodales risus vel tellus gravida, et interdum nibh efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus.
           
-
-
-        footer
+          section#contacto  
             div.row
-              div.col-md-12.col-sm-12.col-xs-12
-                div#footer_container.even_layout
-                  div.footer_image
-                    img(src="/images/cc-sa4.png" alt="Creative Commons Share-Alike Version 4.0")
-                  div.footer_image
-                    img(src="/images/bibliolabs_logo.png" alt="Bibliolabs")
-                  div.footer_image
-                    img(src="/images/c3p.png" alt="CasaTresPatios")
-                  div.footer_image
-                    img(src="/images/proyecto_sbpm.png" alt="Sistema de Bibliotecas P&uacute;blicas de Medell&iacute;n")
-                  div.footer_image
-                    img(src="/images/lectura_viva.png" style="margin-top: 10px" alt="Lectura Viva")
-                  div.footer_image
-                    img(src="/images/todos_por_la_vida.png" alt="Medell&iacute;n Todos Por La Vida")
-                  div.footer_image
-                    img(src="/images/alcaldia_medellin.png" alt="Alcald&iacute;a de Medell&iacute;n")
+              h1.hilos_title.contact.centered CONTACTANOS
+              p.hilos_contact.centered info@bibliotecasmedellin.gov.co
+              p.hilos_contact.centered 
+                a(href='http://www.bibliotecasmedellin.gov.co') www.bibliotecasmedellin.gov.co
+              
