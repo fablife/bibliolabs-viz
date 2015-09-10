@@ -1,157 +1,415 @@
-.visualization_links a {
-  margin: 20px;
-  color: #7a7a7e;
-  font-size: 16px;
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
+body{
+  margin: 0;
 }
 
-.visualization_links {
-  margin-top: 30px !important;
+.container{
+  /*background-color: rgba(0,0,0,0.2);*/
 }
 
-.visualization_links a.active {
-  color: #5368c1;
+.header{
+  background: url(/images/hilos/bg.jpg);
 }
 
-.left_align {
-  text-align: left;
+.flag {
+  height: 100px;
+  background: url(/images/hilos/bg.jpg);
+  -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
+  -moz-clip-path: polygon(0 0, 100% 0, 50% 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  position: relative;
+  z-index: -2;
+
+
 }
 
-.right_align {
-  text-align: right;
+.container-brand{
+  position: relative;
+  /*width: 50%;*/
+  width: 600px;
+  margin: auto;
 }
 
-.hilos_header,
-.title_area,
-.subtitle_area {
-  background-image: url('/images/hilos_bg.jpg');
-}
-
-.hilos_header {
-  padding: 10px 0;
-  margin-bottom: 0px !important;
-}
-
-.hilos_content {
-  margin-top: 0px !important;
-}
-
-.subtitle_area {
-  min-height: 100px;
-  padding-left: 40px;
-}
-
-.subtitle_p {
-  color: #717171;
-  font-size: 16px;
-  margin-left: -60px;
-  width: 98%;
-}
-
-.arrow-down {
+.thread{
+  display: block;
   width: 100%;
-  height: 0px;
-  border-left: 800px solid white;
-  border-right: 340px solid white;
-  border-top: 100px solid transparent;
-  background-image: url("/images/hilos_bg.jpg");
-  margin-bottom: 50px;
 }
 
-.childhood {
-  color: #77a749;
+.container-logo-bibliolabs{
+  float: left;
+  width: 40%;
 }
 
-.youth{
-  color: #3197a1;
+.logo-bibliolabs{
+  display: block;
+  width: 100%;
 }
 
-.adulthood{
-  color: #576bc2;
+.text-header{
+  float: left;
+  width: 60%;
+  padding: 0 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  color: #717171;
+  box-sizing: border-box;
 }
 
-.senior{
-  color: #252f5a;
+/*@media (max-width: 1000px) {
+  .container-logo-bibliolabs,
+  .text-header{
+    width: 100%;
+  }
+
+  .text-header{
+    margin-top: 10px;
+  }
+}*/
+
+.container-string{
+  /*background-color: rgba(0,0,0,0.2);*/
+  position: relative;
+  /*width: 50%;*/
+  width: 400px;
+  margin: -20px auto 0;
+  text-align: center;
 }
 
-#contacto {
-  padding-bottom: 100px;
+.string{
+  width: 7%;
+  margin: auto;
+  position: relative;
+  z-index: -1;
 }
 
-.contact{
-  color: #5b6ec3;
-  font-weight: bold;
-  margin-bottom: 40px !important;
+.string img{
+  display: block;
+  width: 100%;
 }
 
-.hilos_contact,
-.hilos_contact a {
-  color: #746e6e;
-  font-size: 28px;
+.scene{
+  /*background-color: rgba(0,0,0,0.2);*/
+  position: absolute;
+  padding: 10px;
 }
 
-.circular {
-  width: 300px;
-  height: 300px;
-  border-radius: 150px;
-  -webkit-border-radius: 150px;
-  -moz-border-radius: 150px;
+/* begin of the memory scene*/
+
+#scene-memoria{
+  top: 80px;
+  left: 60px;  
 }
 
-.circular img {
-  /*opacity: 0;
-  filter: alpha(opacity=0);
-  */
+#scene-audiovisual{
+  top: 150px;
+  left: 100px;  
 }
 
-.right_aligned {
-  text-align: right;
+#scene-memory-back{
+  width: 800px;
+  top: 660px;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
-.project {
-  height: 400px;
+#scene-seemore01{
+  top: 394px;
+  left: -40px;  
 }
 
-.thread {
-  height: 400px;
+#scene-videoicon{
+  top: 240px;
+  left: 10px;  
 }
 
-.childhood_thread {
-  background-image: url('/images/thread_childhood.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 400px;
+#scene-wool{
+  width: 200px;
+  top: 450px;
+  left: 220px;  
 }
 
-.youth_thread {
-  background-image: url('/images/thread_youth.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 400px;
+/* begin of the caudio scene*/
+
+#scene-creacion{
+  top: 390px;
+  left: -130px;  
 }
 
-.adulthood_thread {
-  background-image: url('/images/thread_adulthood.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 400px;
+#scene-sonora{
+  top: 430px;
+  left: -130px;  
 }
 
-/*
- *Scrolling
- */
-
-a[ id= "inicio" ]:target ~ header {
-    -webkit-transform: translateY( 0px);
-    transform: translateY( 0px );
+#scene-seemore02{
+  top: 650px;
+  left: 220px;  
 }
 
-a[ id= "proyectos" ]:target ~ .main_content section#proyectos  {
-    -webkit-transform: translateY( -500px );
-    transform: translateY( -500px );
-}
-a[ id= "contacto" ]:target ~ .main_content section#contacto{
-    -webkit-transform: translateY( -1000px );
-    transform: translateY( -1000px );
+#scene-audioicon{
+  top: 400px;
+  left: 310px; 
+    /*revisar el margin left que  cuando pasa de 400 se desaparece la imagen*/
 }
 
+#scene-buttons{
+  top: 390px;
+  left: 70px;  
+}
 
+#scene-audio-back{
+  width: 746px;
+  top: 1250px;
+  left: -100px;
+  right: 0;
+  margin: auto;
+}
+
+/* begin of the comic scene*/
+
+#scene-narrativa{
+  top: 300px;
+  left: -130px;  
+}
+
+#scene-grafica{
+  top: 350px;
+  left: -130px;  
+}
+
+#scene-comicicon{
+  top: 320px;
+  left: 271px; 
+}
+
+#scene-seemore03{
+  top: 650px;
+  left: 220px;  
+}
+
+#scene-pencil{
+  width: 734px;
+  top: 390px;
+  left: -100px;  
+}
+
+#scene-comic-back{
+  width: 746px;
+  top: 1900px;
+  left: 0px;
+  right: 0;
+  margin: auto;
+}
+
+/* begin of the game scene*/
+
+
+#scene-game-back{
+  width: 746px;
+  top: 2570px;
+  left: 0px;
+  right: 0;
+  margin: auto;
+}
+
+#scene-control{
+  width: 734px;
+  top: 390px;
+  left: -100px;  
+}
+
+#scene-seemore04{
+  top: 410px;
+  left: 0px;  
+}
+
+#scene-gameicon{
+  top: 320px;
+  left: 271px; 
+}
+
+#scene-universo{
+  top: 300px;
+  left: -130px;  
+}
+
+#scene-juego{
+  top: 350px;
+  left: -130px;  
+}
+
+/* begin of the photography memory scene*/
+
+#scene-photo-back{
+  width: 746px;
+  top: 3250px;
+  left: 0px;
+  right: 0;
+  margin: auto;
+}
+
+#scene-watch{
+  top: 470px;
+  left: -50px;  
+}
+
+#scene-seemore05{
+  top: 610px;
+  left: 270px;  
+}
+
+#scene-photoicon{
+  top: 370px;
+  left: 270px; 
+}
+
+#scene-historia{
+  top: 220px;
+  left: 20px;  
+}
+
+#scene-fotografica{
+  top: 274px;
+  left: 20px;  
+}
+
+.link{
+  position: absolute;
+  width: 550px;
+  height: 500px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  /*background-color: rgba(0, 255, 0, 0.2);*/
+  z-index: 999;
+}
+
+#link-memory{
+  top: 490px;
+}
+
+#link-audio{
+  top: 1180px;
+}
+
+#link-comic{
+  top: 1860px;
+}
+
+#link-game{
+  top: 2560px;
+}
+
+#link-photo{
+  top: 3160px;
+}
+
+.footer{
+    text-align: center;
+    width: 100%;
+    margin-top: 100px;
+}
+
+.layer img{
+  display: block;
+  width: 100%;
+}
+
+.container-patch{
+  /*background-color: rgba(0,0,0,0.2);*/
+  /*top: 50px;*/
+  /*width: 100%;*/
+  margin-top: -4px;
+}
+
+.patch{
+
+}
+
+#patch0, #patch1, #patch2, #patch3, #patch4{
+  display: block;
+  width: 100%;
+  margin-left: 1px;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+}
+
+#patch1{
+  margin-top: -70px;
+  transform-origin: 50% 15%;
+}
+
+@-webkit-keyframes swing {
+  0% {
+    -webkit-transform: rotateZ(10deg);
+    -moz-transform: rotateZ(10deg);
+    transform: rotateZ(10deg);
+  }
+
+  100% {
+    -webkit-transform: rotateZ(-10deg);
+    -moz-transform: rotateZ(-10deg);
+    transform: rotateZ(-10deg);
+  }
+}
+
+@-moz-keyframes swing {
+  0% {
+    -webkit-transform: rotateZ(10deg);
+    -moz-transform: rotateZ(10deg);
+    transform: rotateZ(10deg);
+  }
+
+  100% {
+    -webkit-transform: rotateZ(-10deg);
+    -moz-transform: rotateZ(-10deg);
+    transform: rotateZ(-10deg);
+  }
+}
+
+@-ms-keyframes swing {
+  0% {
+    -webkit-transform: rotateZ(10deg);
+    -moz-transform: rotateZ(10deg);
+    transform: rotateZ(10deg);
+  }
+
+  100% {
+    -webkit-transform: rotateZ(-10deg);
+    -moz-transform: rotateZ(-10deg);
+    transform: rotateZ(-10deg);
+  }
+}
+
+@keyframes swing {
+  0% {
+    -webkit-transform: rotateZ(10deg);
+    -moz-transform: rotateZ(10deg);
+    transform: rotateZ(10deg);
+  }
+
+  100% {
+    -webkit-transform: rotateZ(-10deg);
+    -moz-transform: rotateZ(-10deg);
+    transform: rotateZ(-10deg);
+  }
+}
+
+.swing-1 {
+  -webkit-animation: swing 8s infinite alternate cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  -moz-animation: swing 8s infinite alternate cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  animation: swing 8s infinite alternate cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}

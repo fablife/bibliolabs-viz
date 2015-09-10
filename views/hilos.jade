@@ -1,15 +1,12 @@
 doctype html
-//html(ng-app="hilosApp")
 html(ng-app="hilosApp")
   head
-    link(rel='stylesheet', href='/css/styles.css') 
+    meta(charset="utf-8")
+    meta(name="apple-mobile-web-app-capable" content="yes")
+    meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+
     link(rel='stylesheet', href='/css/hilos_styles.css') 
-    link(rel='stylesheet', href="/bower_components/bootstrap/dist/css/bootstrap.min.css" )
-    //script(src='/bower_components/angular/angular.min.js')
-    //script(src='/bower_components/angular-route/angular-route.min.js')
-    //script(src='/bower_components/angular-animate/angular-animate.min.js')
-    //script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js')
-    //script(src='/js/app.js')
+    link(rel='stylesheet', href="https://fonts.googleapis.com/css?family=Roboto", type="text/css" )
 
     title Hilos - Sistema de Bibliotecas de Medell&iacute;n
 
@@ -18,88 +15,201 @@ html(ng-app="hilosApp")
     //-a#inicio
     //-a#proyectos
     //-a#contacto
-    div.page_wrapper.container
-      div.content_wrapper.content.hilos_content
-        header.hilos_header
-            div.row
-              div.col-md-3
-                img(src='/images/sbpm.png' alt="Sistema de Bibliotecas P&uacute;blicas de Medell&iacute;n")
-              div.col-md-5.centered
-                div.visualization_links
-                  a.left_align.active INICIO
-                  a.centered(href='#proyectos') PROYECTOS
-                  a.right_align(href='#contacto') CONTACTO
-              div.col-md-4
-                img(src='/images/alcaldia.png' style="margin-left: -15px" alt="Sistema de Bibliotecas P&uacute;blicas de Medell&iacute;n")
+    div.container
+      div.header
+        div.container-brand.clearfix 
+          img.thread(src="/images/hilos/thread.png",alt="")
+          div.container-logo-bibliolabs
+            img.logo-bibliolabs(src="/images/hilos/bibliolabs.png",alt="")
+          div.text-header
+            La ciudad y sus puntos de vista, tema o personajes comunes en distintas historias. Historias y memorias como la vida de cada persona contribuye a la historia y la memoria de una sociedad y una ciudad. 
 
-          
-        div.main_content
-          //-div(ng-view)
-          .title_area
-            img(src='/images/thread.png' alt="Hilos en SBPM")
-            .subtitle_area
-              div.col-md-6
-                img.inline(src='/images/bibliolabs_letras.png' alt="Bibliolabs")
-              div.col-md-6
-                p.subtitle_p.inline La ciudad y sus puntos de vista, tema o personajes comunes en distintas historias. Historias y memorias como la vida de cada persona contribuye a la historia y la memoria de una sociedad y una ciudad.
-          .arrow-down 
 
-          section#proyectos
-            .row.project
-              .col-xs-4.right_aligned
-                h5.hilos_subtitle.childhood LOS HILOS DE LA
-                h1.hilos_title.childhood INFANCIA
-              .col-xs-4
-                .circular
-                  img(width="300px" src="/images/childhood.png" alt="Infancia")
-              .col-xs-4
-                p.hilos_proyect_name Nombre del proyecto
-                p.hilos_proyect_desc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium dapibus gravida. Morbi blandit mattis tincidunt. Nulla faucibus vitae mi eleifend cursus. Quisque sodales risus vel tellus gravida, et interdum nibh efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-            .row.thread
-              .col-xs-4
-              .col-xs-4.childhood_thread
-              .col-xs-4
-            
+      div.flag
+      div#scene-memory-back.scene
+        div.layer(data-depth="0.10")
+          img(src="/images/hilos/memory_back.png" alt="")
 
-            .row.project
-              .col-xs-4.right_aligned
-                h5.hilos_subtitle.youth LOS HILOS DE LA
-                h1.hilos_title.youth JUVENTUD 
-              .col-xs-4
-                .circular
-                  img(width="300px" src="/images/youth.png" alt="Juventud")
-              .col-xs-4
-                p.hilos_proyect_name Nombre del proyecto
-                p.hilos_proyect_desc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium dapibus gravida. Morbi blandit mattis tincidunt. Nulla faucibus vitae mi eleifend cursus. Quisque sodales risus vel tellus gravida, et interdum nibh efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-            .row.thread.youth_thread
-            
-            .row.project
-              .col-xs-4.right_aligned
-                h5.hilos_subtitle.adulthood LOS HILOS DE LA
-                h1.hilos_title.adulthood ADULTEZ
-              .col-xs-4
-                .circular
-                  img(width="300px" src="/images/adulthood.png" alt="Adultez")
-              .col-xs-4
-                p.hilos_proyect_name Nombre del proyecto
-                p.hilos_proyect_desc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium dapibus gravida. Morbi blandit mattis tincidunt. Nulla faucibus vitae mi eleifend cursus. Quisque sodales risus vel tellus gravida, et interdum nibh efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-            .row.thread.adulthood_thread
-            
-            .row.project
-              .col-xs-4.right_aligned
-                h5.hilos_subtitle.senior LOS HILOS DE LA
-                h1.hilos_title.senior MADUREZ
-              .col-xs-4
-                .circular
-                  img(width="300px" src="/images/senior.png" alt="Madurez")
-              .col-xs-4
-                p.hilos_proyect_name Nombre del proyecto
-                p.hilos_proyect_desc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium dapibus gravida. Morbi blandit mattis tincidunt. Nulla faucibus vitae mi eleifend cursus. Quisque sodales risus vel tellus gravida, et interdum nibh efficitur. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-          
-          section#contacto  
-            div.row
-              h1.hilos_title.contact.centered CONTACTANOS
-              p.hilos_contact.centered info@bibliotecasmedellin.gov.co
-              p.hilos_contact.centered 
-                a(href='http://www.bibliotecasmedellin.gov.co') www.bibliotecasmedellin.gov.co
-              
+      div#scene-audio-back.scene
+        div.layer(data-depth="0.10")
+          img(src="/images/hilos/audio_back.png" alt="")
+
+      div#scene-comic-back.scene
+        div.layer(data-depth="0.10")
+          img(src="/images/hilos/comic_back.png" alt="")
+
+      div#scene-game-back.scene
+        div.layer(data-depth="0.10")
+          img(src="/images/hilos/game_back.png" alt="")
+
+      div#scene-photo-back.scene
+        div.layer(data-depth="0.10")
+          img(src="/images/hilos/photo_back.png" alt="")
+
+    //begin of links 
+
+    a(href="http://wiki.bibliolabs.cc/bibliolabs:grupos-interes:narrativas-hipermedia:experimento-narrativa:audiovisual:descripcion-audiovisual" target="_blank" class="link" id="link-memory") 
+
+    a(href="http://wiki.bibliolabs.cc/bibliolabs:grupos-interes:narrativas-hipermedia:experimento-narrativa:sonoro:descripcion-sonoro " target="_blank" class="link" id="link-audio") 
+
+    a(href="http://wiki.bibliolabs.cc/bibliolabs:grupos-interes:narrativas-hipermedia:experimento-narrativa:ilustracion:descripcion-ilustracion" target="_blank" class="link" id="link-comic") 
+
+    a(href="http://wiki.bibliolabs.cc/bibliolabs:grupos-interes:narrativas-hipermedia:experimento-narrativa:videojuegos:descripcion-videojuegos" target="_blank" class="link" id="link-game") 
+
+    a(href="http://wiki.bibliolabs.cc/bibliolabs:grupos-interes:narrativas-hipermedia:experimento-narrativa:fotografia:descripcion-fotografia " target="_blank" class="link" id="link-photo") 
+
+    
+    //begin of the memory scene
+    .container-string 
+      .string
+        img( src="/images/hilos/01.png" alt="") 
+
+      div#scene-memoria.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/01memory_tittle.png" alt="")
+
+      div#scene-audiovisual.scene
+        div.layer(data-depth="0.20")
+          img(src="/images/hilos/02memory_tittle.png" alt="")
+
+      div.container-patch
+          img#patch3.patch.swing-1(src="/images/hilos/memory.png" alt="")
+
+      div#scene-seemore01.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/pink_seemore.png" alt="")
+
+      div#scene-videoicon.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/video.png" alt="")
+
+      div#scene-wool.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/wool.png" alt="")
+
+    //begin of the audio scene        
+    .container-string 
+      .string
+        img( src="/images/hilos/03.png" alt="") 
+
+      div#scene-creacion.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/audio_tittle01.png" alt="")
+
+      div#scene-sonora.scene
+        div.layer(data-depth="0.20")
+          img(src="/images/hilos/audio_tittle02.png" alt="")
+
+      div.container-patch
+          img#patch-1.patch.swing-1(src="/images/hilos/02_audio.png" alt="")
+
+      div#scene-seemore02.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/green_seemore.png" alt="")
+
+      div#scene-audioicon.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/audio.png" alt="")
+
+      div#scene-buttons.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/buttons.png" alt="")
+
+
+    //begin of the comic scene        
+    .container-string 
+      .string
+        img( src="/images/hilos/05.png" alt="") 
+
+      div#scene-narrativa.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/comic_tittle01.png" alt="")
+
+      div#scene-grafica.scene
+        div.layer(data-depth="0.20")
+          img(src="/images/hilos/comic_tittle02.png" alt="")
+
+      div.container-patch
+          img#patch-2.patch.swing-1(src="/images/hilos/06_comic.png" alt="")
+
+      div#scene-seemore03.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/pink_seemore.png" alt="")
+
+      div#scene-comicicon.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/comic.png" alt="")
+
+      div#scene-pencil.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/pencil.png" alt="")
+
+
+    //begin of the game scene        
+    .container-string 
+      .string
+        img( src="/images/hilos/07.png" alt="") 
+
+      div#scene-universo.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/game_tittle01.png" alt="")
+
+      div#scene-juego.scene
+        div.layer(data-depth="0.20")
+          img(src="/images/hilos/game_tittle02.png" alt="")
+
+      div.container-patch
+          img#patch-2.patch.swing-1(src="/images/hilos/07_game.png" alt="")
+
+      div#scene-seemore04.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/pink_seemore.png" alt="")
+
+      div#scene-gameicon.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/game.png" alt="")
+
+      div#scene-control.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/control.png" alt="")
+
+
+    //begin of the photo scene        
+    .container-string 
+      .string
+        img( src="/images/hilos/07.png" alt="") 
+
+      div#scene-historia.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/photo_tittle01.png" alt="")
+
+      div#scene-fotografica.scene
+        div.layer(data-depth="0.20")
+          img(src="/images/hilos/photo_tittle02.png" alt="")
+
+      div.container-patch
+          img#patch-4.patch.swing-1(src="/images/hilos/08_photo.png" alt="")
+
+      div#scene-seemore05.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/orange_seemore.png" alt="")
+
+      div#scene-photoicon.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/photo.png" alt="")
+
+      div#scene-watch.scene
+        div.layer(data-depth="1.00")
+          img(src="/images/hilos/watch.png" alt="")
+
+
+
+  .footer
+    img(src="/images/hilos/footer_logos.png")
+
+
+  //scripts
+  script(src="/js/hilos/jquery.js")
+  script(src="/js/hilos/jquery.parallax.js")
+  script(type='text/javascript'). 
+     $('.scene').parallax(); 
