@@ -1,1 +1,1 @@
-forever start -c coffee app.coffee
+forever -l /home/bibliolabs/logs/bibliolabs.log -a start -c coffee app.coffee
