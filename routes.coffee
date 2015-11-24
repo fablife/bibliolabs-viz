@@ -1,8 +1,11 @@
-#####################################################
+####################/################################
 # Routing
 #####################################################
 Latest = require('./models/Latest').Latest
 http = require('http')
+logger = require('tracer').colorConsole()
+
+SOURCE = "drive" #could be "milfs"
 
 handle_error = require("./utils").handle_error
 multiparty = require('multiparty')
@@ -48,6 +51,22 @@ sympa_options = {
   host: 'listas.bibliolabs.cc',
   path: '/wws/rss/latest_arc/bibliolabs?for=3&count=6'
 }
+
+bibliotecas = []
+publicos    = []
+categorias  = []
+visible_ids = []
+
+por_bibs    = []
+por_bibs_o  = {}
+
+actividades       = []
+publicos_edad     = []
+publicos_social   = []
+publicos_etnia    = []
+publicos_otros    = []
+categorias_stats  = []
+categorias_form   = []
 
 id_campo = {}
 
@@ -112,13 +131,6 @@ sort_by_id = (data) ->
     i++
   obj_by_id
 
-bibliotecas = []
-publicos    = []
-categorias  = []
-visible_ids = []
-
-por_bibs    = []
-por_bibs_o  = {}
 
 exports.get_activity = (req, res) ->
   console.log "get_activity"
@@ -190,32 +202,187 @@ load_initial = (actividades) ->
   return por_bibs
 
 exports.pdt = (req, res) ->
-  console.log("Get API data from milfs...")
 
-  callback = (response) ->
-    str = ''
+  if SOURCE == "milfs"
+    console.log("Get API data from milfs...")
 
-    #another chunk of data has been recieved, so append it to `str`
-    response.on('data', (chunk) ->
-      str += chunk
-    )
+    callback = (response) ->
+      str = ''
 
-    #the whole response has been recieved, so we just print it out here
-    response.on('end', () ->
-      console.log("Getting API data succeeded. Processing...")
-      actividades = load_initial(sort_by_id(str))
-      console.log("Done processing. Found " + actividades.length + " acitivities. Rendering page.")
-      #console.log(actividades)
-      res.render('plan_de_trabajo', { publicos: publicos, categorias: categorias,actividades: actividades, id_campo: id_campo })
-   )
-  if por_bibs.length < 1
-    console.log("No values in cache, going to get data from server.")
-    http.request(api_options, callback).end()
+      #another chunk of data has been recieved, so append it to `str`
+      response.on('data', (chunk) ->
+        str += chunk
+      )
+
+      #the whole response has been recieved, so we just print it out here
+      response.on('end', () ->
+        console.log("Getting API data succeeded. Processing...")
+        actividades = load_initial(sort_by_id(str))
+        console.log("Done processing. Found " + actividades.length + " acitivities. Rendering page.")
+        #console.log(actividades)
+        res.render('plan_de_trabajo', { publicos: publicos, categorias: categorias,actividades: actividades, id_campo: id_campo })
+     )
+    if por_bibs.length < 1
+      console.log("No values in cache, going to get data from server.")
+      http.request(api_options, callback).end()
+    else
+      console.log("Getting objects from cache!")
+      res.render('plan_de_trabajo', { publicos: publicos, categorias: categorias,actividades: por_bibs, id_campo: id_campo })
   else
-    console.log("Getting objects from cache!")
-    res.render('plan_de_trabajo', { publicos: publicos, categorias: categorias,actividades: por_bibs, id_campo: id_campo })
+    console.log("Get API data from Google drive...we do this client side....")
+    res.render('plan_de_trabajo_drive')
 
 
+exports.get_pdt_data =  (req, res) ->
+    
+    #publicos     = {}
+    #categorias   = {}
+    #actividades = {}
+    id_campo    = _build_column_names()
+    raw_data    = null
+
+    GoogleSpreadsheet = require("google-spreadsheet")
+    pdt = new GoogleSpreadsheet('1sdaYTl1ziZTUcYTXXkz2nfrFHm7eRsJ_Be0rh4UIk50')
+    #pdt = new GoogleSpreadsheet('1dGclG3eKxE-Rp0cBkVwZ4gE34yh6g20ep0aj4p4XKk0')
+    creds = require('./plan_de_trabajo_claves_google.json')
+     
+
+    logger.trace("Creds loaded. Connecting to Google Drive...")
+    pdt.useServiceAccountAuth creds, (err) ->
+        logger.trace("Returned from auth")
+        # getInfo returns info about the sheet and an array or "worksheet" objects 
+        if err
+          logger.error("Error in auth")
+          return error("Error useServiceAccountAuth")
+
+        logger.trace("auth ok. get sheet info...")
+        pdt.getInfo( ( err, sheet_info ) ->
+            logger.trace("returned from getInfo")
+            if err
+               error("Error pdt.getInfo", err)
+               res.send("Error getting data from Google Drive")
+               return
+        
+            #console.log(sheet_info)
+            logger.info("data loaded")
+            #use worksheet object if you want to stop using the # in your calls 
+     
+            sheet1 = sheet_info.worksheets[0]
+            sheet1.getRows( ( err, rows ) ->
+                if err
+                  error("ERROR downloading rows from Google Drive Spreadsheet", err, res)
+                  return res.send("Error downloading rows from Google Drive Spreadsheet")
+              
+                logger.info "Data for iniciativas successfully downloaded from Google drive"
+                raw_data = rows
+                logger.trace(raw_data)
+                _get_objects_from_drive_data(id_campo, raw_data)
+                res.send({
+                        id_campo: id_campo,
+                        bibliotecas: bibliotecas,
+                        publicos_edad: publicos_edad, 
+                        publicos_social: publicos_social, 
+                        publicos_etnia: publicos_etnia, 
+                        publicos_otros: publicos_otros, 
+                        categorias_stats: categorias_stats,
+                        categorias_form: categorias_form,
+                        actividades: actividades})
+                logger.debug("Successfully sent data to client")
+            )
+        )
+
+
+_build_column_names = () ->
+    cols = {} 
+    cols.marca_temporal   = "marcatemporal" 
+    cols.nombre_usuario   = "nombredeusuario"
+    cols.biblioteca       = "biblioteca"
+    cols.tipo_actividad   = "tipodeactividad"
+    cols.actividad        = "actividad"
+    cols.descripcion      = "descripción"
+    cols.objetivos        = "objetivos"
+    cols.justificacion    = "justificacion"
+    cols.pertenece        = "iniciativaalaquepertenece"
+    cols.planeacion       = "planeacióndelaactividad"
+    cols.areas_canales    = "áreasocanales"
+    cols.como_aporta      = "comoaportacadacanaloáreaseleccionada"
+    cols.documentacion    = "documentación"
+    cols.historia         = "historiadelaactividad"
+    cols.aporte_info      = "aporteaaccesoainformaciónpertinenteconelterritorio"
+    cols.aporte_espacio   = "aporteaespaciosdeencuentroacogedoreseincluyentes"
+    cols.aporte_fomento   = "aporteafomentoalainnovacióncolaborativa"
+    cols.aporte_incide    = "aporteaincidenciaeintercambioenelconocimiento"
+    cols.aporte_nivel     = "enqueniveldeincidenciaeintercambioenelconocimiento"
+    cols.aporte_acceso    = "aporteaaccesoaformaciónparaeldesarrollohumanointegral"
+    cols.cat_form         = "enquecategoríadeformación"
+    cols.conjunta         = "ejecuciónconjunta"
+    cols.con_quien        = "siesconotrosconquienesseejecuta"
+    cols.metaactividades  = "metaactividades"
+    cols.metabeneficio    = "metabeneficiarios"
+    cols.genera           = "estaactividadgenerarácontenidosoproductos"
+    cols.desc_productos   = "descripcióndelosproductos"
+    cols.metaproductos    = "metaproductos"
+    cols.publicos_edad    = "públicosobjetivoporgrupoetario"
+    cols.publicos_social  = "públicosobjetivoporgruposocial"
+    cols.publicos_etnia   = "públicosobjetivoporgrupoetnico"
+    cols.publicos_otros   = "otrospublicos"
+    cols.barrios          = "barriosdeinfluencia"
+    cols.detalle_barrios  = "detallebarriosdeinfluencia"
+    cols.dia_inicio       = "díadeinicio2016"
+    cols.mes_inicio       = "mesdeinicio2016"
+    cols.dias_ejecucion   = "díasdeejecución"
+    cols.frecuencia       = "frecuenciadelaactividad"
+    cols.horario          = "horario"
+    cols.duracion         = "mesessemanasyodíasquedurarásuejecución"
+    cols.antiguedad       = "antigüedaddelaactividad"
+    cols.dedonde          = "dedóndeprovienelaideadelaactividad"
+    cols.cat_stats        = "categoríaestadísticas"
+    cols.evalua           = "comoseevaluarálaactividad"
+    cols.frec_eval        = "frecuenciadeevaluación"
+    cols.responsables     = "nombresdelresponsables"
+    cols.rolesresponsables= "rolesdelresponsables"
+    cols.telefono         = "teléfonodecontacto"
+    cols.correo           = "correoelectrónicodecontacto"
+    cols.institucion      = "institucionoproyectoalquepertenecelaactividad"
+    cols.condiciones      = "condicionesdetiempoyocobertura"
+    cols.apoyo            = "apoyoyacompañamientosdesdelabiblioteca"
+
+    cols
+    
+
+_get_objects_from_drive_data = (cols, raw_data) ->
+
+  actividades       = []
+  bibliotecas       = []
+  publicos_edad     = []
+  publicos_social   = []
+  publicos_etnia    = []
+  publicos_otros    = []
+  categorias_stats  = []
+  categorias_form   = []
+
+  for row in raw_data
+      actividades.push(row)
+      _check_entry(bibliotecas, row[cols.biblioteca])
+      _check_entry(publicos_edad, row[cols.publicos_edad])
+      _check_entry(publicos_social, row[cols.publicos_social])
+      _check_entry(publicos_etnia, row[cols.publicos_etnia])
+      _check_entry(publicos_otros, row[cols.publicos_otros])
+      _check_entry(categorias_stats, row[cols.cat_stats])
+      _check_entry(categorias_form, row[cols.cat_form])
+
+
+
+_check_entry = (arr, field) ->
+  if not arr[field]
+    arr.push(field)
+
+error = (msg, err, res) ->
+  logger.error(msg)
+  logger.error(err)
+  if res
+    res.statusCode = 500
+    res.end()
 
 exports.get_sympa_data = (req, res) ->
   console.log("Get RSS from Sympa...")

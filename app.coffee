@@ -149,6 +149,7 @@ app.get('/get_airtime_data', routes.get_airtime_data)
 app.get('/get_sympa_data', routes.get_sympa_data)
 #app.get('/get_api_data', routes.get_api_data)
 app.get('/pdt', routes.pdt)
+app.get('/get_pdt_data', routes.get_pdt_data)
 app.get('/activities/:id', routes.get_activity)
 
 ###

@@ -27,3 +27,6 @@ bower_components
 
 # Users Environment Variables
 .lock-wscript
+
+google_creds.json
+plan_de_trajo_claves_google.json

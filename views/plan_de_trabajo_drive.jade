@@ -1,0 +1,33 @@
+doctype html
+html(ng-app="bibliolabs-viz" manifest="/cache.manifest" type="text/cache-manifest")
+
+  include ./partials/pdt/head.jade
+
+  body
+    div.page_wrapper.container
+      div.content_wrapper.content
+        header
+            div.row(ng-controller="VisualizationCtrl")
+              div.col-md-2
+                img(src='/images/sbpm.png' alt="Sistema de Bibliotecas P&uacute;blicas de Medell&iacute;n")
+              div.col-md-8
+                //-div.visualization_links
+                //-  a(ng-click="show_agenda()", ng-show="active_visualization=='initiatives'") Visualizar agenda
+                //-  a(ng-click="show_initiatives()", ng-show="active_visualization=='agenda'") Visualizar iniciativas
+              div.col-md-2
+                a(href="/")
+                  img.right(src='/images/bibliolabs.png' alt="Bibliolabs")
+
+
+        
+        //-div.title_bar
+        //-  h1.top INICIATIVAS
+        //-  h1.bottom BIBLIOTECAS
+          
+        div.main_content(ng-controller="PdtCtrl")
+
+          include ./partials/pdt/content_head.jade
+
+          include ./partials/pdt/filters.jade
+
+          include ./partials/pdt/content.jade

@@ -1,0 +1,46 @@
+div#lista_actividades
+            div.col-md-12.col-xs-12(ng-show="root.no_results") 
+              div.alert.alert-warning.centered(role="alert") No hay actividades que corresponden a tu selección de filtros!
+            div.col-md-12.loading(ng-show="root.loading")
+              p.centered Cargando información...
+
+            div.item_row.col-md-12(ng-class-even="'pdt_even'" ng-class-odd="'pdt_odd'" ng-repeat="actividad in root.actividades")
+                  div.actions.col-md-1.col-xs-6
+                    div.action.see(ng-click="show_detail(actividad)") 
+                  //-div.col-md-2.col-xs-2
+                  //-  div.activity_image 
+                  //-    if actividad['imagen'] !== undefined
+                  //-      img(src= actividad[root.id_campo.imagen])
+                  //-    else
+                  //-      img(src= "/images/placeholder.png", width="150px")
+                  div.col-md-8.col-xs-4
+                    div.publico_icon
+                    div.category_item
+                    div.actividad
+                      div.library {{ actividad[root.id_campo.biblioteca] }}
+                      div.activity_title(ng-click="show_detail(actividad)") {{ actividad[root.id_campo.actividad] }}
+                      div.desc {{ actividad[root.id_campo.descripcion] }}
+                    div.bottom
+                      div.col-md-6
+                        div.pdt_action
+                          label Categoría estadística
+                          p {{ actividad[root.id_campo.cat_stats] }}
+                      div.col-md-6
+                        div.pdt_action
+                          label Categoría formación
+                          p {{ actividad[root.id_campo.cat_form] }}
+                  div.col-md-3.col-xs-6
+                    div.action_row
+                    div.action_row
+                      div.pdt_action
+                        label Público por edad
+                        p {{ actividad[root.id_campo.publicos_edad] }}
+                      div.pdt_action
+                        label Público por grupo social
+                        p {{ actividad[root.id_campo.publicos_social] }}
+                      div.pdt_action
+                        label Público por grupo etnico
+                        p {{ actividad[root.id_campo.publicos_etnia] }}
+                      div.pdt_action
+                        label Otros públicos
+                        p {{ actividad[root.id_campo.publicos_otros] }}

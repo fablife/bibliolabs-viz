@@ -3,13 +3,28 @@
 .item_row {
   border-bottom: 1px solid #ccc;
   margin-bottom: 20px;
-  display: table;
+  max-height: 300px;
+  padding-bottom: 15px;
+  padding-top:15px;
 }
 
 .actividad{
   margin: 8px;
+  height: 180px;
 }
 
+.pdt_even {
+  background-color: #d6e9c6;
+}
+
+.pdt_odd {
+  background-color: white;
+}
+
+.bottom {
+  width: 100%;
+}
+ 
 .filter_row {
   margin-bottom: 20px;
 }

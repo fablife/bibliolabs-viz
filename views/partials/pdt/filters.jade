@@ -1,0 +1,101 @@
+div.area_filtros.panel.panel-info
+            div.panel-body
+              div.col-md-12
+                h4.centered Filtrar 
+                  a.inline.small_text(ng-show="root.filter_active" ng-click="reset_filters()") Limpiar filtros 
+              //row biblioteca
+              div.col-md-12.col-xs-3
+               div.col-md-12.col-xs-3.filter_row
+                div.filter-button-group.btn-group(dropdown)
+                  button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Por Biblioteca 
+                    span.caret
+                  ul.dropdown-menu(role="menu")
+                   li(ng-repeat="bib in root.bibliotecas")
+                    a(ng-click="filter(root.id_campo.biblioteca, bib)") {{ bib }}
+                div.filter-label.label-success(ng-show="root.filter_items[root.id_campo.biblioteca]") 
+                  div.filter-text {{root.filter_items[root.id_campo.biblioteca]}}
+                  button.close(ng-click="reset_filter(root.id_campo.biblioteca)", type="button", data-dismiss="alert")
+                    span(aria-hidden="true") &times;
+                    span.sr-only Close
+              //row publicos
+              div.col-md-12.col-xs-3.filter_row
+                div.col-md-3.col-xs-3
+                  div.filter-button-group.btn-group(dropdown)
+                    button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Públicos, por grupo etario
+                      span.caret
+                    ul.dropdown-menu(role="menu")
+                      li(ng-repeat="pub in root.publicos_edad") 
+                        a(ng-click="filter(root.id_campo.publicos_edad, pub)") {{ pub }}
+                  div.filter-label.label-success(ng-show="root.filter_items[root.id_campo.publicos_edad]") 
+                    div.filter-text {{root.filter_items[root.id_campo.publicos_edad]}}
+                    button.close(ng-click="reset_filter(root.id_campo.publicos_edad)", type="button", data-dismiss="alert")
+                      span(aria-hidden="true") &times;
+                      span.sr-only Close
+
+                div.col-md-3.col-xs-3
+                  div.filter-button-group.btn-group(dropdown)
+                    button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Públicos, por grupo social 
+                      span.caret
+                    ul.dropdown-menu(role="menu")
+                      li(ng-repeat="pub in root.publicos_social") 
+                        a(ng-click="filter(root.id_campo.publicos_social, pub)") {{pub}}
+                  div.filter-label.label-success(ng-show="root.filter_items[root.id_campo.publicos_social]") 
+                    div.filter-text {{root.filter_items[root.id_campo.publicos_social]}}
+                    button.close(ng-click="reset_filter(root.id_campo.publicos_social)", type="button", data-dismiss="alert")
+                      span(aria-hidden="true") &times;
+                      span.sr-only Close
+
+                div.col-md-3.col-xs-3
+                  div.filter-button-group.btn-group(dropdown)
+                    button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Públicos, por grupo etnico 
+                      span.caret
+                    ul.dropdown-menu(role="menu")
+                      li(ng-repeat="pub in root.publicos_etnia") 
+                        a(ng-click="filter(root.id_campo.publicos_etnia, pub)") {{pub}}
+                  div.filter-label.label-success(ng-show="root.filter_items[root.id_campo.publicos_etnia]") 
+                    div.filter-text {{root.filter_items[root.id_campo.publicos_etnia]}}
+                    button.close(ng-click="reset_filter(root.id_campo.publicos_etnia)", type="button", data-dismiss="alert")
+                      span(aria-hidden="true") &times;
+                      span.sr-only Close
+
+                div.col-md-3.col-xs-3
+                  div.filter-button-group.btn-group(dropdown)
+                    button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Públicos, otros grupos 
+                      span.caret
+                    ul.dropdown-menu(role="menu")
+                      li(ng-repeat="pub in root.publicos_otros") 
+                        a(ng-click="filter(root.id_campo.publicos_otros, pub)") {{pub}}
+                  div.filter-label.label-success(ng-show="root.filter_items[root.id_campo.publicos_otros]") 
+                    div.filter-text {{root.filter_items[root.id_campo.publicos_otros]}}
+                    button.close(ng-click="reset_filter(root.id_campo.publicos_otros)", type="button", data-dismiss="alert")
+                      span(aria-hidden="true") &times;
+                      span.sr-only Close
+
+              //row categoria
+              div.col-md-12.col-xs-3.filter_row
+                div.col-md-6.col-xs-3
+                  div.filter-button-group.btn-group(dropdown)
+                    button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Por Categoría estadística
+                      span.caret
+                    ul.dropdown-menu(role="menu")
+                      li(ng-repeat="cat in root.cat_stats") 
+                        a(ng-click="filter(root.id_campo.cat_stats, cat)") {{cat}}
+                  div.filter-label.label-success(ng-show="root.filter_items[root.id_campo.cat_stats]") 
+                    div.filter-text {{root.filter_items[root.id_campo.cat_stats]}}
+                    button.close(ng-click="reset_filter(root.id_campo.cat_stats)", type="button", data-dismiss="alert")
+                      span(aria-hidden="true") &times;
+                      span.sr-only Close
+
+                div.col-md-6.col-xs-3
+                  div.filter-button-group.btn-group(dropdown)
+                    button.filter-button(type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown") Por Categoría formación
+                      span.caret
+                    ul.dropdown-menu(role="menu")
+                      li(ng-repeat="cat in root.cat_form") 
+                        a(ng-click="filter(root.id_campo.cat_form, cat)") {{cat}}
+                  div.filter-label.label-success(ng-show="root.filter_items[root.id_campo.cat_form]") 
+                    div.filter-text {{root.filter_items[root.id_campo.cat_form]}}
+                    button.close(ng-click="reset_filter(root.id_campo.cat_form)", type="button", data-dismiss="alert")
+                      span(aria-hidden="true") &times;
+                      span.sr-only Close
+

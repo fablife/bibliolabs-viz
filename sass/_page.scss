@@ -4,6 +4,14 @@
   margin: 0 auto;
 }
 
+.loading {
+  background-image: url('/images/loading.gif');
+  background-size: 150px;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .content_wrapper {
   margin-top: 24px;
 }
