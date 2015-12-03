@@ -368,6 +368,7 @@ app.controller("PdtCtrl", function PdtCtrl($window,$scope, $http, $modal) {
   ******************************/
   $scope.load_initial = function(data) {
     $scope.root.bibliotecas     = data.bibliotecas;
+		console.log(data.bibliotecas);
     $scope.root.actividades     = data.actividades;
     if ($scope.root.actividades.length == 0) {
       $scope.root.no_results = true;

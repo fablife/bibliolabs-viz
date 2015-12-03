@@ -150,6 +150,45 @@ exports.get_activity = (req, res) ->
     
 load_initial = (actividades) ->
   for o of actividades
+      actividad = actividades[o]
+
+      if actividad.hasOwnProperty(id_campo.estado) and actividad[id_campo.estado] == 'Inactivo'
+        console.log("Deleting coz estado")
+        delete actividades[o]
+        continue
+
+      if !actividad.hasOwnProperty(id_campo.actividad) or actividad[id_campo.actividad].length < 1
+        #if !actividad.hasOwnProperty(id_campo.titulo) or actividad[id_campo.titulo].contenido.length < 1
+          console.log("Deleting coz actividad empty")
+          #console.log(JSON.stringify(actividad))
+          delete actividades[o]
+          continue
+        #else
+        #  actividad[id_campo.actividad] = actividad[id_campo.titulo]
+
+      if actividad.hasOwnProperty(id_campo.biblioteca)
+        bib = actividad[id_campo.biblioteca]
+
+        if bibliotecas.indexOf(actividad[id_campo.biblioteca]) == -1
+          bibliotecas.push bib
+
+        if !(bib of por_bibs_o)
+          por_bibs_o[bib] = actividad
+        else
+          ini = por_bibs_o[bib]
+          if ini[id_campo.biblioteca] == bib
+            if ini[id_campo.biblioteca]['timestamp'] < actividad[id_campo.biblioteca]['timestamp']
+              por_bibs_o[bib] = actividad
+
+      if actividad.hasOwnProperty(id_campo.publicos) and publicos.indexOf(actividad[id_campo.publicos].contenido) == -1
+        pub = actividad[id_campo.publicos].contenido
+        publicos.push pub
+
+      if actividad.hasOwnProperty(id_campo.categoria) and publicos.indexOf(actividad[id_campo.categoria].contenido) == -1
+        categorias.push actividad[id_campo.categoria].contenido
+
+load_initial_milfs = (actividades) ->
+  for o of actividades
 
       actividad = actividades[o]
 
@@ -217,7 +256,7 @@ exports.pdt = (req, res) ->
       #the whole response has been recieved, so we just print it out here
       response.on('end', () ->
         console.log("Getting API data succeeded. Processing...")
-        actividades = load_initial(sort_by_id(str))
+        actividades = load_initial_milfs(sort_by_id(str))
         console.log("Done processing. Found " + actividades.length + " acitivities. Rendering page.")
         #console.log(actividades)
         res.render('plan_de_trabajo', { publicos: publicos, categorias: categorias,actividades: actividades, id_campo: id_campo })
@@ -374,7 +413,7 @@ _get_objects_from_drive_data = (cols, raw_data) ->
 
 
 _check_entry = (arr, field) ->
-  if not arr[field]
+  if arr.indexOf(field) < 0 
     arr.push(field)
 
 error = (msg, err, res) ->
