@@ -63,10 +63,11 @@ por_bibs_o  = {}
 actividades       = []
 publicos_edad     = []
 publicos_social   = []
-publicos_etnia    = []
-publicos_otros    = []
+#publicos_etnia    = []
+areas_canales     = []
+#publicos_otros    = []
 categorias_stats  = []
-categorias_form   = []
+#categorias_form   = []
 
 id_campo = {}
 
@@ -314,17 +315,18 @@ exports.get_pdt_data =  (req, res) ->
               
                 logger.info "Data for iniciativas successfully downloaded from Google drive"
                 raw_data = rows
-                logger.trace(raw_data)
+                #logger.trace(raw_data)
                 _get_objects_from_drive_data(id_campo, raw_data)
                 res.send({
                         id_campo: id_campo,
                         bibliotecas: bibliotecas,
                         publicos_edad: publicos_edad, 
                         publicos_social: publicos_social, 
-                        publicos_etnia: publicos_etnia, 
-                        publicos_otros: publicos_otros, 
+                        #publicos_etnia: publicos_etnia, 
+                        areas_canales: areas_canales, 
+                        #publicos_otros: publicos_otros, 
                         categorias_stats: categorias_stats,
-                        categorias_form: categorias_form,
+                        #categorias_form: categorias_form,
                         actividades: actividades})
                 logger.debug("Successfully sent data to client")
             )
@@ -340,7 +342,7 @@ _build_column_names = () ->
     cols.actividad        = "actividad"
     cols.descripcion      = "descripción"
     cols.objetivos        = "objetivos"
-    cols.justificacion    = "justificacion"
+    cols.justificacion    = "justificación"
     cols.pertenece        = "iniciativaalaquepertenece"
     cols.planeacion       = "planeacióndelaactividad"
     cols.areas_canales    = "áreasocanales"
@@ -375,7 +377,7 @@ _build_column_names = () ->
     cols.duracion         = "mesessemanasyodíasquedurarásuejecución"
     cols.antiguedad       = "antigüedaddelaactividad"
     cols.dedonde          = "dedóndeprovienelaideadelaactividad"
-    cols.cat_stats        = "categoríaestadísticas"
+    cols.cat_stats        = "categoríaestadística"
     cols.evalua           = "comoseevaluarálaactividad"
     cols.frec_eval        = "frecuenciadeevaluación"
     cols.responsables     = "nombresdelresponsables"
@@ -391,24 +393,28 @@ _build_column_names = () ->
 
 _get_objects_from_drive_data = (cols, raw_data) ->
 
-  actividades       = []
-  bibliotecas       = []
-  publicos_edad     = []
-  publicos_social   = []
-  publicos_etnia    = []
-  publicos_otros    = []
-  categorias_stats  = []
-  categorias_form   = []
+  ###
+    actividades       = []
+    bibliotecas       = []
+    publicos_edad     = []
+    publicos_social   = []
+    #publicos_etnia    = []
+    areas_canales     = []
+    #publicos_otros    = []
+    categorias_stats  = []
+    #categorias_form   = []
+  ###
 
   for row in raw_data
       actividades.push(row)
       _check_entry(bibliotecas, row[cols.biblioteca])
       _check_entry(publicos_edad, row[cols.publicos_edad])
       _check_entry(publicos_social, row[cols.publicos_social])
-      _check_entry(publicos_etnia, row[cols.publicos_etnia])
-      _check_entry(publicos_otros, row[cols.publicos_otros])
+      #_check_entry(publicos_etnia, row[cols.publicos_etnia])
+      _check_entry(areas_canales, row[cols.areas_canales])
+      #_check_entry(publicos_otros, row[cols.publicos_otros])
       _check_entry(categorias_stats, row[cols.cat_stats])
-      _check_entry(categorias_form, row[cols.cat_form])
+      #_check_entry(categorias_form, row[cols.cat_form])
 
 
 

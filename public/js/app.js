@@ -273,7 +273,7 @@ id_campo.tipo_actividad   = "tipodeactividad"
 id_campo.actividad        = "actividad"
 id_campo.descripcion      = "descripción"
 id_campo.objetivos        = "objetivos"
-id_campo.justificacion    = "justificacion"
+id_campo.justificacion    = "justificación"
 id_campo.pertenece        = "iniciativaalaquepertenece"
 id_campo.planeacion       = "planeacióndelaactividad"
 id_campo.areas_canales    = "áreasocanales"
@@ -308,9 +308,9 @@ id_campo.horario          = "horario"
 id_campo.duracion         = "mesessemanasyodíasquedurarásuejecución"
 id_campo.antiguedad       = "antigüedaddelaactividad"
 id_campo.dedonde          = "dedóndeprovienelaideadelaactividad"
-id_campo.cat_stats        = "categoríaestadísticas"
+id_campo.cat_stats        = "categoríaestadística"
 id_campo.evalua           = "comoseevaluarálaactividad"
-id_campo.frecuencia       = "frecuenciadeevaluación"
+id_campo.frecuencia_eval  = "frecuenciadeevaluación"
 id_campo.responsables     = "nombresdelresponsables"
 id_campo.rolesresponsables= "rolesdelresponsables"
 id_campo.telefono         = "teléfonodecontacto"
@@ -373,17 +373,42 @@ app.controller("PdtCtrl", function PdtCtrl($window,$scope, $http, $modal) {
     if ($scope.root.actividades.length == 0) {
       $scope.root.no_results = true;
     }
-    $scope.root.publicos_edad   = data.publicos_edad;
-    $scope.root.publicos_social = data.publicos_social;
-    $scope.root.publicos_etnia  = data.publicos_etnia;
-    $scope.root.publicos_otros  = data.publicos_otros;
-    $scope.root.cat_stats       = data.categorias_stats;
-    $scope.root.cat_form        = data.categorias_form;
+    $scope.root.publicos_edad   = ["Primera infancia", "Niños", "Adolescentes", "Jóvenes", "Adultos", "Adultos mayores", "Todos"];
+    //$scope.root.publicos_edad   = data.publicos_edad;
+    $scope.root.publicos_social = build_filter_options_from_data(data.publicos_social);
+    //$scope.root.publicos_etnia  = data.publicos_etnia;
+    //$scope.root.publicos_otros  = data.publicos_otros;
+    $scope.root.cat_stats       = build_filter_options_from_data(data.categorias_stats);
+    //$scope.root.cat_form        = data.categorias_form;
+    //$scope.root.areas_canales 	= data.areas_canales;
+    $scope.root.areas_canales 	= build_filter_options_from_data(data.areas_canales); 
 
     //$scope.root.visible_ids = [];
   }
 
+	var build_filter_options_from_data = function(data) {
+		var options = {};
+		var asArray	= [];
 
+		for (var i=0; i<data.length; i++) {
+			var val		= data[i];
+			var elems	= val.split(",")
+		 	for (var k=0; k<elems.length; k++) {	
+				var elem = elems[k];
+				if (elem && ! options[elem]) {
+					options[elem] = elem;
+				}
+			}
+		}
+
+		for (var p in options) {
+			if (options.hasOwnProperty(p)) {
+				asArray.push(options[p]);
+			}
+		}
+
+		return asArray;
+  }		
  
   /******************************
     reset all filters 
